@@ -3,233 +3,126 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ファミコン風レコードプロフィール</title>
+<title>プロフィールリスト構造サイト</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
   body {
-    margin: 0; min-height: 100vh;
-    background: #202020;
-    color: #fff;
-    font-family: 'Press Start 2P', monospace, monospace;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    padding: 20px;
-    gap: 40px;
+    margin: 0; padding: 0;
+    font-family: Arial, sans-serif;
   }
-
-  /* 左側レコード */
-  .record-container {
-    position: relative;
-    width: 340px; height: 340px;
-    perspective: 700px;
-    border-radius: 50%;
-    box-shadow:
-      inset 0 0 30px #e6d600,
-      0 0 25px #f0f000;
-  }
-
-  /* レコード本体 */
-  .record {
-    width: 340px; height: 340px;
-    border-radius: 50%;
-    background:
-      repeating-conic-gradient(
-        from 0deg,
-        #202020 0deg 3deg,
-        #282828 3deg 6deg
-      ),
-      radial-gradient(circle at center, transparent 65%, #c0b800 66%, #a09000 70%, transparent 72%),
-      radial-gradient(circle at center, #f0f000 0%, #a09000 45%, #202020 55%);
-    box-shadow:
-      inset 0 0 20px #c0c000,
-      0 0 30px #f0f000;
-    transform-style: preserve-3d;
-    transition: box-shadow 0.3s ease;
-    cursor: grab;
-  }
-  .record:hover {
-    box-shadow:
-      inset 0 0 45px #ffff00,
-      0 0 45px #ffff00;
-  }
-
-  /* 中央ラベル */
-  .label {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 130px; height: 130px;
-    margin: -65px 0 0 -65px;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at center, #fff86a 0%, #c0b800 85%);
-    box-shadow:
-      0 0 10px #d0c000 inset,
-      0 0 15px #f0f000;
-    display: flex; justify-content: center; align-items: center;
-    font-weight: bold;
-    font-size: 1rem;
-    color: #202020;
-    text-align: center;
-    user-select: none;
-    text-shadow: 1px 1px #a0a000;
-    pointer-events: none;
-  }
-
-  /* レコードの光沢 */
-  .record::before {
-    content: "";
-    position: absolute;
-    top: 25%; left: 20%;
-    width: 50px; height: 140px;
-    border-radius: 40% / 50%;
-    background:
-      linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0));
-    filter: blur(6px);
-    pointer-events: none;
-    transform: rotate(-20deg);
-  }
-
-  /* 右側プロフィールエリア */
-  .profile-area {
-    flex: 1;
-    max-width: 480px;
-    background: #303030;
-    border: 3px solid #f0f000;
-    border-radius: 8px;
-    box-shadow: 0 0 12px #c0c000 inset;
-    padding: 24px 32px;
-    color: #f0f000;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    white-space: pre-line;
-    letter-spacing: 1px;
-    display: flex;
-    flex-direction: column;
-  }
-
   /* ナビゲーション */
   nav {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    position: fixed;
+    top: 0; left: 0;
+    width: 200px;
+    height: 100vh;
+    background: #222;
+    color: white;
+    padding-top: 20px;
+    box-sizing: border-box;
   }
-
-  nav button {
-    background: transparent;
-    border: 3px solid #f0f000;
-    border-radius: 8px;
-    color: #f0f000;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.8rem;
-    padding: 10px 14px;
+  nav ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  nav li {
+    padding: 15px 20px;
     cursor: pointer;
-    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-    user-select: none;
+    border-left: 4px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav li.active {
+    background: #444;
+    border-left: 4px solid #00bcd4;
+  }
+  nav li:hover {
+    background: #333;
   }
 
-  nav button:hover {
-    background: #f0f000;
-    color: #202020;
+  /* コンテンツ領域 */
+  main {
+    margin-left: 200px;
+    padding: 20px;
   }
-
-  nav button.active {
-    background: #ffff00;
-    color: #202020;
-    box-shadow:
-      0 0 10px #ffff00,
-      0 0 20px #ffff00;
-    font-weight: bold;
+  section {
+    height: 100vh; /* 画面1枚分の高さ */
+    border-bottom: 1px solid #ddd;
+    padding: 40px 20px;
   }
-
-  .profile-area h2 {
-    margin-bottom: 16px;
-    font-size: 1.3rem;
-    color: #ffff00;
-    text-shadow: 0 0 6px #c0c000;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+  section h2 {
+    margin-top: 0;
   }
-
-  .profile-area p {
-    margin: 0;
-  }
-
 </style>
 </head>
 <body>
 
-<div class="record-container">
-  <div class="record" id="record">
-    <div class="label">RYU PROFILE</div>
-  </div>
-</div>
+<nav>
+  <ul id="navList">
+    <li data-target="section1" class="active">プロフィール概要</li>
+    <li data-target="section2">経歴</li>
+    <li data-target="section3">スキル</li>
+    <li data-target="section4">プロジェクト</li>
+    <li data-target="section5">連絡先</li>
+  </ul>
+</nav>
 
-<div class="profile-area">
-  <nav id="nav">
-    <button data-index="0" class="active">プロフィール</button>
-    <button data-index="1">スキル</button>
-    <button data-index="2">プロジェクト</button>
-    <button data-index="3">連絡先</button>
-  </nav>
-  <div id="content">
-    <h2>プロフィール</h2>
-    <p>こんにちは、吉岡龍佑です。<br>ファミコン風レトロWebサイトを作っています。</p>
-  </div>
-</div>
+<main>
+  <section id="section1">
+    <h2>プロフィール概要</h2>
+    <p>はじめまして。ここでは私のプロフィール概要を紹介します。</p>
+  </section>
+
+  <section id="section2">
+    <h2>経歴</h2>
+    <p>大学卒業後、IT業界で5年間エンジニアとして働いています。</p>
+  </section>
+
+  <section id="section3">
+    <h2>スキル</h2>
+    <p>プログラミング言語：JavaScript, Python, Javaなど。</p>
+  </section>
+
+  <section id="section4">
+    <h2>プロジェクト</h2>
+    <p>Webサイト制作やアプリ開発など、様々なプロジェクトに携わりました。</p>
+  </section>
+
+  <section id="section5">
+    <h2>連絡先</h2>
+    <p>Email: example@example.com</p>
+  </section>
+</main>
 
 <script>
-  const record = document.getElementById('record');
-  const content = document.getElementById('content');
-  const nav = document.getElementById('nav');
-  const buttons = nav.querySelectorAll('button');
+  // ナビゲーションリスト要素
+  const navItems = document.querySelectorAll('nav ul li');
+  // セクション要素
+  const sections = document.querySelectorAll('main section');
 
-  const sections = [
-    { title: "プロフィール", text: "こんにちは、吉岡龍佑です。\nファミコン風レトロWebサイトを作っています。" },
-    { title: "スキル", text: "JavaScript\nCSS\nHTML\nCanvas\nWebGL\n3Dアニメーション" },
-    { title: "プロジェクト", text: "インタラクティブWebアート\nIoT連携プロジェクト開発中" },
-    { title: "連絡先", text: "メール: example@example.com\nTwitter: @ryu_profile" }
-  ];
-
-  let rotation = 0;
-  let currentIndex = 0;
-
-  function updateContent(index) {
-    const section = sections[index];
-    content.innerHTML = `<h2>${section.title}</h2><p>${section.text.replace(/\n/g, '<br>')}</p>`;
-    // レコードの回転角度をセット（90度ずつ）
-    rotation = index * 90;
-    record.style.transform = `rotate(${rotation}deg)`;
-
-    // ボタンのactive切り替え
-    buttons.forEach(btn => btn.classList.remove('active'));
-    buttons[index].classList.add('active');
-
-    currentIndex = index;
-  }
-
-  // ホイール操作で切り替え
-  window.addEventListener('wheel', e => {
-    e.preventDefault();
-    if (e.deltaY > 0) {
-      currentIndex = (currentIndex + 1) % sections.length;
-    } else {
-      currentIndex = (currentIndex - 1 + sections.length) % sections.length;
-    }
-    updateContent(currentIndex);
-  }, { passive: false });
-
-  // ナビゲーションのクリック切り替え
-  nav.addEventListener('click', e => {
-    if (e.target.tagName === 'BUTTON') {
-      const index = Number(e.target.getAttribute('data-index'));
-      updateContent(index);
-    }
+  // ナビクリック時にスクロール
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const targetId = item.getAttribute('data-target');
+      const targetSection = document.getElementById(targetId);
+      targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
   });
 
-  updateContent(currentIndex);
+  // スクロール時に現在地を更新する関数
+  function onScroll() {
+    const scrollPos = window.scrollY || window.pageYOffset;
+
+    sections.forEach((section, index) => {
+      const top = section.offsetTop - 100; // 余裕をもたせる
+      const bottom = top + section.offsetHeight;
+
+      if (scrollPos >= top && scrollPos < bottom) {
+        navItems.forEach(item => item.classList.remove('active'));
+        navItems[index].classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll);
 </script>
 
 </body>
