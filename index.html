@@ -3,138 +3,135 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ファミコン風レコードプロフィール</title>
+<title>白黒グレー 動きのあるサイト</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  /* リセット */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
 
-  /* 全体 */
   body {
-    margin: 0; height: 100vh;
-    background: #202020;
-    color: #fff;
-    font-family: 'Press Start 2P', monospace, monospace;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    user-select: none;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: #333;
+    line-height: 1.6;
   }
 
-  /* レコード容器 */
-  .record-container {
-    position: relative;
-    width: 320px; height: 320px;
-    perspective: 600px;
-    margin-bottom: 30px;
-    border: 4px solid #8b8b00;
-    background: #404040;
-    box-shadow:
-      0 0 0 4px #f0f000 inset,
-      0 0 12px 4px #c0c000;
-    border-radius: 50%;
-  }
-
-  /* レコード本体 */
-  .record {
-    width: 320px; height: 320px;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at center, #202020 55%, transparent 56%),
-      repeating-conic-gradient(#303030 0deg 8deg, #404040 8deg 16deg),
-      radial-gradient(circle at center, #101010 0 70%, #505000 70% 100%);
-    box-shadow:
-      0 0 20px #c0c000 inset,
-      0 0 0 6px #f0f000;
-    transform-style: preserve-3d;
-    transition: box-shadow 0.3s ease;
-  }
-
-  .record:hover {
-    box-shadow:
-      0 0 35px #ffff00 inset,
-      0 0 0 6px #ffff00;
-  }
-
-  /* 中央ラベル */
-  .label {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 120px; height: 120px;
-    margin: -60px 0 0 -60px;
-    border-radius: 50%;
-    background: #f0f000;
-    box-shadow: 0 0 6px #c0c000 inset;
-    display: flex; justify-content: center; align-items: center;
-    font-weight: bold; font-size: 1rem; color: #202020;
+  header {
+    padding: 40px 20px;
+    background: #eee; /* 薄グレー */
     text-align: center;
-    user-select: none;
-    text-shadow: 1px 1px #a0a000;
+    font-weight: bold;
+    font-size: 2rem;
+    color: #222;
   }
 
-  /* コンテンツ表示 */
-  .content {
-    width: 100%;
-    max-width: 440px;
-    min-height: 150px;
-    background: #303030;
-    border: 3px solid #f0f000;
-    border-radius: 6px;
-    box-shadow: 0 0 8px #c0c000 inset;
-    color: #f0f000;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    padding: 16px 24px;
-    white-space: pre-line;
-    letter-spacing: 1px;
+  section {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 0 20px;
+  }
+
+  .fade-slide {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s ease-out;
+    margin-bottom: 40px;
+  }
+
+  .fade-slide.active {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   h2 {
-    margin-bottom: 12px;
-    font-size: 1rem;
-    color: #ffff00;
-    text-shadow: 0 0 3px #c0c000;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #111;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 36px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #222; /* 黒 */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background-color: #444;
+    transform: scale(1.1);
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #777;
+    background: #eee;
+    margin-top: 80px;
   }
 </style>
 </head>
 <body>
 
-<div class="record-container">
-  <div class="record" id="record">
-    <div class="label">RYU PROFILE</div>
-  </div>
-</div>
+<header>
+  白・黒・グレーの動きあるサイト
+</header>
 
-<div class="content" id="content">
-  スクロールしてレコードを回してください
-</div>
+<section>
+  <div class="fade-slide">
+    <h2>シンプルでモダンなデザイン</h2>
+    <p>白黒グレーの落ち着いた配色で、読みやすく洗練された印象に仕上げています。</p>
+    <a href="#" class="btn">詳しく見る</a>
+  </div>
+
+  <div class="fade-slide">
+    <h2>スクロールに合わせてフェード＆スライド</h2>
+    <p>スクロール時に右からふわっと表示される動きで、ユーザーの目を引きます。</p>
+    <a href="#" class="btn">もっと知る</a>
+  </div>
+
+  <div class="fade-slide">
+    <h2>ホバーで動きのあるボタン</h2>
+    <p>マウスを乗せるとボタンが少し拡大し、クリックしたくなる仕掛けです。</p>
+    <a href="#" class="btn">問い合わせ</a>
+  </div>
+</section>
+
+<footer>
+  © 2025 Sample Site
+</footer>
 
 <script>
-  const record = document.getElementById('record');
-  const content = document.getElementById('content');
+  // スクロールでfade-slideクラスを持つ要素にactiveを付ける
+  function fadeInOnScroll() {
+    const elements = document.querySelectorAll('.fade-slide');
+    const windowBottom = window.innerHeight + window.scrollY;
 
-  const sections = [
-    { title: "プロフィール", text: "こんにちは、吉岡龍佑です。\nファミコン風レトロWebサイトを作っています。" },
-    { title: "スキル", text: "JavaScript\nCSS\nHTML\nCanvas\nWebGL\n3Dアニメーション" },
-    { title: "プロジェクト", text: "インタラクティブWebアート\nIoT連携プロジェクト開発中" },
-    { title: "連絡先", text: "メール: example@example.com\nTwitter: @ryu_profile" }
-  ];
-
-  let rotation = 0;
-
-  function updateContent(angle) {
-    angle = ((angle % 360) + 360) % 360;
-    const part = Math.floor(angle / 90);
-    const section = sections[part];
-    content.innerHTML = `<h2>${section.title}</h2><p>${section.text}</p>`;
+    elements.forEach(el => {
+      const elTop = el.getBoundingClientRect().top + window.scrollY;
+      if (windowBottom > elTop + 100) {
+        el.classList.add('active');
+      }
+    });
   }
 
-  window.addEventListener('wheel', e => {
-    e.preventDefault();
-    rotation += e.deltaY * 0.5;
-    record.style.transform = `rotate(${rotation}deg)`;
-    updateContent(rotation);
-  }, { passive: false });
-
-  updateContent(rotation);
+  window.addEventListener('scroll', fadeInOnScroll);
+  window.addEventListener('load', fadeInOnScroll);
 </script>
 
 </body>
