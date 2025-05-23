@@ -5,11 +5,12 @@
   box-sizing: border-box;
 }
 
-/* 基本  */
+/* 基本（デジタル感） */
 body {
-  font-family: "Helvetica Neue", sans-serif;
-  background: #e0e5ec;
-  color: #333;
+  font-family: "Courier New", monospace;
+  background: #0b0f14;
+  color: #00ff00;
+  line-height: 1.6;
 }
 
 /* レイアウト */
@@ -22,44 +23,65 @@ body {
 header, footer {
   text-align: center;
   padding: 1em;
+  color: #00ff99;
+  text-shadow: 0 0 5px #00ff99;
 }
 
-/* グラスモーフィズム */
+/* グラスモーフィズム（暗背景用に調整） */
 .glass {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 255, 0, 0.05);
+  backdrop-filter: blur(12px);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
   padding: 1em;
   margin: 1em;
 }
 
-/* ネオモーフィズム */
+/* ネオモーフィズム（ダークテーマに変更） */
 .neumorph {
-  background: #e0e5ec;
+  background: #101820;
   border-radius: 15px;
-  box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+  box-shadow:
+    6px 6px 12px #050a0f,
+    -6px -6px 12px #151f29;
   padding: 2em;
   margin: 1em 0;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: #00ff99;
 }
 
 .neumorph:hover {
   transform: scale(1.02);
+  box-shadow:
+    8px 8px 16px #000,
+    -8px -8px 16px #1a2b3c;
 }
 
+/* カード */
 .card {
   margin: 1em 0;
   padding: 1em;
   border-radius: 10px;
-  background: #fff;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+  background: #0d141c;
+  color: #00ffcc;
+  box-shadow: 0 0 10px rgba(0,255,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 8px 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 0 20px #00ffcc;
+}
+
+/* リンクエフェクト */
+a {
+  color: #00ffcc;
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px #00ffcc;
 }
 
 /* レスポンシブ対応 */
