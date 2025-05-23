@@ -7,7 +7,6 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-  /* 全体 */
   body {
     margin: 0; min-height: 100vh;
     background: #202020;
@@ -21,32 +20,7 @@
     gap: 40px;
   }
 
-  /* 左側プロフィールエリア */
-  .profile-area {
-    flex: 1;
-    max-width: 480px;
-    background: #303030;
-    border: 3px solid #f0f000;
-    border-radius: 8px;
-    box-shadow: 0 0 12px #c0c000 inset;
-    padding: 24px 32px;
-    color: #f0f000;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    white-space: pre-line;
-    letter-spacing: 1px;
-  }
-
-  .profile-area h2 {
-    margin-bottom: 16px;
-    font-size: 1.2rem;
-    color: #ffff00;
-    text-shadow: 0 0 5px #c0c000;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-
-  /* 右側レコード容器 */
+  /* 左側レコード */
   .record-container {
     position: relative;
     width: 340px; height: 340px;
@@ -62,15 +36,12 @@
     width: 340px; height: 340px;
     border-radius: 50%;
     background:
-      /* レコードの溝を表現 */
       repeating-conic-gradient(
         from 0deg,
         #202020 0deg 3deg,
         #282828 3deg 6deg
       ),
-      /* 中央のラベル外側のリング */
       radial-gradient(circle at center, transparent 65%, #c0b800 66%, #a09000 70%, transparent 72%),
-      /* レコード中央の光沢 */
       radial-gradient(circle at center, #f0f000 0%, #a09000 45%, #202020 55%);
     box-shadow:
       inset 0 0 20px #c0c000,
@@ -107,7 +78,7 @@
     pointer-events: none;
   }
 
-  /* レコードのハイライト光沢 */
+  /* レコードの光沢 */
   .record::before {
     content: "";
     position: absolute;
@@ -121,18 +92,74 @@
     transform: rotate(-20deg);
   }
 
-  /* テキストの見出し */
-  h2 {
-    margin: 0 0 12px;
+  /* 右側プロフィールエリア */
+  .profile-area {
+    flex: 1;
+    max-width: 480px;
+    background: #303030;
+    border: 3px solid #f0f000;
+    border-radius: 8px;
+    box-shadow: 0 0 12px #c0c000 inset;
+    padding: 24px 32px;
+    color: #f0f000;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    letter-spacing: 1px;
+    display: flex;
+    flex-direction: column;
   }
+
+  /* ナビゲーション */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  nav button {
+    background: transparent;
+    border: 3px solid #f0f000;
+    border-radius: 8px;
+    color: #f0f000;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    user-select: none;
+  }
+
+  nav button:hover {
+    background: #f0f000;
+    color: #202020;
+  }
+
+  nav button.active {
+    background: #ffff00;
+    color: #202020;
+    box-shadow:
+      0 0 10px #ffff00,
+      0 0 20px #ffff00;
+    font-weight: bold;
+  }
+
+  .profile-area h2 {
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+    color: #ffff00;
+    text-shadow: 0 0 6px #c0c000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .profile-area p {
+    margin: 0;
+  }
+
 </style>
 </head>
 <body>
-
-<div class="profile-area" id="content">
-  <h2>プロフィール</h2>
-  <p>こんにちは、吉岡龍佑です。<br>ファミコン風レトロWebサイトを作っています。</p>
-</div>
 
 <div class="record-container">
   <div class="record" id="record">
@@ -140,9 +167,24 @@
   </div>
 </div>
 
+<div class="profile-area">
+  <nav id="nav">
+    <button data-index="0" class="active">プロフィール</button>
+    <button data-index="1">スキル</button>
+    <button data-index="2">プロジェクト</button>
+    <button data-index="3">連絡先</button>
+  </nav>
+  <div id="content">
+    <h2>プロフィール</h2>
+    <p>こんにちは、吉岡龍佑です。<br>ファミコン風レトロWebサイトを作っています。</p>
+  </div>
+</div>
+
 <script>
   const record = document.getElementById('record');
   const content = document.getElementById('content');
+  const nav = document.getElementById('nav');
+  const buttons = nav.querySelectorAll('button');
 
   const sections = [
     { title: "プロフィール", text: "こんにちは、吉岡龍佑です。\nファミコン風レトロWebサイトを作っています。" },
@@ -152,22 +194,42 @@
   ];
 
   let rotation = 0;
+  let currentIndex = 0;
 
-  function updateContent(angle) {
-    angle = ((angle % 360) + 360) % 360;
-    const part = Math.floor(angle / 90);
-    const section = sections[part];
+  function updateContent(index) {
+    const section = sections[index];
     content.innerHTML = `<h2>${section.title}</h2><p>${section.text.replace(/\n/g, '<br>')}</p>`;
+    // レコードの回転角度をセット（90度ずつ）
+    rotation = index * 90;
+    record.style.transform = `rotate(${rotation}deg)`;
+
+    // ボタンのactive切り替え
+    buttons.forEach(btn => btn.classList.remove('active'));
+    buttons[index].classList.add('active');
+
+    currentIndex = index;
   }
 
+  // ホイール操作で切り替え
   window.addEventListener('wheel', e => {
     e.preventDefault();
-    rotation += e.deltaY * 0.5;
-    record.style.transform = `rotate(${rotation}deg)`;
-    updateContent(rotation);
+    if (e.deltaY > 0) {
+      currentIndex = (currentIndex + 1) % sections.length;
+    } else {
+      currentIndex = (currentIndex - 1 + sections.length) % sections.length;
+    }
+    updateContent(currentIndex);
   }, { passive: false });
 
-  updateContent(rotation);
+  // ナビゲーションのクリック切り替え
+  nav.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      const index = Number(e.target.getAttribute('data-index'));
+      updateContent(index);
+    }
+  });
+
+  updateContent(currentIndex);
 </script>
 
 </body>
