@@ -1,52 +1,72 @@
-/* style.css */
-body {
-  font-family: 'Helvetica Neue', sans-serif;
+/* Reset */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* 基本 */
+body {
+  font-family: "Helvetica Neue", sans-serif;
+  background: #e0e5ec;
   color: #333;
 }
 
-header {
-  background-color: #333;
-  color: white;
+/* レイアウト */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
   padding: 1em;
+}
+
+header, footer {
   text-align: center;
+  padding: 1em;
 }
 
-nav ul {
-  list-style: none;
-  padding: 0;
+/* グラスモーフィズム */
+.glass {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  padding: 1em;
+  margin: 1em;
 }
 
-nav ul li {
-  display: inline;
-  margin: 0 1em;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-}
-
-main {
+/* ネオモーフィズム */
+.neumorph {
+  background: #e0e5ec;
+  border-radius: 15px;
+  box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
   padding: 2em;
-}
-
-section {
-  margin-bottom: 3em;
-}
-
-.work-card {
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 1em;
   margin: 1em 0;
-  border-radius: 10px;
+  transition: transform 0.3s;
 }
 
-footer {
-  text-align: center;
+.neumorph:hover {
+  transform: scale(1.02);
+}
+
+.card {
+  margin: 1em 0;
   padding: 1em;
-  background-color: #eee;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 8px 20px rgba(0,0,0,0.2);
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 600px) {
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
