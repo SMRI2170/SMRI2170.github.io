@@ -12,7 +12,6 @@ body {
   padding: 0 20px;
 }
 
-/* 以下、今までのCSSを全部コピー＆ペーストして保存 */
 h1 {
   font-weight: 700;
   font-size: 2.8rem;
@@ -20,32 +19,53 @@ h1 {
   text-align: center;
 }
 
-/* ...（省略）... */
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 20px;
+h2 {
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-top: 3em;
+  margin-bottom: 0.6em;
+  border-bottom: 2px solid #bbb;
+  padding-bottom: 0.3em;
 }
 
-.gallery img {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease;
+p, li {
+  font-size: 1.05rem;
+  color: #444;
 }
 
-.gallery img:hover {
-  transform: scale(1.05);
+ul {
+  padding-left: 1.4em;
 }
 
-.gallery-caption {
+ul li {
+  margin-bottom: 0.8em;
+}
+
+a {
+  color: #222;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+a:hover {
+  border-color: #555;
+}
+
+footer {
   text-align: center;
-  font-size: 0.95rem;
-  color: #666;
-  margin-top: 4px;
+  margin: 4em 0 2em;
+  font-size: 0.9rem;
+  color: #888;
 }
 
+.fade-slide {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-slide.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
