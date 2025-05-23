@@ -1,86 +1,37 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>右のチョボナビ</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      scroll-behavior: smooth;
-    }
-
-    section {
-      height: 100vh;
-      padding: 40px;
-      box-sizing: border-box;
-    }
-
-    .nav-dots {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .nav-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: gray;
-      transition: all 0.3s;
-    }
-
-    .nav-dot.active {
-      background-color: hotpink;
-      transform: scale(1.5);
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>木のプロフィール</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>🌳 吉岡龍佑のプロフィール</h1>
+    <p>成長の年輪にようこそ</p>
+  </header>
 
-  <div class="nav-dots">
-    <div class="nav-dot" data-section="section1"></div>
-    <div class="nav-dot" data-section="section2"></div>
-    <div class="nav-dot" data-section="section3"></div>
-  </div>
+  <section class="ring">
+    <h2>🌱 自己紹介</h2>
+    <p>私は立命館大学 情報理工学部で学ぶ学生です。</p>
+  </section>
 
-  <section id="section1" style="background-color: lightblue;">セクション 1</section>
-  <section id="section2" style="background-color: lightgreen;">セクション 2</section>
-  <section id="section3" style="background-color: lightcoral;">セクション 3</section>
+  <section class="ring">
+    <h2>🌿 スキル</h2>
+    <ul>
+      <li>Python / JavaScript</li>
+      <li>IoT / AI / Web開発</li>
+    </ul>
+  </section>
 
-  <script>
-    const dots = document.querySelectorAll('.nav-dot');
-    const sections = document.querySelectorAll('section');
+  <section class="ring">
+    <h2>🌼 趣味</h2>
+    <p>音楽、写真、自然散策</p>
+  </section>
 
-    window.addEventListener('scroll', () => {
-      let current = "";
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (scrollY >= sectionTop - 100) {
-          current = section.getAttribute("id");
-        }
-      });
-
-      dots.forEach(dot => {
-        dot.classList.remove("active");
-        if (dot.dataset.section === current) {
-          dot.classList.add("active");
-        }
-      });
-    });
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const target = document.getElementById(dot.dataset.section);
-        target.scrollIntoView({ behavior: "smooth" });
-      });
-    });
-  </script>
-
+  <footer>
+    <p>© 2025 Ryosuke Yoshioka</p>
+  </footer>
 </body>
 </html>
