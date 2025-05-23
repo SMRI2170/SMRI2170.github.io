@@ -3,219 +3,171 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>和風グレーサイト with ナビゲーション</title>
-<!-- 和風フォント Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
-
+<title>ファミコン風レコードプロフィール</title>
 <style>
-  /* リセット */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+  /* 全体 */
   body {
-    font-family: 'Noto Serif JP', serif;
-    background: #f9f8f6; /* 和紙っぽい薄いグレー */
-    color: #333;
-    line-height: 1.7;
-    min-height: 100vh;
+    margin: 0; min-height: 100vh;
+    background: #202020;
+    color: #fff;
+    font-family: 'Press Start 2P', monospace, monospace;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    padding: 20px;
+    gap: 40px;
   }
 
-  /* ナビゲーション */
-  nav {
-    background-color: #222; /* 黒ベース */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  }
-
-  nav ul {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    list-style: none;
-  }
-
-  nav li {
+  /* 左側プロフィールエリア */
+  .profile-area {
     flex: 1;
+    max-width: 480px;
+    background: #303030;
+    border: 3px solid #f0f000;
+    border-radius: 8px;
+    box-shadow: 0 0 12px #c0c000 inset;
+    padding: 24px 32px;
+    color: #f0f000;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    letter-spacing: 1px;
   }
 
-  nav a {
-    display: block;
-    text-align: center;
-    padding: 18px 0;
-    text-decoration: none;
-    color: #eee;
-    font-weight: 600;
+  .profile-area h2 {
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+    color: #ffff00;
+    text-shadow: 0 0 5px #c0c000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* 右側レコード容器 */
+  .record-container {
     position: relative;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 340px; height: 340px;
+    perspective: 700px;
+    border-radius: 50%;
+    box-shadow:
+      inset 0 0 30px #e6d600,
+      0 0 25px #f0f000;
   }
 
-  /* ホバー時：淡いグレー背景＋ゆるアンダーライン */
-  nav a:hover {
-    background-color: #444;
+  /* レコード本体 */
+  .record {
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background:
+      /* レコードの溝を表現 */
+      repeating-conic-gradient(
+        from 0deg,
+        #202020 0deg 3deg,
+        #282828 3deg 6deg
+      ),
+      /* 中央のラベル外側のリング */
+      radial-gradient(circle at center, transparent 65%, #c0b800 66%, #a09000 70%, transparent 72%),
+      /* レコード中央の光沢 */
+      radial-gradient(circle at center, #f0f000 0%, #a09000 45%, #202020 55%);
+    box-shadow:
+      inset 0 0 20px #c0c000,
+      0 0 30px #f0f000;
+    transform-style: preserve-3d;
+    transition: box-shadow 0.3s ease;
+    cursor: grab;
   }
-  nav a::after {
+  .record:hover {
+    box-shadow:
+      inset 0 0 45px #ffff00,
+      0 0 45px #ffff00;
+  }
+
+  /* 中央ラベル */
+  .label {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 130px; height: 130px;
+    margin: -65px 0 0 -65px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, #fff86a 0%, #c0b800 85%);
+    box-shadow:
+      0 0 10px #d0c000 inset,
+      0 0 15px #f0f000;
+    display: flex; justify-content: center; align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #202020;
+    text-align: center;
+    user-select: none;
+    text-shadow: 1px 1px #a0a000;
+    pointer-events: none;
+  }
+
+  /* レコードのハイライト光沢 */
+  .record::before {
     content: "";
     position: absolute;
-    left: 20%;
-    right: 20%;
-    bottom: 8px;
-    height: 2px;
-    background-color: transparent;
-    transition: background-color 0.3s ease;
-    border-radius: 2px;
-  }
-  nav a:hover::after {
-    background-color: #ddd;
+    top: 25%; left: 20%;
+    width: 50px; height: 140px;
+    border-radius: 40% / 50%;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0));
+    filter: blur(6px);
+    pointer-events: none;
+    transform: rotate(-20deg);
   }
 
-  /* 現在地の強調 */
-  nav a.active {
-    background-color: #ccc; /* 和風で柔らかいグレー */
-    color: #111;
-    font-weight: 700;
-  }
-
-  /* ヘッダー代わりにナビ上に余白 */
-  header {
-    display: none; /* 今回はnavで代用 */
-  }
-
-  /* メインセクション */
-  main {
-    flex: 1;
-    max-width: 900px;
-    margin: 60px auto 80px;
-    padding: 0 20px;
-  }
-
-  /* 動きある要素 */
-  .fade-slide {
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 0.8s ease-out;
-    margin-bottom: 50px;
-  }
-
-  .fade-slide.active {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
+  /* テキストの見出し */
   h2 {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 16px;
-    color: #222;
-    border-bottom: 2px solid #bbb;
-    padding-bottom: 6px;
-    letter-spacing: 0.05em;
-  }
-
-  p {
-    font-size: 1.15rem;
-    color: #555;
-    margin-bottom: 30px;
-    font-weight: 400;
-    line-height: 1.8;
-  }
-
-  /* 和風ぽいボタン */
-  .btn {
-    display: inline-block;
-    padding: 14px 36px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #222;
-    background: #ddd;
-    border: 2px solid #aaa;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-    user-select: none;
-    text-decoration: none;
-    font-family: 'Noto Serif JP', serif;
-  }
-
-  .btn:hover {
-    background-color: #bbb;
-    border-color: #888;
-    transform: scale(1.1);
-  }
-
-  /* フッター */
-  footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: #666;
-    background: #f0efeb;
-    font-size: 0.9rem;
-    border-top: 1px solid #ccc;
-  }
-
-  /* スマホ対応 */
-  @media (max-width: 600px) {
-    nav ul {
-      flex-direction: column;
-    }
-    nav li {
-      flex: none;
-    }
+    margin: 0 0 12px;
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <ul>
-    <li><a href="#" class="active">ホーム</a></li>
-    <li><a href="#">特徴</a></li>
-    <li><a href="#">料金</a></li>
-    <li><a href="#">お問い合わせ</a></li>
-  </ul>
-</nav>
+<div class="profile-area" id="content">
+  <h2>プロフィール</h2>
+  <p>こんにちは、吉岡龍佑です。<br>ファミコン風レトロWebサイトを作っています。</p>
+</div>
 
-<main>
-  <div class="fade-slide">
-    <h2>和紙のような背景と落ち着いた配色</h2>
-    <p>薄い和紙の質感を感じる背景に、黒・グレー・白の調和で和の雰囲気を表現しています。</p>
-    <a href="#" class="btn">詳細を見る</a>
+<div class="record-container">
+  <div class="record" id="record">
+    <div class="label">RYU PROFILE</div>
   </div>
-
-  <div class="fade-slide">
-    <h2>スクロールに連動したふわっとアニメーション</h2>
-    <p>コンテンツが右からゆっくり現れ、動きがありながらも優しい印象を与えます。</p>
-    <a href="#" class="btn">もっと知る</a>
-  </div>
-
-  <div class="fade-slide">
-    <h2>わかりやすいナビゲーションと現在地表示</h2>
-    <p>ナビゲーションは黒ベースに白文字。現在のページは柔らかいグレー背景と太字で目立たせています。</p>
-    <a href="#" class="btn">お問い合わせ</a>
-  </div>
-</main>
-
-<footer>
-  © 2025 和風サイトサンプル
-</footer>
+</div>
 
 <script>
-  // スクロールでfade-slideクラスの要素にactive付ける
-  function fadeInOnScroll() {
-    const elements = document.querySelectorAll('.fade-slide');
-    const windowBottom = window.innerHeight + window.scrollY;
+  const record = document.getElementById('record');
+  const content = document.getElementById('content');
 
-    elements.forEach(el => {
-      const elTop = el.getBoundingClientRect().top + window.scrollY;
-      if (windowBottom > elTop + 100) {
-        el.classList.add('active');
-      }
-    });
+  const sections = [
+    { title: "プロフィール", text: "こんにちは、吉岡龍佑です。\nファミコン風レトロWebサイトを作っています。" },
+    { title: "スキル", text: "JavaScript\nCSS\nHTML\nCanvas\nWebGL\n3Dアニメーション" },
+    { title: "プロジェクト", text: "インタラクティブWebアート\nIoT連携プロジェクト開発中" },
+    { title: "連絡先", text: "メール: example@example.com\nTwitter: @ryu_profile" }
+  ];
+
+  let rotation = 0;
+
+  function updateContent(angle) {
+    angle = ((angle % 360) + 360) % 360;
+    const part = Math.floor(angle / 90);
+    const section = sections[part];
+    content.innerHTML = `<h2>${section.title}</h2><p>${section.text.replace(/\n/g, '<br>')}</p>`;
   }
 
-  window.addEventListener('scroll', fadeInOnScroll);
-  window.addEventListener('load', fadeInOnScroll);
+  window.addEventListener('wheel', e => {
+    e.preventDefault();
+    rotation += e.deltaY * 0.5;
+    record.style.transform = `rotate(${rotation}deg)`;
+    updateContent(rotation);
+  }, { passive: false });
+
+  updateContent(rotation);
 </script>
 
 </body>
