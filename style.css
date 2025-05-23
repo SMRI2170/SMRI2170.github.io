@@ -1,1 +1,32 @@
 
+/* style.css */
+body {
+  font-family: "Yu Gothic", sans-serif;
+  margin: 0;
+  background: linear-gradient(to top, #e0f7fa, #fffde7);
+  color: #3e2723;
+  overflow-x: hidden;
+}
+
+header {
+  text-align: center;
+  padding: 50px 20px;
+  background: #a5d6a7;
+  border-bottom: 3px dashed #4e342e;
+}
+
+.ring {
+  margin: 60px auto;
+  padding: 30px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid #8d6e63;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #a1887f;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #c8e6c9;
+}
