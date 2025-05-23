@@ -3,142 +3,203 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>プロフィールサイト - 情報技術風デザイン</title>
+<title>ネオンカラーの自己紹介サイト</title>
 <style>
-  /* 背景にビットが流れるイメージ */
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+  /* ベースリセット */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   body {
-    margin: 0; padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-    background-size: cover;
-    color: #eee;
+    background: #0f0f16;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 {
+    text-shadow:
+      0 0 5px #0ff,
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff;
   }
 
-  /* 背景暗くするオーバーレイ */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: -1;
+  /* ネオン光るアニメーション */
+  .neon {
+    color: #0ff;
+    animation: neon-glow 2s ease-in-out infinite alternate;
+  }
+  @keyframes neon-glow {
+    from {
+      text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 40px #0ff;
+    }
+    to {
+      text-shadow:
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 30px #0ff,
+        0 0 50px #0ff,
+        0 0 70px #0ff;
+    }
   }
 
   header {
+    padding: 60px 20px 40px;
     text-align: center;
-    padding: 40px 20px 20px 20px;
-  }
-  header h1 {
-    font-size: 3em;
-    margin: 0;
-    letter-spacing: 4px;
-  }
-  header p {
-    font-size: 1.2em;
-    color: #55aaff;
-    margin-top: 10px;
   }
 
-  main {
-    max-width: 900px;
-    margin: 0 auto;
+  /* コンテナ */
+  section {
+    max-width: 800px;
+    margin: 50px auto;
     padding: 20px;
+    background: rgba(0,255,255,0.1);
+    border-radius: 10px;
+    box-shadow:
+      0 0 10px #0ff,
+      inset 0 0 15px #0ff;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.7s ease-out;
   }
 
-  /* タイムライン */
-  .timeline {
-    position: relative;
-    margin: 40px 0;
-    padding-left: 30px;
-    border-left: 3px solid #55aaff;
-  }
-  .timeline-item {
-    position: relative;
-    margin-bottom: 30px;
-  }
-  .timeline-item::before {
-    content: "";
-    position: absolute;
-    left: -14px;
-    top: 5px;
-    width: 20px; height: 20px;
-    background: #55aaff;
-    border-radius: 50%;
-    border: 3px solid #222;
-  }
-  .timeline-item h3 {
-    margin: 0 0 5px 0;
-    color: #88cfff;
-  }
-  .timeline-item time {
-    font-size: 0.9em;
-    color: #bbb;
-  }
-  .timeline-item p {
-    margin: 5px 0 0 0;
-    line-height: 1.4em;
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* タグクラウド */
-  .tag-cloud {
-    margin-top: 50px;
-    text-align: center;
+  /* スキルバー */
+  .skill {
+    margin: 20px 0;
   }
-  .tag-cloud h2 {
-    color: #55aaff;
-    margin-bottom: 20px;
-  }
-  .tag {
-    display: inline-block;
-    background: #2266cc;
-    margin: 8px 12px;
-    padding: 10px 18px;
-    border-radius: 20px;
+  .skill-name {
     font-weight: bold;
-    cursor: default;
-    color: #eee;
-    transition: background 0.3s ease;
+    margin-bottom: 5px;
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff;
   }
-  .tag:hover {
-    background: #5599ff;
+  .skill-bar-bg {
+    width: 100%;
+    height: 15px;
+    background: #003333;
+    border-radius: 7.5px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px #0ff;
+  }
+  .skill-bar-fill {
+    height: 15px;
+    background: linear-gradient(90deg, #00fff7, #00cfcf);
+    width: 0%;
+    border-radius: 7.5px;
+    transition: width 1.5s ease-out;
+    box-shadow:
+      0 0 10px #00fff7,
+      0 0 20px #00fff7;
+  }
+
+  /* 研究説明 */
+  .research-title {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff;
+  }
+  .research-desc {
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  footer {
+    text-align: center;
+    margin: 60px 0 30px;
+    color: #0ff;
+    font-size: 0.9em;
+    text-shadow: 0 0 5px #0ff;
   }
 </style>
 </head>
 <body>
-  <header>
-    <h1>山田 太郎</h1>
-    <p>情報技術エンジニア / 好奇心旺盛なコード探検者</p>
-  </header>
-  <main>
-    <section class="timeline">
-      <div class="timeline-item">
-        <h3>2015年 - 大学入学</h3>
-        <time>東京工業大学 情報工学科</time>
-        <p>プログラミングとネットワークの基礎を学ぶ。</p>
-      </div>
-      <div class="timeline-item">
-        <h3>2018年 - インターンシップ</h3>
-        <time>株式会社テックイノベーション</time>
-        <p>Webアプリのフロントエンド開発に携わる。</p>
-      </div>
-      <div class="timeline-item">
-        <h3>2020年 - 新卒入社</h3>
-        <time>株式会社クラウドソリューションズ</time>
-        <p>クラウドサービスのバックエンド設計と運用を担当。</p>
-      </div>
-    </section>
 
-    <section class="tag-cloud">
-      <h2>スキル・趣味タグ</h2>
-      <span class="tag">Python</span>
-      <span class="tag">JavaScript</span>
-      <span class="tag">クラウド(AWS)</span>
-      <span class="tag">機械学習</span>
-      <span class="tag">Docker</span>
-      <span class="tag">IoT</span>
-      <span class="tag">セキュリティ</span>
-      <span class="tag">音楽</span>
-      <span class="tag">読書</span>
-    </section>
-  </main>
+<header>
+  <h1 class="neon">吉岡龍佑のポートフォリオ</h1>
+  <p class="neon" style="font-weight: 500; margin-top: 10px;">未来を創る技術者</p>
+</header>
+
+<section id="education">
+  <h2>学歴</h2>
+  <ul>
+    <li>立命館大学 情報理工学部 セキュリティ・ネットワークコース（2021年～2025年予定）</li>
+    <li>京都府立高校 卒業（2018年）</li>
+  </ul>
+</section>
+
+<section id="skills">
+  <h2>スキル</h2>
+  <div class="skill">
+    <div class="skill-name">Python</div>
+    <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="90%"></div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">C++</div>
+    <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="70%"></div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">機械学習・深層学習</div>
+    <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="80%"></div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">ネットワークセキュリティ</div>
+    <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="75%"></div></div>
+  </div>
+</section>
+
+<section id="research">
+  <h2>研究</h2>
+  <div class="research-item">
+    <div class="research-title">ゼロ知識証明を用いたプライバシー保護型IoT通信の実現</div>
+    <p class="research-desc">
+      IoTデバイス間の通信において、プライバシーを守りながら正当性を証明するためにゼロ知識証明(ZKP)を活用したシステムの設計と実装を行っています。これにより、データの秘匿性を保ったまま安全な連携が可能になります。
+    </p>
+  </div>
+</section>
+
+<footer>
+  © 2025 吉岡龍佑
+</footer>
+
+<script>
+  // スクロールでフェードイン
+  const sections = document.querySelectorAll('section');
+  function reveal() {
+    const triggerBottom = window.innerHeight * 0.85;
+    sections.forEach(section => {
+      const top = section.getBoundingClientRect().top;
+      if(top < triggerBottom) {
+        section.classList.add('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', reveal);
+  window.addEventListener('load', () => {
+    reveal();
+
+    // スキルバーのアニメーション
+    const bars = document.querySelectorAll('.skill-bar-fill');
+    bars.forEach(bar => {
+      const level = bar.getAttribute('data-level');
+      setTimeout(() => {
+        bar.style.width = level;
+      }, 500);
+    });
+  });
+</script>
+
 </body>
 </html>
