@@ -7,4 +7,5 @@ function playSE() {
   const se = document.getElementById("se");
   se.currentTime = 0;
   se.play();
+  
 }
