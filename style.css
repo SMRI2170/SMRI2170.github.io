@@ -1,22 +1,38 @@
 body {
   margin: 0;
-  background: #000;
+  background-color: black;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   overflow: hidden;
-  font-family: monospace;
 }
 
-.chain-container {
-  position: relative;
-  width: 100%;
-  height: 150px;
-  background: linear-gradient(to right, #0f0 1px, transparent 1px),
-              linear-gradient(to bottom, #0f0 1px, transparent 1px);
-  background-size: 20px 20px;
+.menu {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border: 4px solid #00ffff;
+  box-shadow: 0 0 20px #00ffff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-#blockchain {
-  position: absolute;
-  top: 0;
-  left: 0;
-  
+.btn {
+  background: #111;
+  color: #00ffcc;
+  padding: 15px;
+  font-size: 14px;
+  border: 2px solid #00ffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.btn:hover {
+  background: #00ffff;
+  color: black;
 }
