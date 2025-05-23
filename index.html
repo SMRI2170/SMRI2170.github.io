@@ -3,97 +3,104 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>プロフィール特殊ナビ</title>
+<title>レコード回転プロフィール</title>
 <style>
   body {
-    margin: 0; background: #111; color: white;
-    display: flex; justify-content: center; align-items: center;
-    height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
+    margin: 0; height: 100vh; background: #121212; color: white;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
   }
-  .container {
+  .record-container {
     position: relative;
-    width: 300px; height: 300px;
-    perspective: 1000px;
+    width: 320px; height: 320px;
+    perspective: 800px;
+    margin-bottom: 40px;
   }
-  .wheel {
-    position: relative;
-    width: 300px; height: 300px;
+  .record {
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, #222 55%, transparent 56%),
+      repeating-conic-gradient(#111 0deg 2deg, #222 2deg 4deg),
+      radial-gradient(circle at center, #000 0 70%, #333 70% 100%);
+    box-shadow: 0 0 20px #00e5ff88 inset;
+    transition: box-shadow 0.3s ease;
     transform-style: preserve-3d;
-    transition: transform 0.3s ease-out;
   }
-  .item {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100px; height: 40px;
-    margin: -20px -50px;
-    background: #444;
-    border-radius: 20px;
-    line-height: 40px;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.3s;
+  .record:hover {
+    box-shadow: 0 0 40px #00e5ffcc inset;
   }
-  .item:hover {
-    background: #09f;
-  }
-  .profile-pic {
+  .label {
     position: absolute;
     top: 50%; left: 50%;
     width: 120px; height: 120px;
-    margin: -60px -60px;
+    margin: -60px 0 0 -60px;
     border-radius: 50%;
-    border: 4px solid #09f;
-    background: url('https://i.pravatar.cc/120') no-repeat center/cover;
-    box-shadow: 0 0 20px #09f88a66;
+    background: radial-gradient(circle at center, #00e5ff 20%, #003344 80%);
+    box-shadow: 0 0 30px #00e5ffbb;
+    display: flex; justify-content: center; align-items: center;
+    font-weight: bold; font-size: 1.2rem; color: #eef;
+    user-select: none;
+  }
+  .content {
+    width: 100%;
+    max-width: 400px;
+    min-height: 150px;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    padding: 0 20px;
   }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="profile-pic"></div>
-  <div class="wheel" id="wheel">
-    <div class="item" style="transform: rotateY(0deg) translateZ(140px);">About</div>
-    <div class="item" style="transform: rotateY(72deg) translateZ(140px);">Skills</div>
-    <div class="item" style="transform: rotateY(144deg) translateZ(140px);">Projects</div>
-    <div class="item" style="transform: rotateY(216deg) translateZ(140px);">Blog</div>
-    <div class="item" style="transform: rotateY(288deg) translateZ(140px);">Contact</div>
+
+<div class="record-container">
+  <div class="record" id="record">
+    <div class="label">RYU Profile</div>
   </div>
 </div>
 
+<div class="content" id="content">
+  スクロールしてレコードを回してください
+</div>
+
 <script>
-  const wheel = document.getElementById('wheel');
-  let rotationY = 0;
-  let dragging = false;
-  let lastX = 0;
+  const record = document.getElementById('record');
+  const content = document.getElementById('content');
 
-  wheel.addEventListener('mousedown', e => {
-    dragging = true;
-    lastX = e.clientX;
-  });
-  window.addEventListener('mouseup', e => dragging = false);
-  window.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const deltaX = e.clientX - lastX;
-    rotationY += deltaX * 0.5;
-    wheel.style.transform = `rotateY(${rotationY}deg)`;
-    lastX = e.clientX;
-  });
+  // セクション内容（角度範囲ごとに切り替え）
+  const sections = [
+    { title: "プロフィール", text: "こんにちは、吉岡龍佑です。Webとアートを融合したサイトを作っています。" },
+    { title: "スキル", text: "JavaScript, CSS, HTML, Canvas, WebGL, 3Dアニメーションなど" },
+    { title: "プロジェクト", text: "インタラクティブなWebアート、IoT連携プロジェクトなどを開発中。" },
+    { title: "連絡先", text: "メール: example@example.com\nTwitter: @ryu_profile" }
+  ];
 
-  // タッチ対応
-  wheel.addEventListener('touchstart', e => {
-    dragging = true;
-    lastX = e.touches[0].clientX;
-  });
-  window.addEventListener('touchend', e => dragging = false);
-  window.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    const deltaX = e.touches[0].clientX - lastX;
-    rotationY += deltaX * 0.5;
-    wheel.style.transform = `rotateY(${rotationY}deg)`;
-    lastX = e.touches[0].clientX;
-  });
+  let rotation = 0;
+
+  function updateContent(angle) {
+    // angle を 0-360 に正規化
+    angle = ((angle % 360) + 360) % 360;
+
+    // 360度を4分割
+    const part = Math.floor(angle / 90);
+    const section = sections[part];
+
+    content.innerHTML = `<h2>${section.title}</h2><p>${section.text.replace(/\n/g, '<br>')}</p>`;
+  }
+
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    rotation += e.deltaY * 0.5; // 回転速度調整
+    record.style.transform = `rotate(${rotation}deg)`;
+    updateContent(rotation);
+  }, { passive: false });
+
+  // 最初の表示を設定
+  updateContent(rotation);
 </script>
+
 </body>
 </html>
