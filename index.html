@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SMRI2170のプロフィール - ミニマルデザイン</title>
 <style>
-  /* ベースフォント */
   body {
     margin: 0; padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -13,21 +12,17 @@
     color: #222;
     line-height: 1.6;
   }
-
-  /* コンテナ */
   .container {
     max-width: 680px;
     margin: 60px auto;
     padding: 0 20px;
   }
-
   h1 {
     font-weight: 700;
     font-size: 2.8rem;
     margin-bottom: 0.3em;
     text-align: center;
   }
-
   h2 {
     font-weight: 600;
     font-size: 1.8rem;
@@ -36,46 +31,36 @@
     border-bottom: 2px solid #bbb;
     padding-bottom: 0.3em;
   }
-
   p, li {
     font-size: 1.05rem;
     color: #444;
   }
-
   ul {
     padding-left: 1.4em;
   }
-
   ul li {
     margin-bottom: 0.8em;
   }
-
   a {
     color: #222;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.3s ease;
   }
-
   a:hover {
     border-color: #555;
   }
-
   footer {
     text-align: center;
     margin: 4em 0 2em;
     font-size: 0.9rem;
     color: #888;
   }
-
-  /* アニメーション 初期状態 */
   .fade-slide {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
-
-  /* 表示された状態 */
   .fade-slide.visible {
     opacity: 1;
     transform: translateY(0);
@@ -83,56 +68,78 @@
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="fade-slide">SMRI2170のプロフィール</h1>
-    <p class="fade-slide" style="text-align:center; margin-bottom:40px;">
-      シンプルでミニマルなデザイン。<br>白と黒、グレーを基調に落ち着いた印象に仕上げました。
-    </p>
+<div class="container">
+  <h1 class="fade-slide">SMRI2170のプロフィール</h1>
+  <p class="fade-slide" style="text-align:center; margin-bottom:40px;">
+    ミニマルな自己紹介ページへようこそ。
+  </p>
 
-    <h2 class="fade-slide">自己紹介</h2>
-    <p class="fade-slide">
-      IoT・AI・ゼロ知識証明に取り組む、立命館大学の情報系学生です。<br>
-      技術と社会の調和を目指しています。
-    </p>
+  <h2 class="fade-slide">自己紹介</h2>
+  <p class="fade-slide">
+    IoT・AI・ゼロ知識証明に取り組む、立命館大学の情報系学生です。<br>
+    技術と社会の調和を目指しています。
+  </p>
 
-    <h2 class="fade-slide">学歴</h2>
-    <ul>
-      <li class="fade-slide">立命館大学 情報理工学部 セキュリティ・ネットワークコース（2021〜2025）</li>
-      <li class="fade-slide">立命館大学大学院 情報理工学研究科（2025〜2027予定）</li>
-      <li class="fade-slide">○○高等学校 理系コース 卒業（〜2021）</li>
-    </ul>
+  <h2 class="fade-slide">開発できる言語・技術</h2>
+  <ul>
+    <li class="fade-slide">Python（AI・IoT・ZKPなど）</li>
+    <li class="fade-slide">HTML / CSS / JavaScript（Webフロントエンド）</li>
+    <li class="fade-slide">C / C++（組み込み）</li>
+    <li class="fade-slide">Bash / Linux / Git</li>
+  </ul>
 
-    <h2 class="fade-slide">経歴・活動（仮）</h2>
-    <ul>
-      <li class="fade-slide">2023年：IoT × 環境センシングプロジェクトに参加</li>
-      <li class="fade-slide">2024年：ゼロ知識証明とブロックチェーンの研究</li>
-      <li class="fade-slide">2025年：水産IoTとZKP連携システム開発中</li>
-    </ul>
+  <h2 class="fade-slide">興味のある分野</h2>
+  <ul>
+    <li class="fade-slide">ゼロ知識証明とブロックチェーン</li>
+    <li class="fade-slide">スマートセンシングとエッジAI</li>
+    <li class="fade-slide">持続可能なIoT・環境技術</li>
+    <li class="fade-slide">プライバシー技術とセキュリティ</li>
+  </ul>
 
-    <h2 class="fade-slide">リンク</h2>
-    <p class="fade-slide">
-      🔗 <a href="https://github.com/SMRI2170" target="_blank" rel="noopener">GitHub</a><br>
-      📝 <a href="https://zenn.dev/" target="_blank" rel="noopener">Zenn執筆予定</a>
-    </p>
+  <h2 class="fade-slide">学歴</h2>
+  <ul>
+    <li class="fade-slide">立命館大学 情報理工学部 セキュリティ・ネットワークコース（2021〜2025）</li>
+    <li class="fade-slide">立命館大学大学院 情報理工学研究科（2025〜2027予定）</li>
+    <li class="fade-slide">○○高等学校 理系コース 卒業（〜2021）</li>
+  </ul>
 
-    <footer class="fade-slide">
-      © 2025 SMRI2170 - Minimal & Clean Design
-    </footer>
-  </div>
+  <h2 class="fade-slide">経歴・活動（仮）</h2>
+  <ul>
+    <li class="fade-slide">2023年：IoT × 環境センシングプロジェクトに参加</li>
+    <li class="fade-slide">2024年：ゼロ知識証明とブロックチェーンの研究</li>
+    <li class="fade-slide">2025年：水産IoTとZKP連携システム開発中</li>
+  </ul>
 
-  <script>
-    const fadeEls = document.querySelectorAll('.fade-slide');
+  <h2 class="fade-slide">趣味・ライフスタイル</h2>
+  <ul>
+    <li class="fade-slide">写真撮影・自然散策・ロードバイク</li>
+    <li class="fade-slide">ガジェット収集・読書・コーヒー</li>
+    <li class="fade-slide">ミニマルな生活と情報整理</li>
+  </ul>
 
-    function checkFade() {
-      fadeEls.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if(rect.top < window.innerHeight - 60) {
-          el.classList.add('visible');
-        }
-      });
-    }
-    window.addEventListener('scroll', checkFade);
-    window.addEventListener('load', checkFade);
-  </script>
+  <h2 class="fade-slide">リンク</h2>
+  <p class="fade-slide">
+    🔗 <a href="https://github.com/SMRI2170" target="_blank" rel="noopener">GitHub</a><br>
+    📝 <a href="https://zenn.dev/" target="_blank" rel="noopener">Zenn執筆予定</a>
+  </p>
+
+  <footer class="fade-slide">
+    © 2025 SMRI2170 - Minimal & Clean Design
+  </footer>
+</div>
+
+<script>
+  const fadeEls = document.querySelectorAll('.fade-slide');
+  function checkFade() {
+    fadeEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 60) {
+        el.classList.add('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', checkFade);
+  window.addEventListener('load', checkFade);
+</script>
 </body>
 </html>
