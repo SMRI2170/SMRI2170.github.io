@@ -12,10 +12,26 @@
     background-color: #fff;
     color: #222;
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  body.dark-mode {
+    background-color: #121212;
+    color: #ddd;
+  }
+  body.dark-mode a {
+    color: #aaa;
+  }
+  body.dark-mode nav.nav {
+    background: #1e1e1e;
+    border-color: #333;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.05);
+  }
+  body.dark-mode nav.nav ul li a:hover {
+    color: #40aaff;
   }
   .container {
     max-width: 680px;
-    margin: 60px auto;
+    margin: 70px auto 0;
     padding: 0 20px;
   }
   h1 {
@@ -32,9 +48,15 @@
     border-bottom: 2px solid #bbb;
     padding-bottom: 0.3em;
   }
+  body.dark-mode h2 {
+    border-color: #555;
+  }
   p, li {
     font-size: 1.05rem;
     color: #444;
+  }
+  body.dark-mode p, body.dark-mode li {
+    color: #ccc;
   }
   ul {
     padding-left: 1.4em;
@@ -46,7 +68,7 @@
     color: #222;
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease;
   }
   a:hover {
     border-color: #555;
@@ -56,6 +78,9 @@
     margin: 4em 0 2em;
     font-size: 0.9rem;
     color: #888;
+  }
+  body.dark-mode footer {
+    color: #666;
   }
   .fade-slide {
     opacity: 0;
@@ -67,7 +92,6 @@
     transform: translateY(0);
   }
 
-  /* 追加部分：ナビゲーションメニュー */
   nav.nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -95,7 +119,6 @@
     color: #007acc;
   }
 
-  /* SNSアイコン用（簡易SVGアイコン） */
   .sns-links {
     text-align: center;
     margin-top: 30px;
@@ -113,107 +136,117 @@
     fill: #007acc;
   }
 
-  /* メインコンテンツの上マージンをナビゲーションの高さ分確保 */
-  .container {
-    margin-top: 70px;
+  /* 多言語・ダークモードボタンの配置 */
+  .top-buttons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 1100;
+  }
+  .top-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: #eee;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .top-buttons button:hover {
+    background: #ddd;
+  }
+  body.dark-mode .top-buttons button {
+    background: #333;
+    color: #ddd;
+  }
+  body.dark-mode .top-buttons button:hover {
+    background: #555;
   }
 
+  /* レスポンシブ */
+  @media (max-width: 480px) {
+    body {
+      font-size: 14px;
+    }
+    .container {
+      margin: 80px 10px 0;
+      padding: 0 10px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+    }
+    ul li {
+      margin-bottom: 0.6em;
+    }
+    nav.nav ul {
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+    .top-buttons {
+      flex-direction: column;
+      top: 5px;
+      right: 5px;
+    }
+    .top-buttons button {
+      font-size: 0.85rem;
+      padding: 5px 8px;
+    }
+  }
 </style>
 </head>
 <body>
 
-<!-- 追加：ナビゲーションメニュー -->
+<!-- 多言語切替 & ダークモード切替ボタン -->
+<div class="top-buttons">
+  <button id="btn-lang-ja" aria-label="日本語">日本語</button>
+  <button id="btn-lang-en" aria-label="English">English</button>
+  <button id="btn-toggle-darkmode" aria-label="ダークモード切替">🌙</button>
+</div>
+
 <nav class="nav">
   <ul>
-    <li><a href="#about">自己紹介</a></li>
-    <li><a href="#skills">技術</a></li>
-    <li><a href="#interests">興味</a></li>
-    <li><a href="#history">経歴・活動</a></li>
-    <li><a href="#hobby">趣味</a></li>
-    <li><a href="#links">リンク</a></li>
+    <li><a href="#about" data-i18n="nav_about">自己紹介</a></li>
+    <li><a href="#skills" data-i18n="nav_skills">技術</a></li>
+    <li><a href="#interests" data-i18n="nav_interests">興味</a></li>
+    <li><a href="#history" data-i18n="nav_history">経歴・活動</a></li>
+    <li><a href="#hobby" data-i18n="nav_hobby">趣味</a></li>
+    <li><a href="#links" data-i18n="nav_links">リンク</a></li>
   </ul>
 </nav>
 
 <div class="container">
-  <h1 class="fade-slide">SMRI2170のプロフィール</h1>
-  <p class="fade-slide" style="text-align:center; margin-bottom:40px;">
+  <h1 class="fade-slide" data-i18n="title">SMRI2170のプロフィール</h1>
+  <p class="fade-slide" style="text-align:center; margin-bottom:40px;" data-i18n="intro">
     ミニマルな自己紹介ページへようこそ。
   </p>
 
-  <h2 id="about" class="fade-slide">自己紹介</h2>
-  <p class="fade-slide">
+  <h2 id="about" class="fade-slide" data-i18n="about_title">自己紹介</h2>
+  <p class="fade-slide" data-i18n="about_text">
     IoT・AI・ゼロ知識証明に取り組む、立命館大学の情報系学生です。<br>
     技術と社会の調和を目指しています。
   </p>
 
-  <h2 id="skills" class="fade-slide">開発できる言語・技術</h2>
+  <h2 id="skills" class="fade-slide" data-i18n="skills_title">開発できる言語・技術</h2>
   <ul>
-    <li class="fade-slide">Python（AI・IoT・ZKPなど）</li>
-    <li class="fade-slide">HTML / CSS / JavaScript（Webフロントエンド）</li>
-    <li class="fade-slide">C / C++（組み込み）</li>
-    <li class="fade-slide">Bash / Linux / Git</li>
+    <li class="fade-slide" data-i18n="skills_1">Python（AI・IoT・ZKPなど）</li>
+    <li class="fade-slide" data-i18n="skills_2">HTML / CSS / JavaScript（Webフロントエンド）</li>
+    <li class="fade-slide" data-i18n="skills_3">C / C++（組み込み）</li>
+    <li class="fade-slide" data-i18n="skills_4">Bash / Linux / Git</li>
   </ul>
 
-  <h2 id="interests" class="fade-slide">興味のある分野</h2>
+  <h2 id="interests" class="fade-slide" data-i18n="interests_title">興味のある分野</h2>
   <ul>
-    <li class="fade-slide">ゼロ知識証明とブロックチェーン</li>
-    <li class="fade-slide">スマートセンシングとエッジAI</li>
-    <li class="fade-slide">持続可能なIoT・環境技術</li>
-    <li class="fade-slide">プライバシー技術とセキュリティ</li>
+    <li class="fade-slide" data-i18n="interests_1">ゼロ知識証明とブロックチェーン</li>
+    <li class="fade-slide" data-i18n="interests_2">スマートセンシングとエッジAI</li>
+    <li class="fade-slide" data-i18n="interests_3">持続可能なIoT・環境技術</li>
+    <li class="fade-slide" data-i18n="interests_4">プライバシー技術とセキュリティ</li>
   </ul>
 
-  <h2 id="history" class="fade-slide">経歴・活動（仮）</h2>
-  <ul>
-    <li class="fade-slide">2023年：IoT × 環境センシングプロジェクトに参加</li>
-    <li class="fade-slide">2024年：ゼロ知識証明とブロックチェーンの研究</li>
-    <li class="fade-slide">2025年：水産IoTとZKP連携システム開発中</li>
-  </ul>
-
-  <h2 id="hobby" class="fade-slide">趣味・ライフスタイル</h2>
-  <ul>
-    <li class="fade-slide">写真撮影・自然散策・ロードバイク</li>
-    <li class="fade-slide">ガジェット収集・読書・コーヒー</li>
-    <li class="fade-slide">ミニマルな生活と情報整理</li>
-  </ul>
-
-  <h2 id="links" class="fade-slide">リンク</h2>
-  <p class="fade-slide sns-links">
-    🔗
-    <a href="https://github.com/SMRI2170" target="_blank" rel="noopener" aria-label="GitHub">
-      <!-- GitHub SVG Icon -->
-      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.6 0-12 5.4-12 12 0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6 0-.3 0-1.1 0-2.2-3.3.7-4-1.6-4-1.6-.5-1.3-1.2-1.6-1.2-1.6-1-.7 0-.7 0-.7 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1 2.9.8.1-.6.4-1 .7-1.3-2.7-.3-5.5-1.4-5.5-6.2 0-1.4.5-2.5 1.3-3.4 0-.3-.6-1.4.1-2.8 0 0 1-.3 3.4 1.3a11.3 11.3 0 0 1 6.2 0c2.4-1.6 3.4-1.3 3.4-1.3.7 1.4.3 2.5.1 2.8.8.9 1.3 2 1.3 3.4 0 4.8-2.8 5.9-5.5 6.2.4.3.8 1 .8 2 0 1.4 0 2.5 0 2.8 0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4 0-6.6-5.4-12-12-12z"/></svg>
-    </a>
-    📝
-    <a href="https://zenn.dev/" target="_blank" rel="noopener" aria-label="Zenn">
-      <!-- Zenn Icon (simple book icon) -->
-      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Zenn</title><path d="M3 3h18v18H3z" fill="none" stroke="#222" stroke-width="2"/><path d="M6 9h12M6 15h12" stroke="#222" stroke-width="2"/></svg>
-    </a>
-  </p>
-
-  <!-- 追加：お問い合わせメール -->
-  <p style="text-align:center; margin-top: 30px;" class="fade-slide">
-    ご連絡はこちら: <a href="mailto:your.email@example.com">your.email@example.com</a>
-  </p>
-
-  <footer class="fade-slide">
-    © 2025 SMRI2170 - Minimal & Clean Design
-  </footer>
-</div>
-
-<script>
-  // フェードイン表示の既存スクリプト
-  const fadeEls = document.querySelectorAll('.fade-slide');
-  function checkFade() {
-    fadeEls.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 60) {
-        el.classList.add('visible');
-      }
-    });
-  }
-  window.addEventListener('scroll', checkFade);
-  window.addEventListener('load', checkFade);
-</script>
-
-</body>
-</html>
+  <h2 id="history" class="fade-slide" data-i18n
