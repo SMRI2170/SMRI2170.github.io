@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ネオンカラーの自己紹介サイト（改良版）</title>
+<title>ネオンカラーの自己紹介サイト（ピンク＆パープル版）</title>
+
+<!-- Font Awesome CDN（アイコン用） -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
@@ -13,8 +20,8 @@
     box-sizing: border-box;
   }
   body {
-    background: #0f0f16;
-    color: #cceeff;
+    background: #120023; /* ダークパープルベース */
+    color: #f0d5ff;
     font-family: 'Orbitron', sans-serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
@@ -25,9 +32,9 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(5, 30, 35, 0.85);
-    box-shadow: 0 0 10px #0ff55a44;
-    padding: 12px 0;
+    background: rgba(40, 0, 60, 0.9);
+    box-shadow: 0 0 15px #ff00ffaa;
+    padding: 14px 0;
     z-index: 100;
   }
   nav ul {
@@ -36,80 +43,122 @@
     list-style: none;
   }
   nav ul li {
-    margin: 0 20px;
+    margin: 0 25px;
   }
   nav ul li a {
-    color: #66fffc;
+    color: #ff77ff;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: color 0.3s ease, transform 0.4s ease;
+    display: inline-block;
   }
   nav ul li a:hover {
-    color: #00ffe7;
-    text-shadow: 0 0 10px #00ffe7;
+    color: #ffb0ff;
+    text-shadow:
+      0 0 8px #ff77ff,
+      0 0 15px #ff44ff,
+      0 0 25px #ff00ffcc;
+    animation: navHoverBounce 0.6s ease-in-out infinite alternate;
+  }
+  @keyframes navHoverBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
   }
 
   /* ヘッダー */
   header {
-    padding: 140px 20px 60px; /* nav分の余白追加 */
+    padding: 160px 20px 60px;
     text-align: center;
   }
+  header img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow:
+      0 0 15px #ff00ffcc,
+      inset 0 0 10px #ff99ffcc;
+    margin-bottom: 25px;
+    animation: neonGlowPulse 3s ease-in-out infinite alternate;
+  }
 
-  h1, h2, h3 {
-    color: #66eeff;
+  /* ネオンタイトル */
+  h1.neon {
+    color: #ff77ff;
+    font-size: 3rem;
+    letter-spacing: 5px;
+    animation: neonGlowPulse 2.5s ease-in-out infinite alternate;
     text-shadow:
-      0 0 6px #0afff2cc,
-      0 0 14px #0afff266;
+      0 0 8px #ff99ff,
+      0 0 18px #ff55ff,
+      0 0 30px #ff33ffcc,
+      0 0 40px #ff00ffcc;
+    margin-bottom: 8px;
+  }
+  p.neon {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #ff55ffcc;
+    text-shadow:
+      0 0 6px #ff99ffcc,
+      0 0 12px #ff66ffbb;
   }
 
-  /* ネオン少し弱め */
-  .neon {
-    color: #44eeff;
-    animation: neon-glow 3s ease-in-out infinite alternate;
-  }
-  @keyframes neon-glow {
-    from {
+  @keyframes neonGlowPulse {
+    0% {
       text-shadow:
-        0 0 3px #44eeffcc,
-        0 0 8px #44eeff88,
-        0 0 15px #44eeff55;
+        0 0 8px #ff99ff,
+        0 0 18px #ff55ff,
+        0 0 30px #ff33ffcc,
+        0 0 40px #ff00ffcc;
+      box-shadow:
+        0 0 15px #ff00ffcc,
+        inset 0 0 10px #ff99ffcc;
     }
-    to {
+    100% {
       text-shadow:
-        0 0 7px #44eeffcc,
-        0 0 12px #44eeffbb,
-        0 0 20px #44eeff88,
-        0 0 35px #44eeff44;
+        0 0 12px #ffccff,
+        0 0 22px #ff77ff,
+        0 0 40px #ff55ffcc,
+        0 0 60px #ff33ffcc;
+      box-shadow:
+        0 0 25px #ff66ffcc,
+        inset 0 0 15px #ffbbffcc;
     }
   }
 
   /* コンテナセクション */
   section {
-    max-width: 800px;
-    margin: 50px auto 70px;
-    padding: 25px 30px;
-    background: rgba(10, 50, 55, 0.65);
-    border-radius: 15px;
+    max-width: 820px;
+    margin: 50px auto 80px;
+    padding: 30px 35px;
+    background: rgba(30, 0, 60, 0.75);
+    border-radius: 18px;
     box-shadow:
-      0 0 15px #33eeff44,
-      inset 0 0 10px #33eeff88;
+      0 0 25px #ff33ff88,
+      inset 0 0 18px #ff66ffaa;
     opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s ease-out;
+    transform: translateY(40px) scale(0.95);
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
   section.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
-  /* セクションタイトルにスライドイン */
+  /* セクションタイトル */
   section h2 {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    color: #ff99ff;
+    text-shadow:
+      0 0 12px #ff99ff,
+      0 0 22px #ff55ff;
     position: relative;
-    left: -50px;
+    left: -70px;
     opacity: 0;
     transition: all 1s ease;
+    font-size: 2rem;
   }
   section.visible h2 {
     left: 0;
@@ -118,86 +167,115 @@
 
   /* 学歴リスト */
   ul {
-    list-style-type: disc;
+    list-style: none;
     padding-left: 20px;
-    color: #aaf0ff;
+    color: #ffccffdd;
   }
   ul li {
-    margin-bottom: 10px;
-    font-weight: 600;
+    margin-bottom: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    position: relative;
+    padding-left: 30px;
+  }
+  ul li::before {
+    content: '\f19d'; /* Font Awesome graduation cap */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #ff88ffcc;
+    font-size: 1.2rem;
+    text-shadow: 0 0 5px #ff77ffbb;
   }
 
-  /* スキルバー */
+  /* スキル */
   .skill {
-    margin: 20px 0;
+    margin: 22px 0;
+    display: flex;
+    align-items: center;
   }
   .skill-name {
     font-weight: 700;
-    margin-bottom: 6px;
-    color: #44e6ff;
-    text-shadow: 0 0 6px #44eeff99;
+    margin-right: 18px;
+    color: #ff88ffcc;
+    text-shadow: 0 0 8px #ffbbffcc;
+    font-size: 1.1rem;
+    width: 160px;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .skill-name i {
+    color: #ff66ffcc;
+    font-size: 1.5rem;
+    text-shadow: 0 0 8px #ff88ffcc;
   }
   .skill-bar-bg {
-    width: 100%;
-    height: 18px;
-    background: #002b32;
-    border-radius: 9px;
+    flex: 1;
+    height: 20px;
+    background: #30003a;
+    border-radius: 12px;
+    box-shadow: inset 0 0 12px #ff66ffcc;
     overflow: hidden;
-    box-shadow: inset 0 0 6px #33ffffaa;
+    cursor: pointer;
   }
   .skill-bar-fill {
-    height: 18px;
-    background: linear-gradient(90deg, #00fff7, #00cccc);
+    height: 20px;
+    background: linear-gradient(90deg, #ff55ff, #ff00ff);
     width: 0%;
-    border-radius: 9px;
-    transition: width 1.8s ease-out;
+    border-radius: 12px;
     box-shadow:
-      0 0 10px #00fff7aa,
-      0 0 20px #00eee7aa;
+      0 0 20px #ff00ffbb,
+      0 0 40px #ff55ffcc;
     position: relative;
+    transition: background 0.3s ease;
   }
   .skill-bar-fill::after {
     content: attr(data-level);
     position: absolute;
-    right: 8px;
+    right: 12px;
     top: 0;
-    color: #e0ffffcc;
+    color: #ffe6ffcc;
     font-weight: 700;
-    font-size: 0.85rem;
-    line-height: 18px;
-    text-shadow: 0 0 6px #33ffffcc;
+    font-size: 0.9rem;
+    line-height: 20px;
+    text-shadow: 0 0 10px #ff55ffcc;
   }
-  .skill-bar-fill:hover {
-    background: linear-gradient(90deg, #33ffff, #00ffff);
+  .skill-bar-bg:hover .skill-bar-fill {
+    background: linear-gradient(90deg, #ff77ff, #ff33ff);
     box-shadow:
-      0 0 14px #33ffff,
-      0 0 25px #00ffff;
+      0 0 30px #ff33ff,
+      0 0 50px #ff77ffcc;
   }
 
-  /* 研究説明 */
-  .research-title {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-    color: #55dfff;
-    text-shadow: 0 0 8px #44eeffbb;
+  /* 研究 */
+  .research-item {
+    font-weight: 500;
+    color: #f9d7ffcc;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    text-shadow: 0 0 6px #ff88ffbb;
   }
-  .research-desc {
-    line-height: 1.65;
-    font-weight: 400;
-    color: #a7e1ffcc;
+  .research-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ff99ff;
+    margin-bottom: 12px;
+    text-shadow:
+      0 0 14px #ffbbff,
+      0 0 26px #ff77ffcc;
   }
 
   /* フッター */
   footer {
     text-align: center;
-    margin: 80px 0 30px;
-    color: #44eeffcc;
-    font-size: 0.9rem;
-    text-shadow: 0 0 5px #44eeffcc;
+    margin: 90px 0 40px;
+    color: #ff99ffcc;
+    font-size: 1rem;
+    text-shadow: 0 0 8px #ff99ffcc;
   }
-
 </style>
 </head>
 <body>
@@ -211,8 +289,10 @@
 </nav>
 
 <header>
+  <!-- プロフィール写真（サンプル） -->
+  <img src="https://avatars.githubusercontent.com/u/583231?v=4" alt="プロフィール写真" />
   <h1 class="neon">吉岡龍佑のポートフォリオ</h1>
-  <p class="neon" style="font-weight: 600; margin-top: 12px; font-size: 1.2rem;">未来を創る技術者</p>
+  <p class="neon">未来を創る技術者</p>
 </header>
 
 <section id="education">
@@ -226,19 +306,19 @@
 <section id="skills">
   <h2>スキル</h2>
   <div class="skill">
-    <div class="skill-name"><span>Python</span></div>
+    <div class="skill-name"><i class="fab fa-python"></i> Python</div>
     <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="90%"></div></div>
   </div>
   <div class="skill">
-    <div class="skill-name"><span>C++</span></div>
+    <div class="skill-name"><i class="fas fa-code"></i> C++</div>
     <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="70%"></div></div>
   </div>
   <div class="skill">
-    <div class="skill-name"><span>機械学習・深層学習</span></div>
+    <div class="skill-name"><i class="fas fa-robot"></i> 機械学習・深層学習</div>
     <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="80%"></div></div>
   </div>
   <div class="skill">
-    <div class="skill-name"><span>ネットワークセキュリティ</span></div>
+    <div class="skill-name"><i class="fas fa-shield-alt"></i> ネットワークセキュリティ</div>
     <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="75%"></div></div>
   </div>
 </section>
@@ -247,42 +327,5 @@
   <h2>研究</h2>
   <div class="research-item">
     <div class="research-title">ゼロ知識証明を用いたプライバシー保護型IoT通信の実現</div>
-    <p class="research-desc">
-      IoTデバイス間の通信において、プライバシーを守りながら正当性を証明するためにゼロ知識証明(ZKP)を活用したシステムの設計と実装を行っています。これにより、データの秘匿性を保ったまま安全な連携が可能になります。
-    </p>
-  </div>
-</section>
-
-<footer>
-  © 2025 吉岡龍佑
-</footer>
-
-<script>
-  // スクロールでフェードイン＆セクションタイトルスライドイン
-  const sections = document.querySelectorAll('section');
-  function reveal() {
-    const triggerBottom = window.innerHeight * 0.85;
-    sections.forEach(section => {
-      const top = section.getBoundingClientRect().top;
-      if(top < triggerBottom) {
-        section.classList.add('visible');
-      }
-    });
-  }
-  window.addEventListener('scroll', reveal);
-  window.addEventListener('load', () => {
-    reveal();
-
-    // スキルバーアニメーション
-    const bars = document.querySelectorAll('.skill-bar-fill');
-    bars.forEach(bar => {
-      const level = bar.getAttribute('data-level');
-      setTimeout(() => {
-        bar.style.width = level;
-      }, 500);
-    });
-  });
-</script>
-
-</body>
-</html>
+    <p>
+      IoTデバイス間の通信において、プライバシーを守りながら正当性を証明するためにゼロ知識証明(ZKP)を活用したシステムの設計と実装を行っています。これにより、データの秘匿性を保ったまま安全
