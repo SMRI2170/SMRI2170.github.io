@@ -328,4 +328,40 @@
   <div class="research-item">
     <div class="research-title">ゼロ知識証明を用いたプライバシー保護型IoT通信の実現</div>
     <p>
-      IoTデバイス間の通信において、プライバシーを守りながら正当性を証明するためにゼロ知識証明(ZKP)を活用したシステムの設計と実装を行っています。これにより、データの秘匿性を保ったまま安全
+      IoTデバイス間の通信において、プライバシーを守りながら正当性を証明するためにゼロ知識証明(ZKP)を活用したシステムの設計と実装を行っています。これにより、データの秘匿性を保ったまま安全な通信を可能にします。
+    </p>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 吉岡龍佑
+</footer>
+
+<script>
+  // スキルバーのアニメーション（連鎖的に伸ばす）
+  document.addEventListener('DOMContentLoaded', () => {
+    const bars = document.querySelectorAll('.skill-bar-fill');
+    bars.forEach((bar, idx) => {
+      setTimeout(() => {
+        const level = bar.getAttribute('data-level');
+        bar.style.width = level;
+      }, idx * 400);
+    });
+  });
+
+  // スクロールでセクションのフェードイン・ズームイン
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+  sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>
