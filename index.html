@@ -4,11 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SMRI2170のプロフィール - ミニマルデザイン</title>
-  <h2 class="fade-slide">研究・技術紹介（画像）</h2>
-<div class="fade-slide" style="text-align:center;">
-  <img src="iot.png" alt="IoTセンサーの画像" />
-  <img src="zkp.png" alt="ゼロ知識証明の説明図" />
-</div>
 
 <style>
   body {
@@ -71,22 +66,87 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* 追加部分：ナビゲーションメニュー */
+  nav.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  nav.nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+  }
+  nav.nav ul li a {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+    border-bottom: none;
+  }
+  nav.nav ul li a:hover {
+    color: #007acc;
+  }
+
+  /* SNSアイコン用（簡易SVGアイコン） */
+  .sns-links {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .sns-links a {
+    margin: 0 10px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    fill: #222;
+    transition: fill 0.3s ease;
+  }
+  .sns-links a:hover {
+    fill: #007acc;
+  }
+
+  /* メインコンテンツの上マージンをナビゲーションの高さ分確保 */
+  .container {
+    margin-top: 70px;
+  }
+
 </style>
 </head>
 <body>
+
+<!-- 追加：ナビゲーションメニュー -->
+<nav class="nav">
+  <ul>
+    <li><a href="#about">自己紹介</a></li>
+    <li><a href="#skills">技術</a></li>
+    <li><a href="#interests">興味</a></li>
+    <li><a href="#history">経歴・活動</a></li>
+    <li><a href="#hobby">趣味</a></li>
+    <li><a href="#links">リンク</a></li>
+  </ul>
+</nav>
+
 <div class="container">
   <h1 class="fade-slide">SMRI2170のプロフィール</h1>
   <p class="fade-slide" style="text-align:center; margin-bottom:40px;">
     ミニマルな自己紹介ページへようこそ。
   </p>
 
-  <h2 class="fade-slide">自己紹介</h2>
+  <h2 id="about" class="fade-slide">自己紹介</h2>
   <p class="fade-slide">
     IoT・AI・ゼロ知識証明に取り組む、立命館大学の情報系学生です。<br>
     技術と社会の調和を目指しています。
   </p>
 
-  <h2 class="fade-slide">開発できる言語・技術</h2>
+  <h2 id="skills" class="fade-slide">開発できる言語・技術</h2>
   <ul>
     <li class="fade-slide">Python（AI・IoT・ZKPなど）</li>
     <li class="fade-slide">HTML / CSS / JavaScript（Webフロントエンド）</li>
@@ -94,7 +154,7 @@
     <li class="fade-slide">Bash / Linux / Git</li>
   </ul>
 
-  <h2 class="fade-slide">興味のある分野</h2>
+  <h2 id="interests" class="fade-slide">興味のある分野</h2>
   <ul>
     <li class="fade-slide">ゼロ知識証明とブロックチェーン</li>
     <li class="fade-slide">スマートセンシングとエッジAI</li>
@@ -102,31 +162,37 @@
     <li class="fade-slide">プライバシー技術とセキュリティ</li>
   </ul>
 
-  <h2 class="fade-slide">学歴</h2>
-  <ul>
-    <li class="fade-slide">立命館大学 情報理工学部 セキュリティ・ネットワークコース（2021〜2025）</li>
-    <li class="fade-slide">立命館大学大学院 情報理工学研究科（2025〜2027予定）</li>
-    <li class="fade-slide">○○高等学校 理系コース 卒業（〜2021）</li>
-  </ul>
-
-  <h2 class="fade-slide">経歴・活動（仮）</h2>
+  <h2 id="history" class="fade-slide">経歴・活動（仮）</h2>
   <ul>
     <li class="fade-slide">2023年：IoT × 環境センシングプロジェクトに参加</li>
     <li class="fade-slide">2024年：ゼロ知識証明とブロックチェーンの研究</li>
     <li class="fade-slide">2025年：水産IoTとZKP連携システム開発中</li>
   </ul>
 
-  <h2 class="fade-slide">趣味・ライフスタイル</h2>
+  <h2 id="hobby" class="fade-slide">趣味・ライフスタイル</h2>
   <ul>
     <li class="fade-slide">写真撮影・自然散策・ロードバイク</li>
     <li class="fade-slide">ガジェット収集・読書・コーヒー</li>
     <li class="fade-slide">ミニマルな生活と情報整理</li>
   </ul>
 
-  <h2 class="fade-slide">リンク</h2>
-  <p class="fade-slide">
-    🔗 <a href="https://github.com/SMRI2170" target="_blank" rel="noopener">GitHub</a><br>
-    📝 <a href="https://zenn.dev/" target="_blank" rel="noopener">Zenn執筆予定</a>
+  <h2 id="links" class="fade-slide">リンク</h2>
+  <p class="fade-slide sns-links">
+    🔗
+    <a href="https://github.com/SMRI2170" target="_blank" rel="noopener" aria-label="GitHub">
+      <!-- GitHub SVG Icon -->
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.6 0-12 5.4-12 12 0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6 0-.3 0-1.1 0-2.2-3.3.7-4-1.6-4-1.6-.5-1.3-1.2-1.6-1.2-1.6-1-.7 0-.7 0-.7 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1 2.9.8.1-.6.4-1 .7-1.3-2.7-.3-5.5-1.4-5.5-6.2 0-1.4.5-2.5 1.3-3.4 0-.3-.6-1.4.1-2.8 0 0 1-.3 3.4 1.3a11.3 11.3 0 0 1 6.2 0c2.4-1.6 3.4-1.3 3.4-1.3.7 1.4.3 2.5.1 2.8.8.9 1.3 2 1.3 3.4 0 4.8-2.8 5.9-5.5 6.2.4.3.8 1 .8 2 0 1.4 0 2.5 0 2.8 0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4 0-6.6-5.4-12-12-12z"/></svg>
+    </a>
+    📝
+    <a href="https://zenn.dev/" target="_blank" rel="noopener" aria-label="Zenn">
+      <!-- Zenn Icon (simple book icon) -->
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Zenn</title><path d="M3 3h18v18H3z" fill="none" stroke="#222" stroke-width="2"/><path d="M6 9h12M6 15h12" stroke="#222" stroke-width="2"/></svg>
+    </a>
+  </p>
+
+  <!-- 追加：お問い合わせメール -->
+  <p style="text-align:center; margin-top: 30px;" class="fade-slide">
+    ご連絡はこちら: <a href="mailto:your.email@example.com">your.email@example.com</a>
   </p>
 
   <footer class="fade-slide">
@@ -135,6 +201,7 @@
 </div>
 
 <script>
+  // フェードイン表示の既存スクリプト
   const fadeEls = document.querySelectorAll('.fade-slide');
   function checkFade() {
     fadeEls.forEach(el => {
@@ -147,5 +214,6 @@
   window.addEventListener('scroll', checkFade);
   window.addEventListener('load', checkFade);
 </script>
+
 </body>
 </html>
