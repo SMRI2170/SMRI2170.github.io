@@ -3,74 +3,79 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SMRI2170のプロフィール - スライド表示版</title>
-<link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
+<title>SMRI2170のプロフィール - ミニマルデザイン</title>
 <style>
+  /* ベースフォント */
   body {
     margin: 0; padding: 0;
-    font-family: 'Kosugi Maru', sans-serif;
-    background: linear-gradient(135deg, #d0e8d0 0%, #a3c9a8 100%);
-    color: #2f4f2f;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #fff;
+    color: #222;
+    line-height: 1.6;
   }
+
+  /* コンテナ */
   .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 60px 20px;
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 20px;
   }
-  h1, h2 {
+
+  h1 {
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 0.3em;
     text-align: center;
   }
-  h1 {
-    font-size: 2.8rem;
-    margin-bottom: 0.5em;
-  }
+
   h2 {
+    font-weight: 600;
     font-size: 1.8rem;
     margin-top: 3em;
     margin-bottom: 0.6em;
-    border-bottom: 3px solid #4a754a;
-    display: inline-block;
-    padding-bottom: 0.2em;
+    border-bottom: 2px solid #bbb;
+    padding-bottom: 0.3em;
   }
+
   p, li {
-    font-size: 1.1rem;
-    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #444;
   }
+
   ul {
     padding-left: 1.4em;
   }
+
   ul li {
     margin-bottom: 0.8em;
-    position: relative;
   }
-  ul li::before {
-    content: "🍃";
-    position: absolute;
-    left: -1.2em;
-  }
+
   a {
-    color: #3e6f3e;
+    color: #222;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.3s ease;
   }
+
   a:hover {
-    border-color: #3e6f3e;
+    border-color: #555;
   }
+
   footer {
     text-align: center;
     margin: 4em 0 2em;
     font-size: 0.9rem;
-    color: #355133;
+    color: #888;
   }
 
-  /* スライドフェードインアニメーション用初期状態 */
+  /* アニメーション 初期状態 */
   .fade-slide {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
-  /* 表示されたら */
+
+  /* 表示された状態 */
   .fade-slide.visible {
     opacity: 1;
     transform: translateY(0);
@@ -78,15 +83,16 @@
 </style>
 </head>
 <body>
-
   <div class="container">
-    <h1 class="fade-slide">こんにちは、SMRI2170です</h1>
-    <p class="fade-slide">自然とテクノロジーの調和を目指す、立命館大学の情報系学生です🌳</p>
+    <h1 class="fade-slide">SMRI2170のプロフィール</h1>
+    <p class="fade-slide" style="text-align:center; margin-bottom:40px;">
+      シンプルでミニマルなデザイン。<br>白と黒、グレーを基調に落ち着いた印象に仕上げました。
+    </p>
 
     <h2 class="fade-slide">自己紹介</h2>
     <p class="fade-slide">
-      IoT・AI・ゼロ知識証明など、先端技術を活用しながらも、<br>
-      環境や人に優しい社会づくりに関心を持っています。
+      IoT・AI・ゼロ知識証明に取り組む、立命館大学の情報系学生です。<br>
+      技術と社会の調和を目指しています。
     </p>
 
     <h2 class="fade-slide">学歴</h2>
@@ -110,26 +116,23 @@
     </p>
 
     <footer class="fade-slide">
-      © 2025 SMRI2170 - Powered by Nature and Code 🌱
+      © 2025 SMRI2170 - Minimal & Clean Design
     </footer>
   </div>
 
   <script>
-    // スクロールで .fade-slide 要素を見えたらクラス visible を追加する
     const fadeEls = document.querySelectorAll('.fade-slide');
 
     function checkFade() {
       fadeEls.forEach(el => {
         const rect = el.getBoundingClientRect();
-        if(rect.top < window.innerHeight - 80) {
+        if(rect.top < window.innerHeight - 60) {
           el.classList.add('visible');
         }
       });
     }
-
     window.addEventListener('scroll', checkFade);
     window.addEventListener('load', checkFade);
   </script>
-
 </body>
 </html>
