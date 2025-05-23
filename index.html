@@ -1,129 +1,64 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>プロフィールリスト構造サイト</title>
-<style>
-  body {
-    margin: 0; padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  /* ナビゲーション */
-  nav {
-    position: fixed;
-    top: 0; left: 0;
-    width: 200px;
-    height: 100vh;
-    background: #222;
-    color: white;
-    padding-top: 20px;
-    box-sizing: border-box;
-  }
-  nav ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  nav li {
-    padding: 15px 20px;
-    cursor: pointer;
-    border-left: 4px solid transparent;
-    transition: border-color 0.3s;
-  }
-  nav li.active {
-    background: #444;
-    border-left: 4px solid #00bcd4;
-  }
-  nav li:hover {
-    background: #333;
-  }
-
-  /* コンテンツ領域 */
-  main {
-    margin-left: 200px;
-    padding: 20px;
-  }
-  section {
-    height: 100vh; /* 画面1枚分の高さ */
-    border-bottom: 1px solid #ddd;
-    padding: 40px 20px;
-  }
-  section h2 {
-    margin-top: 0;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>スクロール連動アニメーション</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #111;
+      color: #eee;
+      height: 200vh; /* スクロール量を確保 */
+      padding: 50px;
+    }
+    .intro-line {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      font-size: 1.5rem;
+      margin: 30px 0;
+      max-width: 600px;
+    }
+    .intro-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <ul id="navList">
-    <li data-target="section1" class="active">プロフィール概要</li>
-    <li data-target="section2">経歴</li>
-    <li data-target="section3">スキル</li>
-    <li data-target="section4">プロジェクト</li>
-    <li data-target="section5">連絡先</li>
-  </ul>
-</nav>
+  <h1>自己紹介</h1>
+  <div id="intro">
+    <p class="intro-line">こんにちは、吉岡龍佑です。</p>
+    <p class="intro-line">私は立命館大学で情報科学を学んでいます。</p>
+    <p class="intro-line">趣味はプログラミングとAI研究です。</p>
+    <p class="intro-line">このサイトでは私の活動や作品を紹介しています。</p>
+    <p class="intro-line">スクロールして楽しんでください！</p>
+  </div>
 
-<main>
-  <section id="section1">
-    <h2>プロフィール概要</h2>
-    <p>はじめまして。ここでは私のプロフィール概要を紹介します。</p>
-  </section>
+  <script>
+    const lines = document.querySelectorAll('.intro-line');
 
-  <section id="section2">
-    <h2>経歴</h2>
-    <p>大学卒業後、IT業界で5年間エンジニアとして働いています。</p>
-  </section>
+    window.addEventListener('scroll', () => {
+      // ページのスクロール量を取得
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
 
-  <section id="section3">
-    <h2>スキル</h2>
-    <p>プログラミング言語：JavaScript, Python, Javaなど。</p>
-  </section>
+      // 文章ごとに表示開始位置を設定（例：スクロール位置の閾値）
+      lines.forEach((line, index) => {
+        // スクロールがある一定量を超えたら見せる
+        const triggerPoint = index * 100; // 100pxずつずらして表示開始
 
-  <section id="section4">
-    <h2>プロジェクト</h2>
-    <p>Webサイト制作やアプリ開発など、様々なプロジェクトに携わりました。</p>
-  </section>
-
-  <section id="section5">
-    <h2>連絡先</h2>
-    <p>Email: example@example.com</p>
-  </section>
-</main>
-
-<script>
-  // ナビゲーションリスト要素
-  const navItems = document.querySelectorAll('nav ul li');
-  // セクション要素
-  const sections = document.querySelectorAll('main section');
-
-  // ナビクリック時にスクロール
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const targetId = item.getAttribute('data-target');
-      const targetSection = document.getElementById(targetId);
-      targetSection.scrollIntoView({ behavior: 'smooth' });
+        if (scrollY + viewportHeight > triggerPoint + 100) {
+          line.classList.add('visible');
+        } else {
+          line.classList.remove('visible');
+        }
+      });
     });
-  });
-
-  // スクロール時に現在地を更新する関数
-  function onScroll() {
-    const scrollPos = window.scrollY || window.pageYOffset;
-
-    sections.forEach((section, index) => {
-      const top = section.offsetTop - 100; // 余裕をもたせる
-      const bottom = top + section.offsetHeight;
-
-      if (scrollPos >= top && scrollPos < bottom) {
-        navItems.forEach(item => item.classList.remove('active'));
-        navItems[index].classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', onScroll);
-</script>
+  </script>
 
 </body>
 </html>
