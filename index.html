@@ -12,10 +12,16 @@
       background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
       background-size: cover;
       color: #3e3e3e;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .overlay {
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.85);
       min-height: 100vh;
       padding: 60px 20px;
       text-align: center;
@@ -24,10 +30,11 @@
     .container {
       max-width: 800px;
       margin: 0 auto;
-      background-color: #ffffffd8;
+      background-color: #ffffffea;
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 2.5s ease-in;
     }
 
     h1 {
@@ -83,11 +90,18 @@
       <p>IoT・AI・ゼロ知識証明など、先端技術を活用しながらも、<br>
          環境や人に優しい社会づくりに関心を持っています。</p>
 
-      <h2>興味のあること</h2>
+      <h2>学歴</h2>
       <ul>
-        <li>サステナブルな水産養殖と環境センシング</li>
-        <li>AIを使った人間理解（年齢・性別・感情）</li>
-        <li>ブロックチェーンとプライバシー技術</li>
+        <li>立命館大学 情報理工学部 セキュリティ・ネットワークコース（2021〜2025）</li>
+        <li>立命館大学大学院 情報理工学研究科（2025〜2027予定）</li>
+        <li>○○高等学校 理系コース 卒業（〜2021）</li>
+      </ul>
+
+      <h2>経歴・活動（仮）</h2>
+      <ul>
+        <li>2023年：IoT × 環境センシングプロジェクトに参加</li>
+        <li>2024年：ゼロ知識証明とブロックチェーンの研究</li>
+        <li>2025年：水産IoTとZKP連携システム開発中</li>
       </ul>
 
       <h2>リンク</h2>
