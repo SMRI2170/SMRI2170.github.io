@@ -1,325 +1,86 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ネオンカラーの自己紹介サイト（ピンク＆パープル版）</title>
-
-  <!-- Font Awesome CDN（アイコン用） -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>右のチョボナビ</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
-
-    * {
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
+      font-family: sans-serif;
       scroll-behavior: smooth;
     }
 
-    body {
-      background: #120023;
-      color: #f0d5ff;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(40, 0, 60, 0.9);
-      box-shadow: 0 0 15px #ff00ffaa;
-      padding: 14px 0;
-      z-index: 1000;
-    }
-
-    nav ul {
-      display: flex;
-      justify-content: center;
-      list-style: none;
-      flex-wrap: wrap;
-    }
-
-    nav ul li {
-      margin: 0 20px;
-    }
-
-    nav ul li a {
-      color: #ff77ff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: color 0.3s ease, transform 0.4s ease;
-    }
-
-    nav ul li a:hover {
-      color: #ffb0ff;
-      text-shadow: 0 0 8px #ff77ff, 0 0 15px #ff44ff, 0 0 25px #ff00ffcc;
-      animation: navHoverBounce 0.6s ease-in-out infinite alternate;
-    }
-
-    @keyframes navHoverBounce {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-6px); }
-    }
-
-    header {
-      padding: 140px 20px 60px;
-      text-align: center;
-    }
-
-    header img {
-      width: 140px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 50%;
-      box-shadow: 0 0 15px #ff00ffcc, inset 0 0 10px #ff99ffcc;
-      margin-bottom: 25px;
-      animation: neonGlowPulse 3s ease-in-out infinite alternate;
-    }
-
-    h1.neon {
-      color: #ff77ff;
-      font-size: 2.8rem;
-      letter-spacing: 4px;
-      animation: neonGlowPulse 2.5s ease-in-out infinite alternate;
-      text-shadow: 0 0 8px #ff99ff, 0 0 18px #ff55ff, 0 0 30px #ff33ffcc;
-    }
-
-    p.neon {
-      font-weight: 700;
-      font-size: 1.3rem;
-      color: #ff55ffcc;
-      text-shadow: 0 0 6px #ff99ffcc, 0 0 12px #ff66ffbb;
-    }
-
-    @keyframes neonGlowPulse {
-      0% {
-        text-shadow: 0 0 8px #ff99ff, 0 0 18px #ff55ff, 0 0 30px #ff33ffcc;
-        box-shadow: 0 0 15px #ff00ffcc, inset 0 0 10px #ff99ffcc;
-      }
-      100% {
-        text-shadow: 0 0 12px #ffccff, 0 0 22px #ff77ff, 0 0 40px #ff55ffcc;
-        box-shadow: 0 0 25px #ff66ffcc, inset 0 0 15px #ffbbffcc;
-      }
-    }
-
     section {
-      max-width: 860px;
-      margin: 60px auto;
-      padding: 30px;
-      background: rgba(30, 0, 60, 0.75);
-      border-radius: 16px;
-      box-shadow: 0 0 25px #ff33ff88, inset 0 0 18px #ff66ffaa;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s ease-out;
+      height: 100vh;
+      padding: 40px;
+      box-sizing: border-box;
     }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    section h2 {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: #ff99ff;
-      text-shadow: 0 0 12px #ff99ff, 0 0 22px #ff55ff;
-    }
-
-    ul {
-      list-style: none;
-      padding-left: 10px;
-    }
-
-    ul li {
-      margin-bottom: 14px;
-      padding-left: 30px;
-      position: relative;
-      font-weight: 700;
-      color: #ffccffdd;
-    }
-
-    ul li::before {
-      content: '\f19d';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      left: 0;
-      color: #ff88ffcc;
-    }
-
-    .skill {
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
-      align-items: center;
-      margin: 20px 0;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .skill-name {
-      width: 180px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      color: #ff88ffcc;
-      font-size: 1rem;
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: gray;
+      transition: all 0.3s;
     }
 
-    .skill-bar-bg {
-      flex: 1;
-      height: 20px;
-      background: #30003a;
-      border-radius: 12px;
-      box-shadow: inset 0 0 12px #ff66ffcc;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-
-    .skill-bar-fill {
-      height: 20px;
-      background: linear-gradient(90deg, #ff55ff, #ff00ff);
-      width: 0%;
-      border-radius: 12px;
-      transition: width 1.2s ease;
-      position: relative;
-    }
-
-    .skill-bar-fill::after {
-      content: attr(data-level);
-      position: absolute;
-      right: 10px;
-      top: 0;
-      color: #ffe6ffcc;
-      font-size: 0.9rem;
-      line-height: 20px;
-    }
-
-    .research-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #ff99ff;
-      margin-bottom: 12px;
-      text-shadow: 0 0 14px #ffbbff;
-    }
-
-    .research-item {
-      font-size: 1.1rem;
-      color: #f9d7ffcc;
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      margin: 80px 0 40px;
-      color: #ff99ffcc;
-      font-size: 1rem;
-      text-shadow: 0 0 8px #ff99ffcc;
-    }
-
-    @media (max-width: 600px) {
-      nav ul li {
-        margin: 0 10px;
-      }
-      .skill {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .skill-name {
-        width: 100%;
-        margin-bottom: 6px;
-      }
+    .nav-dot.active {
+      background-color: hotpink;
+      transform: scale(1.5);
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <ul>
-      <li><a href="#education">学歴</a></li>
-      <li><a href="#skills">スキル</a></li>
-      <li><a href="#research">研究</a></li>
-    </ul>
-  </nav>
+  <div class="nav-dots">
+    <div class="nav-dot" data-section="section1"></div>
+    <div class="nav-dot" data-section="section2"></div>
+    <div class="nav-dot" data-section="section3"></div>
+  </div>
 
-  <header>
-    <img src="https://avatars.githubusercontent.com/u/583231?v=4" alt="プロフィール写真" />
-    <h1 class="neon">吉岡龍佑のポートフォリオ</h1>
-    <p class="neon">未来を創る技術者</p>
-  </header>
-
-  <section id="education">
-    <h2>学歴</h2>
-    <ul>
-      <li>立命館大学 情報理工学部 セキュリティ・ネットワークコース（2021年～2025年予定）</li>
-      <li>京都府立高校 卒業（2018年）</li>
-    </ul>
-  </section>
-
-  <section id="skills">
-    <h2>スキル</h2>
-    <div class="skill">
-      <div class="skill-name"><i class="fab fa-python"></i>Python</div>
-      <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="90%"></div></div>
-    </div>
-    <div class="skill">
-      <div class="skill-name"><i class="fas fa-code"></i>C++</div>
-      <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="70%"></div></div>
-    </div>
-    <div class="skill">
-      <div class="skill-name"><i class="fas fa-robot"></i>機械学習・深層学習</div>
-      <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="80%"></div></div>
-    </div>
-    <div class="skill">
-      <div class="skill-name"><i class="fas fa-shield-alt"></i>ネットワークセキュリティ</div>
-      <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="75%"></div></div>
-    </div>
-  </section>
-
-  <section id="research">
-    <h2>研究</h2>
-    <div class="research-title">ゼロ知識証明を用いたプライバシー保護型IoT通信の実現</div>
-    <div class="research-item">
-      IoTデバイス間の通信において、プライバシーを守りながら正当性を証明するためにゼロ知識証明(ZKP)を活用したシステムの設計と実装を行っています。これにより、データの秘匿性を保ったまま安全な通信を可能にします。
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 吉岡龍佑
-  </footer>
+  <section id="section1" style="background-color: lightblue;">セクション 1</section>
+  <section id="section2" style="background-color: lightgreen;">セクション 2</section>
+  <section id="section3" style="background-color: lightcoral;">セクション 3</section>
 
   <script>
-    // スキルバーアニメーション
-    document.addEventListener('DOMContentLoaded', () => {
-      const bars = document.querySelectorAll('.skill-bar-fill');
-      bars.forEach((bar, idx) => {
-        setTimeout(() => {
-          const level = bar.getAttribute('data-level');
-          bar.style.width = level;
-        }, idx * 400);
+    const dots = document.querySelectorAll('.nav-dot');
+    const sections = document.querySelectorAll('section');
+
+    window.addEventListener('scroll', () => {
+      let current = "";
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 100) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      dots.forEach(dot => {
+        dot.classList.remove("active");
+        if (dot.dataset.section === current) {
+          dot.classList.add("active");
+        }
       });
     });
 
-    // スクロール表示アニメーション
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = document.getElementById(dot.dataset.section);
+        target.scrollIntoView({ behavior: "smooth" });
       });
-    }, {
-      threshold: 0.3
     });
-    sections.forEach(section => observer.observe(section));
   </script>
+
 </body>
 </html>
