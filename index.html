@@ -1,53 +1,43 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ネオ・グラス風プロフィール</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header class="glass">
-    <div class="container">
-      <h1>私のポートフォリオ</h1>
-      <nav id="nav">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#works">Works</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  color: #0f0;
+  font-family: "Courier New", monospace;
+  overflow: hidden;
+}
 
-  <main class="container">
-    <section id="about" class="neumorph">
-      <h2>About Me</h2>
-      <p>こんにちは！私はWebデザイナー兼エンジニアです。</p>
-    </section>
+header {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
 
-    <section id="works" class="neumorph">
-      <h2>My Works</h2>
-      <div class="card">作品1</div>
-      <div class="card">作品2</div>
-    </section>
+h1 {
+  font-size: 2em;
+  text-shadow: 0 0 5px #0f0;
+}
 
-    <section id="contact" class="glass">
-      <h2>Contact</h2>
-      <form id="contactForm">
-        <input type="text" placeholder="お名前" required />
-        <input type="email" placeholder="メールアドレス" required />
-        <textarea placeholder="メッセージ"></textarea>
-        <button type="submit">送信</button>
-      </form>
-    </section>
-  </main>
+p {
+  color: #0f0;
+  text-shadow: 0 0 5px #0f0;
+}
 
-  <footer>
-    <p id="time"></p>
-    <p>&copy; 2025 あなたの名前</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+/* 背景の0と1 */
+.binary-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 0, 0.1),
+    rgba(0, 255, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 0;
+}
