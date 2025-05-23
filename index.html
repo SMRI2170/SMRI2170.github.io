@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>レコード回転プロフィール</title>
+<title>レトロレコードプロフィール</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
   body {
-    margin: 0; height: 100vh; background: #121212; color: white;
+    margin: 0; height: 100vh;
+    background: #2b1a0e; /* ダークブラウン */
+    color: #f0d9b5; /* ベージュ */
+    font-family: 'Press Start 2P', cursive, monospace;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
   }
   .record-container {
@@ -16,20 +20,22 @@
     width: 320px; height: 320px;
     perspective: 800px;
     margin-bottom: 40px;
+    box-shadow: 0 0 20px #b67b2b inset;
   }
   .record {
     width: 320px; height: 320px;
     border-radius: 50%;
     background:
-      radial-gradient(circle at center, #222 55%, transparent 56%),
-      repeating-conic-gradient(#111 0deg 2deg, #222 2deg 4deg),
-      radial-gradient(circle at center, #000 0 70%, #333 70% 100%);
-    box-shadow: 0 0 20px #00e5ff88 inset;
+      radial-gradient(circle at center, #4a2e0e 55%, transparent 56%),
+      repeating-conic-gradient(#3a2109 0deg 2deg, #4a2e0e 2deg 4deg),
+      radial-gradient(circle at center, #281806 0 70%, #5c3d18 70% 100%);
+    box-shadow: 0 0 40px #a9742d inset;
     transition: box-shadow 0.3s ease;
     transform-style: preserve-3d;
+    border: 6px solid #b67b2b;
   }
   .record:hover {
-    box-shadow: 0 0 40px #00e5ffcc inset;
+    box-shadow: 0 0 60px #f2c078 inset;
   }
   .label {
     position: absolute;
@@ -37,20 +43,30 @@
     width: 120px; height: 120px;
     margin: -60px 0 0 -60px;
     border-radius: 50%;
-    background: radial-gradient(circle at center, #00e5ff 20%, #003344 80%);
-    box-shadow: 0 0 30px #00e5ffbb;
+    background: radial-gradient(circle at center, #f0d9b5 20%, #8b5e1e 80%);
+    box-shadow: 0 0 30px #f0d9b588 inset;
     display: flex; justify-content: center; align-items: center;
-    font-weight: bold; font-size: 1.2rem; color: #eef;
+    font-weight: bold; font-size: 1rem; color: #5c3d18;
     user-select: none;
+    text-shadow: 1px 1px 0 #7a5619;
   }
   .content {
     width: 100%;
     max-width: 400px;
-    min-height: 150px;
+    min-height: 180px;
     text-align: center;
-    font-size: 1.1rem;
-    line-height: 1.4;
-    padding: 0 20px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 10px 20px;
+    background: #3a2a14;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #a9742d;
+    white-space: pre-line;
+  }
+  h2 {
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 </style>
 </head>
@@ -58,7 +74,7 @@
 
 <div class="record-container">
   <div class="record" id="record">
-    <div class="label">RYU Profile</div>
+    <div class="label">RYU PROFILE</div>
   </div>
 </div>
 
@@ -70,35 +86,29 @@
   const record = document.getElementById('record');
   const content = document.getElementById('content');
 
-  // セクション内容（角度範囲ごとに切り替え）
   const sections = [
-    { title: "プロフィール", text: "こんにちは、吉岡龍佑です。Webとアートを融合したサイトを作っています。" },
-    { title: "スキル", text: "JavaScript, CSS, HTML, Canvas, WebGL, 3Dアニメーションなど" },
-    { title: "プロジェクト", text: "インタラクティブなWebアート、IoT連携プロジェクトなどを開発中。" },
+    { title: "プロフィール", text: "こんにちは、吉岡龍佑です。Webとアートを融合したレトロなサイトを作っています。" },
+    { title: "スキル", text: "JavaScript, CSS, HTML, Canvas, WebGL, 3Dアニメーション" },
+    { title: "プロジェクト", text: "インタラクティブなWebアートやIoT連携プロジェクトを開発中。" },
     { title: "連絡先", text: "メール: example@example.com\nTwitter: @ryu_profile" }
   ];
 
   let rotation = 0;
 
   function updateContent(angle) {
-    // angle を 0-360 に正規化
     angle = ((angle % 360) + 360) % 360;
-
-    // 360度を4分割
     const part = Math.floor(angle / 90);
     const section = sections[part];
-
     content.innerHTML = `<h2>${section.title}</h2><p>${section.text.replace(/\n/g, '<br>')}</p>`;
   }
 
   window.addEventListener('wheel', (e) => {
     e.preventDefault();
-    rotation += e.deltaY * 0.5; // 回転速度調整
+    rotation += e.deltaY * 0.5;
     record.style.transform = `rotate(${rotation}deg)`;
     updateContent(rotation);
   }, { passive: false });
 
-  // 最初の表示を設定
   updateContent(rotation);
 </script>
 
