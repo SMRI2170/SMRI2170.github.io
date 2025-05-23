@@ -2,37 +2,63 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>プロフィール - SMRI2170</title>
+  <title>SMRI2170のプロフィール</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: "Yu Gothic", sans-serif;
-      background-color: #f0f8f5;
+      padding: 0;
+      font-family: 'Noto Serif JP', serif;
+      background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
+      background-size: cover;
       color: #3e3e3e;
     }
 
-    header {
-      background-color: #88c0a9;
-      color: white;
-      padding: 30px 0;
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8);
+      min-height: 100vh;
+      padding: 60px 20px;
       text-align: center;
     }
 
     .container {
       max-width: 800px;
-      margin: 40px auto;
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      background-color: #ffffffd8;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
-    h1, h2 {
+    h1 {
       color: #2e6f57;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #44664b;
+      border-bottom: 2px solid #cfe8dc;
+      padding-bottom: 4px;
+      margin-top: 30px;
+    }
+
+    p, li {
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li::before {
+      content: "🌿 ";
     }
 
     a {
-      color: #558b6e;
+      color: #4e7a5d;
       text-decoration: none;
     }
 
@@ -41,39 +67,39 @@
     }
 
     footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #c9e4ca;
       margin-top: 40px;
+      font-size: 14px;
+      color: #777;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>こんにちは、SMRI2170です🌿</h1>
-    <p>自然とテクノロジーが好きなエンジニア</p>
-  </header>
+  <div class="overlay">
+    <div class="container">
+      <h1>こんにちは、SMRI2170です</h1>
+      <p>自然とテクノロジーの調和を目指す、立命館大学の情報系学生です🌳</p>
 
-  <div class="container">
-    <h2>自己紹介</h2>
-    <p>立命館大学 情報理工学部に所属しています。IoTやAI、環境センサー、ゼロ知識証明を活用したプライバシー保護型システムに興味があります。</p>
+      <h2>自己紹介</h2>
+      <p>IoT・AI・ゼロ知識証明など、先端技術を活用しながらも、<br>
+         環境や人に優しい社会づくりに関心を持っています。</p>
 
-    <h2>趣味・関心</h2>
-    <ul>
-      <li>🍃 自然と調和したテクノロジーの活用</li>
-      <li>🐟 サステナブルな水産養殖とCO₂計測</li>
-      <li>🧠 AIを使った感情・属性分析</li>
-    </ul>
+      <h2>興味のあること</h2>
+      <ul>
+        <li>サステナブルな水産養殖と環境センシング</li>
+        <li>AIを使った人間理解（年齢・性別・感情）</li>
+        <li>ブロックチェーンとプライバシー技術</li>
+      </ul>
 
-    <h2>リンク</h2>
-    <p>
-      ▶︎ <a href="https://github.com/SMRI2170" target="_blank">GitHub</a><br>
-      ▶︎ <a href="https://zenn.dev/" target="_blank">Zennでの記事執筆予定</a>
-    </p>
+      <h2>リンク</h2>
+      <p>
+        🔗 <a href="https://github.com/SMRI2170" target="_blank">GitHub</a><br>
+        📝 <a href="https://zenn.dev/" target="_blank">Zenn執筆予定</a>
+      </p>
+
+      <footer>
+        © 2025 SMRI2170 - Powered by Nature and Code 🌱
+      </footer>
+    </div>
   </div>
-
-  <footer>
-    © 2025 SMRI2170 - 自然とともに生きるエンジニアリング
-  </footer>
 </body>
 </html>
