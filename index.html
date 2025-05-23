@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>白黒グレー 動きのあるサイト</title>
+<title>和風グレーサイト with ナビゲーション</title>
+<!-- 和風フォント Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+
 <style>
   /* リセット */
   * {
@@ -11,32 +14,88 @@
   }
 
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: #fff;
+    font-family: 'Noto Serif JP', serif;
+    background: #f9f8f6; /* 和紙っぽい薄いグレー */
     color: #333;
-    line-height: 1.6;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
-  header {
-    padding: 40px 20px;
-    background: #eee; /* 薄グレー */
+  /* ナビゲーション */
+  nav {
+    background-color: #222; /* 黒ベース */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  nav ul {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    list-style: none;
+  }
+
+  nav li {
+    flex: 1;
+  }
+
+  nav a {
+    display: block;
     text-align: center;
-    font-weight: bold;
-    font-size: 2rem;
-    color: #222;
+    padding: 18px 0;
+    text-decoration: none;
+    color: #eee;
+    font-weight: 600;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  section {
-    max-width: 800px;
-    margin: 80px auto;
+  /* ホバー時：淡いグレー背景＋ゆるアンダーライン */
+  nav a:hover {
+    background-color: #444;
+  }
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 8px;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    border-radius: 2px;
+  }
+  nav a:hover::after {
+    background-color: #ddd;
+  }
+
+  /* 現在地の強調 */
+  nav a.active {
+    background-color: #ccc; /* 和風で柔らかいグレー */
+    color: #111;
+    font-weight: 700;
+  }
+
+  /* ヘッダー代わりにナビ上に余白 */
+  header {
+    display: none; /* 今回はnavで代用 */
+  }
+
+  /* メインセクション */
+  main {
+    flex: 1;
+    max-width: 900px;
+    margin: 60px auto 80px;
     padding: 0 20px;
   }
 
+  /* 動きある要素 */
   .fade-slide {
     opacity: 0;
     transform: translateX(50px);
     transition: all 0.8s ease-out;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
   }
 
   .fade-slide.active {
@@ -46,78 +105,103 @@
 
   h2 {
     font-weight: 700;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #111;
+    font-size: 2rem;
+    margin-bottom: 16px;
+    color: #222;
+    border-bottom: 2px solid #bbb;
+    padding-bottom: 6px;
+    letter-spacing: 0.05em;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: #555;
     margin-bottom: 30px;
+    font-weight: 400;
+    line-height: 1.8;
   }
 
+  /* 和風ぽいボタン */
   .btn {
     display: inline-block;
     padding: 14px 36px;
     font-size: 1.1rem;
-    font-weight: 600;
-    color: #fff;
-    background: #222; /* 黒 */
-    border: none;
-    border-radius: 6px;
+    font-weight: 700;
+    color: #222;
+    background: #ddd;
+    border: 2px solid #aaa;
+    border-radius: 12px;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
     user-select: none;
     text-decoration: none;
+    font-family: 'Noto Serif JP', serif;
   }
 
   .btn:hover {
-    background-color: #444;
+    background-color: #bbb;
+    border-color: #888;
     transform: scale(1.1);
   }
 
+  /* フッター */
   footer {
     text-align: center;
     padding: 30px 20px;
-    color: #777;
-    background: #eee;
-    margin-top: 80px;
+    color: #666;
+    background: #f0efeb;
+    font-size: 0.9rem;
+    border-top: 1px solid #ccc;
+  }
+
+  /* スマホ対応 */
+  @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+    }
+    nav li {
+      flex: none;
+    }
   }
 </style>
 </head>
 <body>
 
-<header>
-  白・黒・グレーの動きあるサイト
-</header>
+<nav>
+  <ul>
+    <li><a href="#" class="active">ホーム</a></li>
+    <li><a href="#">特徴</a></li>
+    <li><a href="#">料金</a></li>
+    <li><a href="#">お問い合わせ</a></li>
+  </ul>
+</nav>
 
-<section>
+<main>
   <div class="fade-slide">
-    <h2>シンプルでモダンなデザイン</h2>
-    <p>白黒グレーの落ち着いた配色で、読みやすく洗練された印象に仕上げています。</p>
-    <a href="#" class="btn">詳しく見る</a>
+    <h2>和紙のような背景と落ち着いた配色</h2>
+    <p>薄い和紙の質感を感じる背景に、黒・グレー・白の調和で和の雰囲気を表現しています。</p>
+    <a href="#" class="btn">詳細を見る</a>
   </div>
 
   <div class="fade-slide">
-    <h2>スクロールに合わせてフェード＆スライド</h2>
-    <p>スクロール時に右からふわっと表示される動きで、ユーザーの目を引きます。</p>
+    <h2>スクロールに連動したふわっとアニメーション</h2>
+    <p>コンテンツが右からゆっくり現れ、動きがありながらも優しい印象を与えます。</p>
     <a href="#" class="btn">もっと知る</a>
   </div>
 
   <div class="fade-slide">
-    <h2>ホバーで動きのあるボタン</h2>
-    <p>マウスを乗せるとボタンが少し拡大し、クリックしたくなる仕掛けです。</p>
-    <a href="#" class="btn">問い合わせ</a>
+    <h2>わかりやすいナビゲーションと現在地表示</h2>
+    <p>ナビゲーションは黒ベースに白文字。現在のページは柔らかいグレー背景と太字で目立たせています。</p>
+    <a href="#" class="btn">お問い合わせ</a>
   </div>
-</section>
+</main>
 
 <footer>
-  © 2025 Sample Site
+  © 2025 和風サイトサンプル
 </footer>
 
 <script>
-  // スクロールでfade-slideクラスを持つ要素にactiveを付ける
+  // スクロールでfade-slideクラスの要素にactive付ける
   function fadeInOnScroll() {
     const elements = document.querySelectorAll('.fade-slide');
     const windowBottom = window.innerHeight + window.scrollY;
