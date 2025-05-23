@@ -1,50 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ピクセルRPG風メニュー</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background-color: black;
-      font-family: 'Press Start 2P', cursive;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .menu {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      border: 4px solid #00ffff;
-      box-shadow: 0 0 20px #00ffff;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .btn {
-      background: #111;
-      color: #00ffcc;
-      padding: 15px;
-      font-size: 14px;
-      border: 2px solid #00ffff;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-    }
-
-    .btn:hover {
-      background: #00ffff;
-      color: black;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="menu">
@@ -54,20 +15,9 @@
   </div>
 
   <!-- BGM & SE -->
-  <audio id="bgm" src="https://example.com/bgm.mp3" loop autoplay></audio>
-  <audio id="se" src="https://example.com/se.mp3"></audio>
+  <audio id="bgm" src="bgm.mp3" loop autoplay></audio>
+  <audio id="se" src="se.mp3"></audio>
 
-  <script>
-    window.onload = function () {
-      const bgm = document.getElementById("bgm");
-      bgm.volume = 0.2; // BGM音量調整
-    };
-
-    function playSE() {
-      const se = document.getElementById("se");
-      se.currentTime = 0;
-      se.play();
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
