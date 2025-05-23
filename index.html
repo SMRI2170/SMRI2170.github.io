@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>あなたのサイトタイトル</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ネオ・グラス風プロフィール</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>サイトのロゴやタイトル</h1>
-    <nav>
-      <ul>
-        <li><a href="#about">自己紹介</a></li>
-        <li><a href="#works">作品</a></li>
-        <li><a href="#contact">連絡先</a></li>
-      </ul>
-    </nav>
+  <header class="glass">
+    <div class="container">
+      <h1>私のポートフォリオ</h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#works">Works</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section id="about">
-      <h2>自己紹介</h2>
-      <p>あなたの紹介文をここに書きます。</p>
+  <main class="container">
+    <section id="about" class="neumorph">
+      <h2>About Me</h2>
+      <p>こんにちは！私はWebデザイナー兼エンジニアです。</p>
     </section>
 
-    <section id="works">
-      <h2>制作物</h2>
-      <div class="work-card">作品1の紹介</div>
-      <div class="work-card">作品2の紹介</div>
+    <section id="works" class="neumorph">
+      <h2>My Works</h2>
+      <div class="card">作品1</div>
+      <div class="card">作品2</div>
     </section>
 
-    <section id="contact">
-      <h2>お問い合わせ</h2>
-      <form>
-        <input type="text" placeholder="お名前" required>
-        <input type="email" placeholder="メールアドレス" required>
+    <section id="contact" class="glass">
+      <h2>Contact</h2>
+      <form id="contactForm">
+        <input type="text" placeholder="お名前" required />
+        <input type="email" placeholder="メールアドレス" required />
         <textarea placeholder="メッセージ"></textarea>
         <button type="submit">送信</button>
       </form>
@@ -42,7 +44,10 @@
   </main>
 
   <footer>
+    <p id="time"></p>
     <p>&copy; 2025 あなたの名前</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
