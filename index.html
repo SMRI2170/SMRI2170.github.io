@@ -4,117 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ネオンプロフィール</title>
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <style>
     * { box-sizing: border-box; }
     html, body {
       margin: 0;
-      background-color: #000;
+      padding: 0;
+      background: black;
       font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      scroll-behavior: smooth;
+      color: white;
       overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
 
     #loader {
       position: fixed;
       width: 100%;
       height: 100%;
-      background: #000;
+      background: black;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity 0.8s ease;
-    }
-    #loader.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    #loader h1 {
-      color: #0ff;
-      text-shadow: 0 0 20px #0ff;
-      animation: pulse 1.5s infinite;
-      font-size: 3rem;
-      user-select: none;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
     }
 
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background-color: #000;
+      background-color: rgba(0, 0, 0, 0.9);
       padding: 10px 0;
-      z-index: 1000;
       text-align: center;
+      z-index: 1000;
       box-shadow: 0 0 10px #0ff;
     }
+
     nav a {
+      margin: 0 15px;
       color: #0ff;
       text-decoration: none;
-      margin: 0 15px;
-      font-size: 1.1rem;
-      transition: color 0.3s ease;
+      font-size: 1.2rem;
     }
+
+    nav a:hover {
+      color: #ff0;
+    }
+
     nav a.active {
       color: #ff0;
       text-shadow: 0 0 10px #ff0;
-    }
-    nav a:hover {
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
     }
 
     header {
       text-align: center;
       padding: 120px 20px 50px;
+      font-size: 2.5rem;
       color: #0ff;
       text-shadow: 0 0 10px #0ff;
-      font-size: 2.5rem;
+    }
+
+    .sns {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .sns a {
+      margin: 0 10px;
+      font-size: 2rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
     }
 
     section {
       padding: 60px 20px;
       max-width: 800px;
       margin: auto;
+      transition: all 1s ease;
       opacity: 0;
       transform: translateY(50px);
-      transition: opacity 1s ease, transform 1s ease;
     }
+
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
-    h2 {
-      color: #f0f;
-      text-shadow: 0 0 10px #f0f;
-      border-bottom: 2px solid #f0f;
-      font-size: 1.6rem;
-      padding-bottom: 10px;
-      user-select: none;
-    }
-
-    ul { list-style: none; padding: 0; }
-    ul li::before {
-      content: '★ ';
-      color: #ff0;
-    }
-
-    .sns a {
-      display: inline-block;
-      margin: 10px;
-      color: #0ff;
-      text-decoration: none;
-      font-size: 1.5rem;
-      text-shadow: 0 0 5px #0ff;
-      transition: color 0.3s ease;
-    }
-    .sns a:hover { color: #ff0; }
 
     .card {
       background: #111;
@@ -122,185 +107,133 @@
       margin-bottom: 10px;
       border-left: 3px solid #0ff;
       box-shadow: 0 0 10px #0ff3;
-      transition: box-shadow 0.3s ease;
     }
-    .card:hover { box-shadow: 0 0 20px #0ff; }
 
-    #education {
-      background: linear-gradient(145deg, #000013, #0a0015);
-      border: 1px solid #0ff;
-      border-radius: 12px;
-      padding: 50px 30px;
-      margin: 40px auto;
-      box-shadow: 0 0 20px #0ff3;
-    }
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-    .timeline-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 15px;
-      padding-left: 10px;
-      border-left: 3px solid #f0f;
-    }
-    .timeline-icon {
-      font-size: 1.8rem;
-      color: #ff0;
-      text-shadow: 0 0 5px #ff0;
-    }
-    .timeline-content {
-      background: #111;
-      padding: 10px 15px;
-      border-radius: 6px;
-      border-left: 4px solid #0ff;
-      box-shadow: 0 0 10px #0ff3;
-    }
-    .timeline-year {
-      font-weight: bold;
-      color: #0ff;
-      margin-bottom: 5px;
-      display: block;
+    h2 {
+      color: #f0f;
+      border-bottom: 2px solid #f0f;
+      padding-bottom: 10px;
     }
   </style>
 </head>
-<body style="overflow: hidden;">
-  <div id="loader">
-    <h1>Loading...</h1>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div id="loader"><h1 style="color:#0ff;">Loading...</h1></div>
+
+<nav>
+  <a href="#about">自己紹介</a>
+  <a href="#skills">スキル</a>
+  <a href="#github">GitHub</a>
+  <a href="#qiita">Qiita</a>
+</nav>
+
+<header>
+  <h1>RYOSUKE YOSHIOKA</h1>
+  <p>🟣 テクノロジーとアイデアで未来を創る</p>
+  <div class="sns">
+    <a href="https://github.com/SMRI2170" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://qiita.com/ryosuke0712" target="_blank"><i class="fab fa-quora"></i></a>
   </div>
+</header>
 
-  <nav>
-    <a href="#about">自己紹介</a>
-    <a href="#skills">スキル</a>
-    <a href="#education">学歴</a>
-    <a href="#github">GitHub</a>
-    <a href="#qiita">Qiita</a>
-  </nav>
+<section id="about"><h2>🧑 自己紹介</h2><p>立命館大学 情報理工学部...</p></section>
+<section id="skills"><h2>🛠️ スキル</h2><ul><li>Python</li><li>React</li></ul></section>
+<section id="github"><h2>💻 GitHub</h2><div id="github-repos">Loading...</div></section>
+<section id="qiita"><h2>📚 Qiita</h2><div id="qiita-articles">Loading...</div></section>
 
-  <header>
-    <h1>RYOSUKE YOSHIOKA</h1>
-    <p>🟣 テクノロジーとアイデアで未来を創る</p>
-  </header>
+<script>
+  // ローディング解除
+  window.addEventListener('load', () => {
+    document.getElementById('loader').style.display = 'none';
+    window.dispatchEvent(new Event('scroll'));
+  });
 
-  <section id="about">
-    <h2>🧑 自己紹介</h2>
-    <p>立命館大学 情報理工学部所属。IoT・ZKP・ブロックチェーンを活用した持続可能なシステムを研究中。</p>
-  </section>
+  // フェードイン
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(section => observer.observe(section));
 
-  <section id="skills">
-    <h2>🛠️ スキル</h2>
-    <ul>
-      <li>Python / TensorFlow / OpenCV</li>
-      <li>React / HTML / CSS</li>
-      <li>IoT / Raspberry Pi</li>
-      <li>ブロックチェーン / ZKP</li>
-    </ul>
-  </section>
+  // ナビリンクのハイライト
+  const navLinks = document.querySelectorAll('nav a');
+  function updateNavHighlight() {
+    const fromTop = window.scrollY + 80;
+    navLinks.forEach(link => {
+      const section = document.querySelector(link.getAttribute("href"));
+      if (section && section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+  }
+  window.addEventListener('scroll', updateNavHighlight);
+  window.addEventListener('load', updateNavHighlight);
 
-  <section id="education">
-    <h2>🎓 学歴</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-icon">📘</div>
-        <div class="timeline-content">
-          <span class="timeline-year">2017</span>
-          <p>〇〇高等学校 入学</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-icon">💻</div>
-        <div class="timeline-content">
-          <span class="timeline-year">2020</span>
-          <p>立命館大学 情報理工学部 入学</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-icon">📚</div>
-        <div class="timeline-content">
-          <span class="timeline-year">2024</span>
-          <p>同大学 大学院進学予定</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="github">
-    <h2>💻 GitHub</h2>
-    <div id="github-repos">Loading...</div>
-  </section>
-
-  <section id="qiita">
-    <h2>📚 Qiita</h2>
-    <div id="qiita-articles">Loading...</div>
-  </section>
-
-  <script>
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('loader');
-      loader.classList.add('hidden');
-      document.body.style.overflow = '';
-      setTimeout(() => { loader.style.display = 'none'; }, 800);
-      window.dispatchEvent(new Event('scroll'));
+  // GitHub API
+  fetch('https://api.github.com/users/SMRI2170/repos')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('github-repos');
+      container.innerHTML = '';
+      data.slice(0, 5).forEach(repo => {
+        container.innerHTML += `<div class="card"><strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong><br/>${repo.description || "No description"}</div>`;
+      });
     });
 
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+  // Qiita API
+  fetch('https://qiita.com/api/v2/users/ryosuke0712/items?page=1&per_page=5')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('qiita-articles');
+      container.innerHTML = '';
+      data.forEach(item => {
+        container.innerHTML += `<div class="card"><strong><a href="${item.url}" target="_blank">${item.title}</a></strong><br/>いいね: ${item.likes_count}</div>`;
       });
-    }, { threshold: 0.3 });
-    sections.forEach(section => observer.observe(section));
+    });
 
-    const navLinks = document.querySelectorAll('nav a');
-    function updateNavHighlight() {
-      let fromTop = window.scrollY + 80;
-      navLinks.forEach(link => {
-        const section = document.querySelector(link.getAttribute("href"));
-        if (section && section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
-    }
-    window.addEventListener('scroll', updateNavHighlight);
-    window.addEventListener('load', updateNavHighlight);
+  // Canvas 背景（流れる星）
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
 
-    fetch('https://api.github.com/users/SMRI2170/repos')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('github-repos');
-        container.innerHTML = '';
-        data.slice(0, 5).forEach(repo => {
-          container.innerHTML += `<div class="card">
-            <strong><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></strong><br/>
-            <span>${repo.description || "No description"}</span>
-          </div>`;
-        });
-      })
-      .catch(() => {
-        document.getElementById('github-repos').textContent = "データの取得に失敗しました。";
-      });
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = Array.from({length: 100}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5,
+      speed: Math.random() * 0.5 + 0.2
+    }));
+  }
 
-    fetch('https://qiita.com/api/v2/users/ryosuke0712/items?page=1&per_page=5')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('qiita-articles');
-        container.innerHTML = '';
-        data.forEach(item => {
-          container.innerHTML += `<div class="card">
-            <strong><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></strong><br/>
-            <span>いいね数: ${item.likes_count}</span>
-          </div>`;
-        });
-      })
-      .catch(() => {
-        document.getElementById('qiita-articles').textContent = "データの取得に失敗しました。";
-      });
-  </script>
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0ff';
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+      ctx.fill();
+      star.y += star.speed;
+      if (star.y > canvas.height) {
+        star.y = 0;
+        star.x = Math.random() * canvas.width;
+      }
+    });
+    requestAnimationFrame(animateStars);
+  }
+
+  animateStars();
+</script>
+
 </body>
 </html>
