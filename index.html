@@ -1,88 +1,123 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>二分木プロフィール</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ネオンプロフィール</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: #f0f0f0;
-      overflow-x: hidden;
+      background-color: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      scroll-behavior: smooth;
     }
 
-    .tree-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px;
-    }
-
-    .node {
-      background: #233D2A;
-      color: #FFAF47;
-      padding: 10px 20px;
-      border-radius: 20px;
+    header {
       text-align: center;
-      margin: 20px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 100px 20px 50px;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      font-size: 2.5rem;
     }
 
-    .node:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
     }
 
-    .level {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .line {
-      width: 2px;
-      height: 40px;
-      background: #233D2A;
-      margin: 0 auto;
+    h2 {
+      color: #f0f;
+      text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
+      font-size: 1.8rem;
+      border-bottom: 2px solid #f0f;
+      padding-bottom: 10px;
     }
 
-    @media screen and (max-width: 768px) {
-      .level {
-        flex-direction: column;
-        align-items: center;
-      }
+    p, ul {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li::before {
+      content: '★';
+      color: #ff0;
+      margin-right: 8px;
+    }
+
+    .sns a {
+      display: inline-block;
+      margin: 10px;
+      color: #0ff;
+      text-decoration: none;
+      font-size: 1.5rem;
+      text-shadow: 0 0 5px #0ff;
+    }
+
+    .sns a:hover {
+      color: #ff0;
+      text-shadow: 0 0 10px #ff0;
     }
   </style>
 </head>
 <body>
-  <div class="tree-container">
-    <!-- 名前 -->
-    <div class="node" style="font-size: 24px;">吉岡 龍佑</div>
-    <div class="line"></div>
+  <header>
+    <h1>RYOSUKE YOSHIOKA</h1>
+    <p>🟣 創造的なテクノロジー愛好家</p>
+  </header>
 
-    <!-- デジタル / アナログ -->
-    <div class="level">
-      <div>
-        <div class="node">デジタル</div>
-        <div class="line"></div>
-        <div class="level">
-          <div class="node" onclick="alert('Python, React, YOLOなど')">スキル</div>
-          <div class="node" onclick="alert('IoT, ブロックチェーン, 画像認識')">興味分野</div>
-        </div>
-      </div>
+  <section id="about">
+    <h2>🧑 自己紹介</h2>
+    <p>立命館大学の情報理工学部でセキュリティとネットワークを学んでいます。IoT、ZKP、AIを活用した未来の仕組みに興味があります。</p>
+  </section>
 
-      <div>
-        <div class="node">アナログ</div>
-        <div class="line"></div>
-        <div class="level">
-          <div class="node" onclick="alert('立命館大学 情報理工学部')">学歴</div>
-          <div class="node" onclick="alert('散歩, 写真, アナログレコード')">趣味</div>
-        </div>
-      </div>
+  <section id="skills">
+    <h2>🛠️ スキル</h2>
+    <ul>
+      <li>Python（機械学習・データ処理）</li>
+      <li>JavaScript / React（Web開発）</li>
+      <li>IoT（センサーデバイス制御、Raspberry Pi）</li>
+      <li>ブロックチェーン・ZKP基礎</li>
+    </ul>
+  </section>
+
+  <section id="sns">
+    <h2>🔗 SNS</h2>
+    <div class="sns">
+      <a href="https://github.com/yourname" target="_blank">GitHub</a>
+      <a href="https://x.com/yourname" target="_blank">X (旧Twitter)</a>
+      <a href="https://linkedin.com/in/yourname" target="_blank">LinkedIn</a>
     </div>
-  </div>
+  </section>
+
+  <script>
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  </script>
 </body>
 </html>
