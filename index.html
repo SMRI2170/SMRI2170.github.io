@@ -146,15 +146,15 @@
 
   <section id="about">
     <h2>🧑 自己紹介</h2>
-    <p>立命館大学の情報理工学部所属。IoT・ZKP・ブロックチェーンなど先端技術を応用した持続可能な社会づくりに関心があります。</p>
+    <p>立命館大学 情報理工学部所属。IoT・ZKP・ブロックチェーンを活用した持続可能なシステムを研究中。</p>
   </section>
 
   <section id="skills">
     <h2>🛠️ スキル</h2>
     <ul>
-      <li>Python・TensorFlow・OpenCV</li>
+      <li>Python / TensorFlow / OpenCV</li>
       <li>React / HTML / CSS</li>
-      <li>IoT & Raspberry Pi</li>
+      <li>IoT / Raspberry Pi</li>
       <li>ブロックチェーン / ZKP</li>
     </ul>
   </section>
@@ -175,7 +175,7 @@
       document.getElementById('loader').style.display = 'none';
     });
 
-    // スクロール表示
+    // フェードイン表示
     const sections = document.querySelectorAll('section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -186,7 +186,7 @@
     }, { threshold: 0.3 });
     sections.forEach(section => observer.observe(section));
 
-    // ナビの現在地ハイライト
+    // ナビゲーションハイライト
     const navLinks = document.querySelectorAll('nav a');
     window.addEventListener('scroll', () => {
       let fromTop = window.scrollY + 80;
@@ -201,7 +201,7 @@
     });
 
     // GitHub連携
-    fetch('https://api.github.com/users/YOUR_GITHUB_USERNAME/repos')
+    fetch('https://api.github.com/users/SMRI2170/repos')
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('github-repos');
@@ -215,7 +215,7 @@
       });
 
     // Qiita連携
-    fetch('https://qiita.com/api/v2/users/YOUR_QIITA_ID/items?page=1&per_page=5')
+    fetch('https://qiita.com/api/v2/users/ryosuke0712/items?page=1&per_page=5')
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('qiita-articles');
