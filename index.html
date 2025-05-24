@@ -6,7 +6,8 @@
   <title>ネオンプロフィール</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
-    body {
+    * { box-sizing: border-box; }
+    html, body {
       margin: 0;
       background-color: #000;
       font-family: 'Orbitron', sans-serif;
@@ -14,11 +15,58 @@
       scroll-behavior: smooth;
     }
 
+    /* ローディング */
+    #loader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #loader h1 {
+      color: #0ff;
+      text-shadow: 0 0 20px #0ff;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ナビゲーション */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #000;
+      padding: 10px 0;
+      z-index: 1000;
+      text-align: center;
+      box-shadow: 0 0 10px #0ff;
+    }
+
+    nav a {
+      color: #0ff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.1rem;
+    }
+
+    nav a.active {
+      color: #ff0;
+      text-shadow: 0 0 10px #ff0;
+    }
+
     header {
       text-align: center;
-      padding: 100px 20px 50px;
+      padding: 120px 20px 50px;
       color: #0ff;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      text-shadow: 0 0 10px #0ff;
       font-size: 2.5rem;
     }
 
@@ -38,15 +86,10 @@
 
     h2 {
       color: #f0f;
-      text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
-      font-size: 1.8rem;
+      text-shadow: 0 0 10px #f0f;
       border-bottom: 2px solid #f0f;
+      font-size: 1.6rem;
       padding-bottom: 10px;
-    }
-
-    p, ul {
-      font-size: 1.2rem;
-      line-height: 1.6;
     }
 
     ul {
@@ -55,9 +98,8 @@
     }
 
     ul li::before {
-      content: '★';
+      content: '★ ';
       color: #ff0;
-      margin-right: 8px;
     }
 
     .sns a {
@@ -71,41 +113,69 @@
 
     .sns a:hover {
       color: #ff0;
-      text-shadow: 0 0 10px #ff0;
+    }
+
+    .card {
+      background: #111;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 3px solid #0ff;
+      box-shadow: 0 0 10px #0ff3;
     }
   </style>
 </head>
 <body>
+
+  <!-- ローディング -->
+  <div id="loader">
+    <h1>Loading...</h1>
+  </div>
+
+  <!-- ナビゲーション -->
+  <nav>
+    <a href="#about">自己紹介</a>
+    <a href="#skills">スキル</a>
+    <a href="#github">GitHub</a>
+    <a href="#qiita">Qiita</a>
+  </nav>
+
   <header>
     <h1>RYOSUKE YOSHIOKA</h1>
-    <p>🟣 創造的なテクノロジー愛好家</p>
+    <p>🟣 テクノロジーとアイデアで未来を創る</p>
   </header>
 
   <section id="about">
     <h2>🧑 自己紹介</h2>
-    <p>立命館大学の情報理工学部でセキュリティとネットワークを学んでいます。IoT、ZKP、AIを活用した未来の仕組みに興味があります。</p>
+    <p>立命館大学の情報理工学部所属。IoT・ZKP・ブロックチェーンなど先端技術を応用した持続可能な社会づくりに関心があります。</p>
   </section>
 
   <section id="skills">
     <h2>🛠️ スキル</h2>
     <ul>
-      <li>Python（機械学習・データ処理）</li>
-      <li>JavaScript / React（Web開発）</li>
-      <li>IoT（センサーデバイス制御、Raspberry Pi）</li>
-      <li>ブロックチェーン・ZKP基礎</li>
+      <li>Python・TensorFlow・OpenCV</li>
+      <li>React / HTML / CSS</li>
+      <li>IoT & Raspberry Pi</li>
+      <li>ブロックチェーン / ZKP</li>
     </ul>
   </section>
 
-  <section id="sns">
-    <h2>🔗 SNS</h2>
-    <div class="sns">
-      <a href="https://github.com/yourname" target="_blank">GitHub</a>
-      <a href="https://x.com/yourname" target="_blank">X (旧Twitter)</a>
-      <a href="https://linkedin.com/in/yourname" target="_blank">LinkedIn</a>
-    </div>
+  <section id="github">
+    <h2>💻 GitHub</h2>
+    <div id="github-repos">Loading...</div>
+  </section>
+
+  <section id="qiita">
+    <h2>📚 Qiita</h2>
+    <div id="qiita-articles">Loading...</div>
   </section>
 
   <script>
+    // ローディング非表示
+    window.addEventListener('load', () => {
+      document.getElementById('loader').style.display = 'none';
+    });
+
+    // スクロール表示
     const sections = document.querySelectorAll('section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -114,10 +184,49 @@
         }
       });
     }, { threshold: 0.3 });
+    sections.forEach(section => observer.observe(section));
 
-    sections.forEach(section => {
-      observer.observe(section);
+    // ナビの現在地ハイライト
+    const navLinks = document.querySelectorAll('nav a');
+    window.addEventListener('scroll', () => {
+      let fromTop = window.scrollY + 80;
+      navLinks.forEach(link => {
+        const section = document.querySelector(link.getAttribute("href"));
+        if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
     });
+
+    // GitHub連携
+    fetch('https://api.github.com/users/YOUR_GITHUB_USERNAME/repos')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('github-repos');
+        container.innerHTML = '';
+        data.slice(0, 5).forEach(repo => {
+          container.innerHTML += `<div class="card">
+            <strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong><br/>
+            <span>${repo.description || "No description"}</span>
+          </div>`;
+        });
+      });
+
+    // Qiita連携
+    fetch('https://qiita.com/api/v2/users/YOUR_QIITA_ID/items?page=1&per_page=5')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('qiita-articles');
+        container.innerHTML = '';
+        data.forEach(item => {
+          container.innerHTML += `<div class="card">
+            <strong><a href="${item.url}" target="_blank">${item.title}</a></strong><br/>
+            <span>いいね数: ${item.likes_count}</span>
+          </div>`;
+        });
+      });
   </script>
 </body>
 </html>
