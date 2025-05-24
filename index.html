@@ -16,7 +16,6 @@
       overflow-x: hidden;
     }
 
-    /* ローディング */
     #loader {
       position: fixed;
       width: 100%;
@@ -28,12 +27,10 @@
       z-index: 9999;
       transition: opacity 0.8s ease;
     }
-
     #loader.hidden {
       opacity: 0;
       pointer-events: none;
     }
-
     #loader h1 {
       color: #0ff;
       text-shadow: 0 0 20px #0ff;
@@ -41,13 +38,11 @@
       font-size: 3rem;
       user-select: none;
     }
-
     @keyframes pulse {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 1; }
     }
 
-    /* ナビゲーション */
     nav {
       position: fixed;
       top: 0;
@@ -58,7 +53,6 @@
       text-align: center;
       box-shadow: 0 0 10px #0ff;
     }
-
     nav a {
       color: #0ff;
       text-decoration: none;
@@ -66,12 +60,10 @@
       font-size: 1.1rem;
       transition: color 0.3s ease;
     }
-
     nav a.active {
       color: #ff0;
       text-shadow: 0 0 10px #ff0;
     }
-
     nav a:hover {
       color: #0ff;
       text-shadow: 0 0 10px #0ff;
@@ -93,7 +85,6 @@
       transform: translateY(50px);
       transition: opacity 1s ease, transform 1s ease;
     }
-
     section.visible {
       opacity: 1;
       transform: translateY(0);
@@ -108,11 +99,7 @@
       user-select: none;
     }
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
+    ul { list-style: none; padding: 0; }
     ul li::before {
       content: '★ ';
       color: #ff0;
@@ -127,10 +114,7 @@
       text-shadow: 0 0 5px #0ff;
       transition: color 0.3s ease;
     }
-
-    .sns a:hover {
-      color: #ff0;
-    }
+    .sns a:hover { color: #ff0; }
 
     .card {
       background: #111;
@@ -140,23 +124,57 @@
       box-shadow: 0 0 10px #0ff3;
       transition: box-shadow 0.3s ease;
     }
+    .card:hover { box-shadow: 0 0 20px #0ff; }
 
-    .card:hover {
-      box-shadow: 0 0 20px #0ff;
+    #education {
+      background: linear-gradient(145deg, #000013, #0a0015);
+      border: 1px solid #0ff;
+      border-radius: 12px;
+      padding: 50px 30px;
+      margin: 40px auto;
+      box-shadow: 0 0 20px #0ff3;
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      padding-left: 10px;
+      border-left: 3px solid #f0f;
+    }
+    .timeline-icon {
+      font-size: 1.8rem;
+      color: #ff0;
+      text-shadow: 0 0 5px #ff0;
+    }
+    .timeline-content {
+      background: #111;
+      padding: 10px 15px;
+      border-radius: 6px;
+      border-left: 4px solid #0ff;
+      box-shadow: 0 0 10px #0ff3;
+    }
+    .timeline-year {
+      font-weight: bold;
+      color: #0ff;
+      margin-bottom: 5px;
+      display: block;
     }
   </style>
 </head>
-<body style="overflow: hidden;"> <!-- 初期スクロール禁止 -->
-
-  <!-- ローディング -->
+<body style="overflow: hidden;">
   <div id="loader">
     <h1>Loading...</h1>
   </div>
 
-  <!-- ナビゲーション -->
   <nav>
     <a href="#about">自己紹介</a>
     <a href="#skills">スキル</a>
+    <a href="#education">学歴</a>
     <a href="#github">GitHub</a>
     <a href="#qiita">Qiita</a>
   </nav>
@@ -181,6 +199,33 @@
     </ul>
   </section>
 
+  <section id="education">
+    <h2>🎓 学歴</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-icon">📘</div>
+        <div class="timeline-content">
+          <span class="timeline-year">2017</span>
+          <p>〇〇高等学校 入学</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon">💻</div>
+        <div class="timeline-content">
+          <span class="timeline-year">2020</span>
+          <p>立命館大学 情報理工学部 入学</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon">📚</div>
+        <div class="timeline-content">
+          <span class="timeline-year">2024</span>
+          <p>同大学 大学院進学予定</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="github">
     <h2>💻 GitHub</h2>
     <div id="github-repos">Loading...</div>
@@ -192,22 +237,14 @@
   </section>
 
   <script>
-    // ローディングのフェードアウト処理
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
-      // フェードアウト開始
       loader.classList.add('hidden');
-      // ページスクロールを許可
       document.body.style.overflow = '';
-      // 完全に非表示にする
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 800);
-      // 初回スクロールイベントを強制発火させる（ナビ活性化用）
+      setTimeout(() => { loader.style.display = 'none'; }, 800);
       window.dispatchEvent(new Event('scroll'));
     });
 
-    // セクションのフェードイン表示
     const sections = document.querySelectorAll('section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -218,7 +255,6 @@
     }, { threshold: 0.3 });
     sections.forEach(section => observer.observe(section));
 
-    // ナビゲーションハイライト処理
     const navLinks = document.querySelectorAll('nav a');
     function updateNavHighlight() {
       let fromTop = window.scrollY + 80;
@@ -232,10 +268,8 @@
       });
     }
     window.addEventListener('scroll', updateNavHighlight);
-    // ページ読み込み時も実行
     window.addEventListener('load', updateNavHighlight);
 
-    // GitHub API連携
     fetch('https://api.github.com/users/SMRI2170/repos')
       .then(res => res.json())
       .then(data => {
@@ -252,7 +286,6 @@
         document.getElementById('github-repos').textContent = "データの取得に失敗しました。";
       });
 
-    // Qiita API連携
     fetch('https://qiita.com/api/v2/users/ryosuke0712/items?page=1&per_page=5')
       .then(res => res.json())
       .then(data => {
