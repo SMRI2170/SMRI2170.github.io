@@ -1,87 +1,88 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>プロフィールサイト</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>二分木プロフィール</title>
   <style>
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
+      background: #f0f0f0;
+      overflow-x: hidden;
+    }
+
+    .tree-container {
       display: flex;
-      height: 100vh;
-    }
-
-    .sidebar {
-      background-color: #FFAF47;
-      color: #233D2A;
-      width: 30%;
-      padding: 40px 20px;
-      box-sizing: border-box;
-    }
-
-    .sidebar h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar ul li {
-      margin: 10px 0;
-    }
-
-    .sidebar ul li a {
-      text-decoration: none;
-      color: #233D2A;
-      font-weight: bold;
-    }
-
-    .content {
-      background-color: #233D2A;
-      color: #FFAF47;
-      flex: 1;
+      flex-direction: column;
+      align-items: center;
       padding: 40px;
-      box-sizing: border-box;
     }
 
-    .content h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
+    .node {
+      background: #233D2A;
+      color: #FFAF47;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 20px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .content p {
-      line-height: 1.8;
+    .node:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .level {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .line {
+      width: 2px;
+      height: 40px;
+      background: #233D2A;
+      margin: 0 auto;
+    }
+
+    @media screen and (max-width: 768px) {
+      .level {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h1>吉岡 龍佑</h1>
-    <ul>
-      <li><a href="#">プロフィール</a></li>
-      <li><a href="#">スキル</a></li>
-      <li><a href="#">実績</a></li>
-      <li><a href="#">お問い合わせ</a></li>
-    </ul>
-  </div>
+  <div class="tree-container">
+    <!-- 名前 -->
+    <div class="node" style="font-size: 24px;">吉岡 龍佑</div>
+    <div class="line"></div>
 
-  <div class="content">
-    <h2>プロフィール</h2>
-    <p>
-      立命館大学 情報理工学部に所属。IoTやブロックチェーン、画像認識を用いたアプリケーション開発に取り組んでいます。<br>
-      Python、React、OpenCVなどを使った開発経験があります。
-    </p>
+    <!-- デジタル / アナログ -->
+    <div class="level">
+      <div>
+        <div class="node">デジタル</div>
+        <div class="line"></div>
+        <div class="level">
+          <div class="node" onclick="alert('Python, React, YOLOなど')">スキル</div>
+          <div class="node" onclick="alert('IoT, ブロックチェーン, 画像認識')">興味分野</div>
+        </div>
+      </div>
 
-    <h2>スキル</h2>
-    <ul>
-      <li>Python（機械学習・IoT）</li>
-      <li>JavaScript / React</li>
-      <li>OpenCV / YOLO / DeepFace</li>
-    </ul>
+      <div>
+        <div class="node">アナログ</div>
+        <div class="line"></div>
+        <div class="level">
+          <div class="node" onclick="alert('立命館大学 情報理工学部')">学歴</div>
+          <div class="node" onclick="alert('散歩, 写真, アナログレコード')">趣味</div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
