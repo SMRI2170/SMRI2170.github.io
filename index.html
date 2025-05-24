@@ -13,6 +13,7 @@
       font-family: 'Orbitron', sans-serif;
       color: #fff;
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     /* ローディング */
@@ -25,12 +26,20 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
+      transition: opacity 0.8s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
 
     #loader h1 {
       color: #0ff;
       text-shadow: 0 0 20px #0ff;
       animation: pulse 1.5s infinite;
+      font-size: 3rem;
+      user-select: none;
     }
 
     @keyframes pulse {
@@ -55,11 +64,17 @@
       text-decoration: none;
       margin: 0 15px;
       font-size: 1.1rem;
+      transition: color 0.3s ease;
     }
 
     nav a.active {
       color: #ff0;
       text-shadow: 0 0 10px #ff0;
+    }
+
+    nav a:hover {
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
     }
 
     header {
@@ -90,6 +105,7 @@
       border-bottom: 2px solid #f0f;
       font-size: 1.6rem;
       padding-bottom: 10px;
+      user-select: none;
     }
 
     ul {
@@ -109,6 +125,7 @@
       text-decoration: none;
       font-size: 1.5rem;
       text-shadow: 0 0 5px #0ff;
+      transition: color 0.3s ease;
     }
 
     .sns a:hover {
@@ -121,10 +138,15 @@
       margin-bottom: 10px;
       border-left: 3px solid #0ff;
       box-shadow: 0 0 10px #0ff3;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 20px #0ff;
     }
   </style>
 </head>
-<body>
+<body style="overflow: hidden;"> <!-- 初期スクロール禁止 -->
 
   <!-- ローディング -->
   <div id="loader">
@@ -170,12 +192,22 @@
   </section>
 
   <script>
-    // ローディング非表示
+    // ローディングのフェードアウト処理
     window.addEventListener('load', () => {
-      document.getElementById('loader').style.display = 'none';
+      const loader = document.getElementById('loader');
+      // フェードアウト開始
+      loader.classList.add('hidden');
+      // ページスクロールを許可
+      document.body.style.overflow = '';
+      // 完全に非表示にする
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 800);
+      // 初回スクロールイベントを強制発火させる（ナビ活性化用）
+      window.dispatchEvent(new Event('scroll'));
     });
 
-    // フェードイン表示
+    // セクションのフェードイン表示
     const sections = document.querySelectorAll('section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -186,21 +218,24 @@
     }, { threshold: 0.3 });
     sections.forEach(section => observer.observe(section));
 
-    // ナビゲーションハイライト
+    // ナビゲーションハイライト処理
     const navLinks = document.querySelectorAll('nav a');
-    window.addEventListener('scroll', () => {
+    function updateNavHighlight() {
       let fromTop = window.scrollY + 80;
       navLinks.forEach(link => {
         const section = document.querySelector(link.getAttribute("href"));
-        if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+        if (section && section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
         }
       });
-    });
+    }
+    window.addEventListener('scroll', updateNavHighlight);
+    // ページ読み込み時も実行
+    window.addEventListener('load', updateNavHighlight);
 
-    // GitHub連携
+    // GitHub API連携
     fetch('https://api.github.com/users/SMRI2170/repos')
       .then(res => res.json())
       .then(data => {
@@ -208,13 +243,16 @@
         container.innerHTML = '';
         data.slice(0, 5).forEach(repo => {
           container.innerHTML += `<div class="card">
-            <strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong><br/>
+            <strong><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></strong><br/>
             <span>${repo.description || "No description"}</span>
           </div>`;
         });
+      })
+      .catch(() => {
+        document.getElementById('github-repos').textContent = "データの取得に失敗しました。";
       });
 
-    // Qiita連携
+    // Qiita API連携
     fetch('https://qiita.com/api/v2/users/ryosuke0712/items?page=1&per_page=5')
       .then(res => res.json())
       .then(data => {
@@ -222,10 +260,13 @@
         container.innerHTML = '';
         data.forEach(item => {
           container.innerHTML += `<div class="card">
-            <strong><a href="${item.url}" target="_blank">${item.title}</a></strong><br/>
+            <strong><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></strong><br/>
             <span>いいね数: ${item.likes_count}</span>
           </div>`;
         });
+      })
+      .catch(() => {
+        document.getElementById('qiita-articles').textContent = "データの取得に失敗しました。";
       });
   </script>
 </body>
