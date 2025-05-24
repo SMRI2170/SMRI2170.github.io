@@ -7,7 +7,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
@@ -114,6 +114,14 @@
       border-bottom: 2px solid #f0f;
       padding-bottom: 10px;
     }
+
+    #typed-text {
+      white-space: pre-wrap;
+      font-size: 1rem;
+      color: #fff;
+      text-shadow: 0 0 5px #0ff;
+      min-height: 4em;
+    }
   </style>
 </head>
 <body>
@@ -138,10 +146,31 @@
   </div>
 </header>
 
-<section id="about"><h2>🧑 自己紹介</h2><p>立命館大学 情報理工学部...</p></section>
-<section id="skills"><h2>🛠️ スキル</h2><ul><li>Python</li><li>React</li></ul></section>
-<section id="github"><h2>💻 GitHub</h2><div id="github-repos">Loading...</div></section>
-<section id="qiita"><h2>📚 Qiita</h2><div id="qiita-articles">Loading...</div></section>
+<section id="about">
+  <h2>🧑 自己紹介</h2>
+  <p id="typed-text"></p>
+</section>
+
+<section id="skills">
+  <h2>🛠️ スキル</h2>
+  <ul>
+    <li>Python</li>
+    <li>React</li>
+    <li>TensorFlow / Keras</li>
+    <li>OpenCV / YOLO / DeepFace</li>
+    <li>ブロックチェーン & IoT</li>
+  </ul>
+</section>
+
+<section id="github">
+  <h2>💻 GitHub</h2>
+  <div id="github-repos">Loading...</div>
+</section>
+
+<section id="qiita">
+  <h2>📚 Qiita</h2>
+  <div id="qiita-articles">Loading...</div>
+</section>
 
 <script>
   // ローディング解除
@@ -150,7 +179,7 @@
     window.dispatchEvent(new Event('scroll'));
   });
 
-  // フェードイン
+  // フェードインアニメーション
   const sections = document.querySelectorAll('section');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -197,7 +226,7 @@
       });
     });
 
-  // Canvas 背景（流れる星）
+  // Canvas背景アニメーション（星のような流れ）
   const canvas = document.getElementById('bg');
   const ctx = canvas.getContext('2d');
   let stars = [];
@@ -233,6 +262,27 @@
   }
 
   animateStars();
+
+  // タイプライターアニメーション
+  const typedText = "立命館大学 情報理工学部所属。\nIoT・ZKP・ブロックチェーンを活用した持続可能なシステムを研究中。";
+  let i = 0;
+  function typeWriter() {
+    const el = document.getElementById("typed-text");
+    if (i < typedText.length) {
+      el.textContent += typedText[i++];
+      setTimeout(typeWriter, 50);
+    }
+  }
+  const aboutSec = document.getElementById("about");
+  const observerType = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        typeWriter();
+        observerType.disconnect();
+      }
+    });
+  }, { threshold: 0.6 });
+  observerType.observe(aboutSec);
 </script>
 
 </body>
