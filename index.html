@@ -3,22 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ネオンプロフィール</title>
+  <title>ネオンプロフィール - 強化版</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
-    body {
+    /* === ベース設定 === */
+    * {
       margin: 0;
-      background-color: #000;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
       font-family: 'Orbitron', sans-serif;
       color: #fff;
-      scroll-behavior: smooth;
+      background: #000;
+      overflow-x: hidden;
     }
 
+    /* === 背景ネオンアニメーション === */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle, rgba(0,255,255,0.2), transparent),
+                  radial-gradient(circle, rgba(255,0,255,0.1), transparent),
+                  radial-gradient(circle, rgba(255,255,0,0.1), transparent);
+      animation: flicker 6s infinite ease-in-out;
+      z-index: -1;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.05); }
+    }
+
+    /* === セクション === */
     header {
       text-align: center;
       padding: 100px 20px 50px;
       color: #0ff;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      text-shadow: 0 0 10px #0ff, 0 0 40px #0ff;
       font-size: 2.5rem;
     }
 
@@ -27,8 +51,12 @@
       max-width: 800px;
       margin: auto;
       opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(60px);
+      transition: all 1s ease;
+      border-left: 4px solid #f0f;
+      border-right: 4px solid #f0f;
+      margin-bottom: 40px;
+      box-shadow: 0 0 20px #f0f;
     }
 
     section.visible {
@@ -37,11 +65,10 @@
     }
 
     h2 {
-      color: #f0f;
-      text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
       font-size: 1.8rem;
-      border-bottom: 2px solid #f0f;
-      padding-bottom: 10px;
+      color: #ff0;
+      text-shadow: 0 0 5px #ff0, 0 0 20px #ff0;
+      margin-bottom: 20px;
     }
 
     p, ul {
@@ -55,17 +82,17 @@
     }
 
     ul li::before {
-      content: '★';
-      color: #ff0;
-      margin-right: 8px;
+      content: '⚡';
+      margin-right: 10px;
+      color: #0ff;
     }
 
     .sns a {
       display: inline-block;
       margin: 10px;
-      color: #0ff;
-      text-decoration: none;
       font-size: 1.5rem;
+      text-decoration: none;
+      color: #0ff;
       text-shadow: 0 0 5px #0ff;
     }
 
@@ -73,38 +100,71 @@
       color: #ff0;
       text-shadow: 0 0 10px #ff0;
     }
+
+    /* === 電線エフェクト線 === */
+    .line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 4px;
+      background: linear-gradient(90deg, #0ff 0%, #f0f 50%, #ff0 100%);
+      background-size: 200% 100%;
+      animation: flow 4s linear infinite;
+      z-index: 9999;
+      box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+    }
+
+    @keyframes flow {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .line:nth-child(2) { top: 33%; animation-delay: 1s; }
+    .line:nth-child(3) { top: 66%; animation-delay: 2s; }
   </style>
 </head>
 <body>
+
+  <!-- 電線エフェクト -->
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+
+  <!-- ヘッダー -->
   <header>
     <h1>RYOSUKE YOSHIOKA</h1>
-    <p>🟣 創造的なテクノロジー愛好家</p>
+    <p>🌌 創造力で未来を照らすエンジニア</p>
   </header>
 
+  <!-- 自己紹介 -->
   <section id="about">
     <h2>🧑 自己紹介</h2>
-    <p>立命館大学の情報理工学部でセキュリティとネットワークを学んでいます。IoT、ZKP、AIを活用した未来の仕組みに興味があります。</p>
+    <p>立命館大学に在学中の情報理工系学生。ZKPやIoT、AIを使った新しい社会実装に関心があります。</p>
   </section>
 
+  <!-- スキル -->
   <section id="skills">
     <h2>🛠️ スキル</h2>
     <ul>
-      <li>Python（機械学習・データ処理）</li>
-      <li>JavaScript / React（Web開発）</li>
-      <li>IoT（センサーデバイス制御、Raspberry Pi）</li>
-      <li>ブロックチェーン・ZKP基礎</li>
+      <li>Python / NumPy / OpenCV</li>
+      <li>JavaScript / React</li>
+      <li>ブロックチェーン・ZKP</li>
+      <li>IoT開発 / Raspberry Pi</li>
     </ul>
   </section>
 
+  <!-- SNS -->
   <section id="sns">
     <h2>🔗 SNS</h2>
     <div class="sns">
       <a href="https://github.com/yourname" target="_blank">GitHub</a>
-      <a href="https://x.com/yourname" target="_blank">X (旧Twitter)</a>
+      <a href="https://x.com/yourname" target="_blank">X (Twitter)</a>
       <a href="https://linkedin.com/in/yourname" target="_blank">LinkedIn</a>
     </div>
   </section>
 
+  <!-- JS：スクロールで表示 -->
   <script>
     const sections = document.querySelectorAll('section');
     const observer = new IntersectionObserver(entries => {
@@ -113,11 +173,9 @@
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
 
-    sections.forEach(section => {
-      observer.observe(section);
-    });
+    sections.forEach(section => observer.observe(section));
   </script>
 </body>
 </html>
