@@ -1,405 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYOSUKE Yoshioka</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <title>ゲームクリアで入場</title>
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body, html {
+    body {
       margin: 0;
-      padding: 0;
-      font-family: 'Georgia', 'Times New Roman', serif;
-      background-color: #1f3b1f;
-      color: #ffffff;
-      overflow-x: hidden; /* 横スクロール防止 */
+      overflow: hidden;
+      background-color: black;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
     }
-
-    a {
-      color: #ffffff;
-      text-decoration: none;
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #111;
+      border: 2px solid white;
     }
-
-    a:hover {
-      opacity: 0.8;
-    }
-
-    .hero {
-      position: relative;
-      height: 100vh;
-      background-image: url('background.jpg');
-      background-size: cover;
-      background-position: center;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 40px 20px;
-    }
-
-    .nav-toggle {
+    #mainContent {
       display: none;
-      font-size: 24px;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-      z-index: 1001;
+      margin-top: 20px;
     }
-
-    .nav {
-      position: absolute;
-      top: 60px;
-      right: 60px;
-      display: flex;
-      gap: 24px;
-      font-size: 16px;
-      font-weight: 500;
-      flex-wrap: wrap;
-      transition: all 0.3s ease;
-    }
-
-    .nav a {
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      position: relative;
-    }
-
-    .nav a:hover {
-      transform: scale(1.05);
-    }
-
-    /* 追加：現在のセクションリンクをハイライト */
-    .nav a.active {
-      font-weight: bold;
-      border-bottom: 2px solid #ffffff;
-    }
-
-    .name {
-      font-size: 64px;
-      font-weight: bold;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-      animation: fadeInDown 1.5s ease-out;
-    }
-
-    .bio {
-      max-width: 300px;
-      font-size: 16px;
-      text-align: right;
-      line-height: 1.6;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-      align-self: flex-end;
-      animation: fadeInUp 1.5s ease-out;
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    section {
-      padding: 80px 10%;
-      background-color: #2c4a2c;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    section h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-      border-left: 5px solid #ffffff;
-      padding-left: 10px;
-    }
-
-    .education ul, .skills ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .education li, .skills li {
-      margin-bottom: 12px;
-      font-size: 18px;
-    }
-
-    .contact-icons a {
-      margin-right: 20px;
-      font-size: 24px;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* トップに戻るボタン */
-    #back-to-top {
-      position: fixed;
-      bottom: 40px;
-      right: 40px;
-      background-color: #375537;
-      color: #fff;
-      padding: 12px 16px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 18px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease;
-      z-index: 1002;
-    }
-
-    #back-to-top.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    @media screen and (max-width: 768px) {
-      .nav {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: 0;
-        flex-direction: column;
-        background-color: #1f3b1f;
-        width: 200px;
-        height: 100%;
-        padding: 60px 20px;
-        box-shadow: -2px 0 8px rgba(0,0,0,0.3);
-        z-index: 1000;
-        overflow-y: auto;
-      }
-
-      .nav.open {
-        display: flex;
-      }
-
-      .nav-toggle {
-        display: block;
-      }
-
-      .name {
-        font-size: 36px;
-      }
-
-      .bio {
-        font-size: 14px;
-        max-width: 200px;
-        text-align: right;
-      }
-
-      /* ナビ開いたときに背景スクロール止める */
-      body.nav-open {
-        overflow: hidden;
-      }
-    }
-
-    /* ここからローディング画面のスタイル追加 */
-    #loading-screen {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #1f3b1f;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      transition: opacity 0.5s ease;
-    }
-
-    .spinner {
-      border: 6px solid rgba(255, 255, 255, 0.2);
-      border-top: 6px solid #ffffff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    /* ローディング画面スタイルここまで */
   </style>
 </head>
-
 <body>
-  <!-- ローディング画面（body内の一番上） -->
-  <div id="loading-screen">
-    <div class="spinner"></div>
-  </div>
+  <h1>敵を全滅させるとサイトに入れます！</h1>
+  <canvas id="gameCanvas" width="400" height="500"></canvas>
 
-  <div class="hero">
-    <div class="nav-toggle" id="nav-toggle">
-      <i class="fas fa-bars"></i>
-    </div>
-    <nav class="nav" id="nav">
-      <a href="#education">Education</a>
-      <a href="#skills">Skills</a>
-      <a href="#github">GitHub</a>
-      <a href="#qiita">Qiita</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="name">RYOSUKE Yoshioka</div>
-    <div class="bio">
-      A creative developer exploring the harmony<br> of design, technology, and purpose.
-    </div>
-  </div>
-
-  <section id="education" class="education">
-    <h2>Education</h2>
-    <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px;">
-      <div style="flex: 1; min-width: 250px;">
-        <ul>
-          <li>Ritsumeikan University, B.Sc. in Information Science (2025)</li>
-          <li>Kyoto High School, Science Track (2021)</li>
-        </ul>
-      </div>
-      <div style="flex: 1; min-width: 250px;">
-        <img src="U.jpg" alt="Ritsumeikan University" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
-      </div>
-    </div>
-  </section>
-
-  <section id="skills" class="skills">
-    <h2>Skills</h2>
-    <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px;">
-      <div style="flex: 1; min-width: 250px;">
-        <ul>
-          <li>Python, JavaScript, HTML/CSS</li>
-          <li>Machine Learning, Computer Vision</li>
-          <li>React, Node.js, Flask</li>
-          <li>AWS, Docker, Git</li>
-        </ul>
-      </div>
-      <div style="flex: 1; min-width: 250px;">
-        <img src="rasp.jpg" alt="Skills Image" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
-      </div>
-    </div>
-  </section>
-
-  <section id="github" style="padding: 80px 10%; background-color: #375537; color: #ffffff;">
-    <h2>GitHub Stats</h2>
-    <div style="text-align: center;">
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=SMRI2170&layout=compact&theme=tokyonight" alt="Top Languages" />
-      <br><br>
-      <img src="https://github-readme-stats.vercel.app/api?username=SMRI2170&show_icons=true&theme=tokyonight" alt="GitHub Stats" />
-      <br><br>
-      <a href="https://github.com/SMRI2170" target="_blank">Visit My GitHub Profile →</a>
-    </div>
-  </section>
-
-  <section id="qiita" style="padding: 80px 10%; background-color: #2c4a2c; color: #ffffff;">
-    <h2>Qiita Articles</h2>
-    <ul>
-      <li><a href="https://qiita.com/ryosuke0712" target="_blank">View My Qiita Profile (@ryosuke0712)</a></li>
-      <li><a href="https://qiita.com/ryosuke0712/items" target="_blank">List of My Articles →</a></li>
-    </ul>
-  </section>
-
-  <section id="contact" style="padding: 80px 10%; background-color: #1f3b1f; color: #ffffff;">
-    <h2>Contact</h2>
-    <div class="contact-icons">
-      <a href="mailto:ryosuke.yoshioka@example.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
-      <a href="https://twitter.com/ryosuke_dev" target="_blank"><i class="fa-brands fa-twitter"></i></a>
-      <a href="https://linkedin.com/in/ryosuke-yoshioka" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-    </div>
-  </section>
-
-  <!-- トップに戻るボタン -->
-  <div id="back-to-top" title="Back to top">
-    <i class="fas fa-arrow-up"></i>
+  <div id="mainContent">
+    <h2>🎉 クリア！ようこそ！</h2>
+    <p>ここからサイト本編の情報が見られます。</p>
+    <p>GitHubや作品リンクなどをここに配置しましょう。</p>
   </div>
 
   <script>
-    // IntersectionObserverでセクションの遅延フェードイン(順番に0.3秒ずつ遅らせる)
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 遅延時間は表示される順に0.3秒ずつ増やす
-          const delay = Array.from(sections).indexOf(entry.target) * 300;
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, delay);
-        }
-      });
-    }, { threshold: 0.1 });
-    sections.forEach(sec => observer.observe(sec));
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
 
-    // ローディング画面のフェードアウト
-    window.addEventListener('load', () => {
-      const loadingScreen = document.getElementById('loading-screen');
-      loadingScreen.style.opacity = '0';
-      setTimeout(() => {
-        loadingScreen.style.display = 'none';
-      }, 500);
-    });
+    let player = { x: 200, y: 450, width: 20, height: 20 };
+    let bullets = [];
+    let enemies = [];
+    let keys = {};
 
-    // ナビの開閉時にbodyのスクロールを止める（モバイル用）
-    const navToggle = document.getElementById('nav-toggle');
-    const nav = document.getElementById('nav');
-    navToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      document.body.classList.toggle('nav-open');
-    });
+    for (let i = 0; i < 5; i++) {
+      enemies.push({ x: 60 + i * 60, y: 50, width: 20, height: 20, alive: true });
+    }
 
-    // スクロールに応じて現在のセクションをナビでハイライト
-    const navLinks = document.querySelectorAll('.nav a');
-
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 60; // 少し余裕持たせる
-        const sectionHeight = section.offsetHeight;
-        if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-          current = section.getAttribute('id');
-        }
-      });
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-          link.classList.add('active');
-        }
-      });
-
-      // トップに戻るボタン表示制御
-      const backToTop = document.getElementById('back-to-top');
-      if (window.pageYOffset > 300) {
-        backToTop.classList.add('show');
-      } else {
-        backToTop.classList.remove('show');
+    document.addEventListener("keydown", (e) => {
+      keys[e.key] = true;
+      if (e.key === " ") {
+        bullets.push({ x: player.x + 8, y: player.y, speed: 5 });
       }
     });
 
-    // トップに戻るボタンクリックでスクロールトップへ
-    document.getElementById('back-to-top').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.addEventListener("keyup", (e) => {
+      keys[e.key] = false;
     });
 
-    // ナビリンククリックでモバイル時にナビ閉じる
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        if (nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          document.body.classList.remove('nav-open');
-        }
+    function update() {
+      if (keys["ArrowLeft"]) player.x -= 5;
+      if (keys["ArrowRight"]) player.x += 5;
+      player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
+
+      bullets.forEach((b) => (b.y -= b.speed));
+
+      bullets = bullets.filter((b) => b.y > 0);
+
+      // 敵と衝突判定
+      bullets.forEach((bullet) => {
+        enemies.forEach((enemy) => {
+          if (
+            enemy.alive &&
+            bullet.x < enemy.x + enemy.width &&
+            bullet.x + 4 > enemy.x &&
+            bullet.y < enemy.y + enemy.height &&
+            bullet.y + 10 > enemy.y
+          ) {
+            enemy.alive = false;
+            bullet.y = -10;
+          }
+        });
       });
-    });
+
+      // 敵全滅判定
+      if (enemies.every((e) => !e.alive)) {
+        document.getElementById("gameCanvas").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // プレイヤー
+      ctx.fillStyle = "white";
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      // 弾
+      ctx.fillStyle = "red";
+      bullets.forEach((b) => ctx.fillRect(b.x, b.y, 4, 10));
+
+      // 敵
+      ctx.fillStyle = "lime";
+      enemies.forEach((e) => {
+        if (e.alive) ctx.fillRect(e.x, e.y, e.width, e.height);
+      });
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
   </script>
 </body>
 </html>
