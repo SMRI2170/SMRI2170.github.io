@@ -17,7 +17,16 @@
       background-repeat: repeat;
       background-size: 32px 32px;
       transition: background-image 0.5s ease;
+      animation: grassWind 6s ease-in-out infinite;
     }
+
+    /* 背景ゆらぎアニメーション */
+    @keyframes grassWind {
+      0% { background-position: 0 0; }
+      50% { background-position: 10px 0; }
+      100% { background-position: 0 0; }
+    }
+
     header {
       background: #222;
       padding: 20px;
@@ -79,6 +88,47 @@
       position: relative;
       z-index: 5;
     }
+
+    /* キャラクター */
+    #character {
+      width: 64px;
+      height: 64px;
+      background-image: url("https://opengameart.org/sites/default/files/character_sprite.png"); /* キャラスプライトシート例 */
+      background-repeat: no-repeat;
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      margin-left: -32px;
+      z-index: 30;
+      image-rendering: pixelated; /* レトロ感UP */
+      transition: transform 0.1s linear;
+    }
+
+    /* 移動ボタン */
+    .move-buttons {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 40;
+    }
+    .move-buttons button {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 16px;
+      padding: 10px 20px;
+      background: #222;
+      border: 2px solid #fff;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 6px;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    .move-buttons button:hover {
+      background-color: #555;
+    }
   </style>
 </head>
 <body>
@@ -126,24 +176,106 @@
     </section>
   </div>
 
+  <!-- キャラクター -->
+  <div id="character"></div>
+
+  <!-- 移動ボタン -->
+  <div class="move-buttons" aria-label="キャラクター移動ボタン">
+    <button type="button" id="leftBtn">← 左へ</button>
+    <button type="button" id="rightBtn">右へ →</button>
+  </div>
+
   <script>
+    // 背景切り替え（背景画像＆アニメーションの切り替え）
     function changeBackground(type) {
       let url = "";
+      let anim = "";
       switch(type) {
         case "grass":
           url = "https://opengameart.org/sites/default/files/grass.png";
+          anim = "grassWind 6s ease-in-out infinite";
           break;
         case "forest":
           url = "https://opengameart.org/sites/default/files/forest_tile.png";
+          anim = "forestWind 8s linear infinite";
           break;
         case "castle":
           url = "https://opengameart.org/sites/default/files/castle_tile.png";
+          anim = "castleWind 10s linear infinite";
           break;
         default:
           url = "https://opengameart.org/sites/default/files/grass.png";
+          anim = "grassWind 6s ease-in-out infinite";
       }
       document.body.style.backgroundImage = `url('${url}')`;
+      document.body.style.animation = anim;
     }
+
+    // 他の背景用アニメーション例
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes forestWind {
+        0% { background-position: 0 0; }
+        50% { background-position: 15px 5px; }
+        100% { background-position: 0 0; }
+      }
+      @keyframes castleWind {
+        0% { background-position: 0 0; }
+        50% { background-position: 20px 10px; }
+        100% { background-position: 0 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // キャラクター歩行アニメーション制御
+    const char = document.getElementById("character");
+    let frame = 0;
+    let walking = false;
+    let direction = 1; // 1 = 右向き, -1 = 左向き
+    let animInterval = null;
+    let posX = window.innerWidth / 2 - 32;
+
+    // キャラ初期位置セット
+    char.style.left = posX + "px";
+
+    function startWalking(dir) {
+      direction = dir;
+      walking = true;
+      char.style.transform = `scaleX(${dir})`; // 向き反転
+      if (!animInterval) {
+        animInterval = setInterval(() => {
+          frame = (frame + 1) % 4; // 4フレームのスプライト想定
+          char.style.backgroundPosition = `-${frame * 64}px 0px`;
+          if (walking) {
+            posX += 5 * direction;
+            if(posX < 0) posX = 0;
+            if(posX > window.innerWidth - 64) posX = window.innerWidth - 64;
+            char.style.left = posX + "px";
+          }
+        }, 150);
+      }
+    }
+
+    function stopWalking() {
+      walking = false;
+      char.style.backgroundPosition = "0 0";
+      clearInterval(animInterval);
+      animInterval = null;
+    }
+
+    document.getElementById("leftBtn").addEventListener("mousedown", () => startWalking(-1));
+    document.getElementById("leftBtn").addEventListener("mouseup", stopWalking);
+    document.getElementById("leftBtn").addEventListener("mouseleave", stopWalking);
+
+    document.getElementById("rightBtn").addEventListener("mousedown", () => startWalking(1));
+    document.getElementById("rightBtn").addEventListener("mouseup", stopWalking);
+    document.getElementById("rightBtn").addEventListener("mouseleave", stopWalking);
+
+    // タッチ端末用にtouchイベントも対応（おまけ）
+    document.getElementById("leftBtn").addEventListener("touchstart", (e) => { e.preventDefault(); startWalking(-1); });
+    document.getElementById("leftBtn").addEventListener("touchend", (e) => { e.preventDefault(); stopWalking(); });
+    document.getElementById("rightBtn").addEventListener("touchstart", (e) => { e.preventDefault(); startWalking(1); });
+    document.getElementById("rightBtn").addEventListener("touchend", (e) => { e.preventDefault(); stopWalking(); });
   </script>
 </body>
 </html>
