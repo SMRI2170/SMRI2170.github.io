@@ -1,11 +1,17 @@
-window.onload = function () {
-  const bgm = document.getElementById("bgm");
-  bgm.volume = 0.2; // BGM音量を調整
-};
+// スクロール時にギャラリーカードをフェードイン
+const cards = document.querySelectorAll('.art-card');
 
-function playSE() {
-  const se = document.getElementById("se");
-  se.currentTime = 0;
-  se.play();
-  
-}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'scale(1)';
+    }
+  });
+}, {
+  threshold: 0.2
+});
+
+cards.forEach(card => {
+  observer.observe(card);
+});
