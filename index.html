@@ -1,234 +1,152 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>宇宙プロフィール：完全版</title>
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      color: white;
-      font-family: 'Courier New', monospace;
-      overflow-x: hidden;
-    }
-    section {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      position: relative;
-      text-align: center;
-      padding: 2em;
-    }
-    .title {
-      font-size: 2.5em;
-      margin-bottom: 1em;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>デジタルアート紹介サイト</title>
+<style>
+  /* 背景はコゲ茶色 */
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #4B2E0D; /* コゲ茶色 */
+    color: #FFFFFF;
+    line-height: 1.6;
+  }
 
-    /* 🌍 SNS宇宙基地 */
-    .sns-btn {
-      margin: 1em;
-      padding: 1em 2em;
-      background: #2ecc71;
-      border: none;
-      border-radius: 30px;
-      font-size: 1.2em;
-      cursor: pointer;
-      animation: glow 2s infinite alternate;
-      box-shadow: 0 0 10px #2ecc71;
-    }
-    @keyframes glow {
-      0% { box-shadow: 0 0 10px #2ecc71; }
-      100% { box-shadow: 0 0 30px #2ecc71; }
-    }
+  header {
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+  }
 
-    /* 🎯 スキル惑星ポップアップ */
-    .popup {
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.95);
-      padding: 2em;
-      border-radius: 12px;
-      display: none;
-      z-index: 20;
-      border: 1px solid #fff;
-      width: 300px;
-    }
+  header h1 {
+    font-size: 2.8rem;
+    letter-spacing: 0.1em;
+  }
 
-    .popup img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 1em;
-    }
+  nav {
+    margin-top: 0.5rem;
+  }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 5;
-      pointer-events: none;
-    }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  nav a:hover {
+    color: #FFB74D;
+  }
 
-    /* 🌌 ドラッグ可能な衛星 */
-    .satellite {
-      width: 80px;
-      height: 80px;
-      background: #3498db;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      top: 200px;
-      left: 50%;
-      cursor: grab;
-      user-select: none;
-    }
+  main {
+    max-width: 960px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
 
-    /* 🚀 ロケット */
-    .rocket {
-      width: 100px;
-      animation: launch 3s ease-out forwards;
-      z-index: 10;
-    }
+  section.artworks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 2rem;
+  }
 
-    @keyframes launch {
-      0% { transform: translateY(100vh); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(0); }
-    }
+  article.artwork {
+    background-color: #5E3B12;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  article.artwork:hover {
+    transform: scale(1.03);
+  }
 
-    /* 🔘 ボタン */
-    button.close-btn {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 0.5em 1em;
-      border-radius: 8px;
-      margin-top: 1em;
-      cursor: pointer;
+  article.artwork img {
+    width: 100%;
+    display: block;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  article.artwork h3 {
+    margin: 1rem;
+    font-size: 1.4rem;
+    color: #FFD54F;
+  }
+
+  article.artwork p {
+    margin: 0 1rem 1rem;
+    font-size: 1rem;
+    color: #FFE082;
+  }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    color: #BFA26A;
+    border-top: 1px solid #fff;
+  }
+
+  @media(max-width:480px) {
+    header h1 {
+      font-size: 2rem;
     }
-  </style>
+    nav a {
+      margin: 0 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
 </head>
 <body>
 
-<!-- ポップアップ -->
-<div id="popup" class="popup"></div>
+<header>
+  <h1>Digital Art Gallery</h1>
+  <nav>
+    <a href="#artworks">作品紹介</a>
+    <a href="#about">このサイトについて</a>
+    <a href="#contact">お問い合わせ</a>
+  </nav>
+</header>
 
-<!-- Canvas for Stars -->
-<canvas id="starCanvas"></canvas>
+<main>
+  <section id="artworks" class="artworks">
+    <article class="artwork">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="デジタルアート1" />
+      <h3>光の抽象画</h3>
+      <p>鮮やかなネオンカラーで表現された光の抽象的なデジタルアート作品。</p>
+    </article>
+    <article class="artwork">
+      <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&q=80" alt="デジタルアート2" />
+      <h3>サイバーパンク・シティ</h3>
+      <p>未来都市をテーマにしたサイバーパンク風のCGアート作品。</p>
+    </article>
+    <article class="artwork">
+      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80" alt="デジタルアート3" />
+      <h3>幾何学模様</h3>
+      <p>シンプルながら深みのある幾何学模様を用いたデジタルデザイン。</p>
+    </article>
+  </section>
 
-<!-- スキル惑星セクション -->
-<section>
-  <div class="title">🪐 スキルの惑星</div>
-  <div class="planet" style="width:120px;height:120px;background:#8e44ad;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showSkill('AI スキルチャート', 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Bar_chart_2021.png', 'React, Python, AI分析などの技術レベルを表示')">
-    AI星
-  </div>
-</section>
+  <section id="about" style="margin-top:4rem;">
+    <h2>このサイトについて</h2>
+    <p>このサイトは、最新のデジタルアート作品を紹介するために作られました。  
+    Z世代の感性を取り入れた多様な作品を掲載し、デジタルアートの魅力を伝えます。</p>
+  </section>
 
-<!-- ロケットセクション -->
-<section>
-  <div class="title">🚀 ロケット発射演出</div>
-  <img class="rocket" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Emoji_u1f680.svg/120px-Emoji_u1f680.svg.png" />
-</section>
+  <section id="contact" style="margin-top:4rem;">
+    <h2>お問い合わせ</h2>
+    <p>作品のご依頼や質問は以下のメールアドレスまでご連絡ください。</p>
+    <p><a href="mailto:contact@digitalartgallery.jp" style="color:#FFB74D;">contact@digitalartgallery.jp</a></p>
+  </section>
+</main>
 
-<!-- 衛星プロジェクト -->
-<section>
-  <div class="title">🛰️ プロジェクト衛星</div>
-  <div class="satellite" id="draggable">ドラッグ！</div>
-</section>
-
-<!-- SNS宇宙基地 -->
-<section>
-  <div class="title">🌍 SNS宇宙基地</div>
-  <button class="sns-btn" onclick="launchSNS('https://github.com/ryosukeyoshioka')">GitHub</button>
-  <button class="sns-btn" onclick="launchSNS('https://qiita.com/ryosukeyoshioka')">Qiita</button>
-</section>
-
-<script>
-  // 🎯 スキル表示ポップアップ
-  function showSkill(title, imgURL, desc) {
-    const popup = document.getElementById('popup');
-    popup.innerHTML = `<h2>${title}</h2>
-      <img src="${imgURL}" alt="${title}" />
-      <p>${desc}</p>
-      <button class="close-btn" onclick="popup.style.display='none'">閉じる</button>`;
-    popup.style.display = 'block';
-  }
-
-  // 🌍 SNSクリック音＋遅延ジャンプ
-  function launchSNS(url) {
-    const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
-    audio.play();
-    setTimeout(() => window.open(url, "_blank"), 400);
-  }
-
-  // 🌠 Canvas 星（ロケットから散布）
-  const canvas = document.getElementById("starCanvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const stars = [];
-  function createStar() {
-    stars.push({
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      radius: Math.random() * 2 + 1,
-      dx: (Math.random() - 0.5) * 4,
-      dy: (Math.random() - 0.5) * 4
-    });
-  }
-
-  function animateStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    stars.forEach((s, i) => {
-      s.x += s.dx;
-      s.y += s.dy;
-      s.radius *= 0.97;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-      ctx.fillStyle = "white";
-      ctx.fill();
-      if (s.radius < 0.5) stars.splice(i, 1);
-    });
-    requestAnimationFrame(animateStars);
-  }
-
-  for (let i = 0; i < 80; i++) setTimeout(createStar, i * 100);
-  animateStars();
-
-  // 🛰️ 衛星をドラッグ可能に
-  const sat = document.getElementById('draggable');
-  let isDragging = false;
-
-  sat.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    sat.style.cursor = 'grabbing';
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-    sat.style.cursor = 'grab';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      sat.style.left = `${e.clientX - 40}px`;
-      sat.style.top = `${e.clientY - 40}px`;
-    }
-  });
-
-  // リサイズ時にCanvas再調整
-  window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-</script>
+<footer>
+  &copy; 2025 Digital Art Gallery
+</footer>
 
 </body>
 </html>
