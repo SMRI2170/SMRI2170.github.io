@@ -3,19 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>404 Not Found</title>
+  <title>404 プロフィール宇宙</title>
   <style>
     body {
       margin: 0;
-      background: radial-gradient(ellipse at center, #0d0d0d 0%, #000000 100%);
       font-family: 'Courier New', monospace;
-      color: #fff;
-      overflow: hidden;
+      background: black;
+      color: white;
+      scroll-behavior: smooth;
+    }
+
+    section {
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      text-align: center;
+      padding: 2em;
+    }
+
+    .intro {
+      background: radial-gradient(ellipse at center, #0d0d0d 0%, #000 100%);
+    }
+
+    h1 {
+      font-size: 6em;
+      margin: 0.1em;
+    }
+
+    .astronaut {
+      font-size: 3em;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .scroll-down {
+      margin-top: 2em;
+      font-size: 1em;
+      color: #aaa;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .section-title {
+      font-size: 3em;
+      margin-bottom: 0.5em;
+      color: #8e44ad;
+    }
+
+    .content {
+      max-width: 800px;
+      font-size: 1.2em;
+      line-height: 1.8;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
     }
 
     .star {
@@ -30,61 +84,57 @@
       0%, 100% { opacity: 0.2; }
       50% { opacity: 1; }
     }
-
-    h1 {
-      font-size: 6em;
-      margin: 0;
-      letter-spacing: 0.1em;
-    }
-
-    p {
-      font-size: 1.5em;
-      margin: 0.5em 0;
-    }
-
-    .astronaut {
-      font-size: 2em;
-      animation: float 4s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .home-btn {
-      margin-top: 1.5em;
-      padding: 0.5em 1.5em;
-      font-size: 1em;
-      background: #8e44ad;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .home-btn:hover {
-      background: #732d91;
-    }
   </style>
 </head>
 <body>
-  <!-- ランダムな星 -->
-  <script>
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.style.top = `${Math.random() * 100}vh`;
-      star.style.left = `${Math.random() * 100}vw`;
-      star.style.animationDuration = `${Math.random() * 2 + 1}s`;
-      document.body.appendChild(star);
-    }
-  </script>
 
+<div class="stars" id="stars"></div>
+
+<section class="intro">
   <div class="astronaut">👨‍🚀</div>
   <h1>404</h1>
-  <p>宇宙の彼方でページが迷子になりました。</p>
-  <button class="home-btn" onclick="window.location.href='/'">ホームに戻る</button>
+  <p>宇宙で迷子になりました。</p>
+  <div class="scroll-down">▼ スクロールしてプロフィールを見る ▼</div>
+</section>
+
+<section>
+  <div class="section-title">👩‍💻 スキル</div>
+  <div class="content">
+    - HTML / CSS / JavaScript / React / Python<br>
+    - AI / IoT / ブロックチェーン<br>
+    - Webデザイン & UX設計<br>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">🎓 学歴</div>
+  <div class="content">
+    - 立命館大学 情報理工学部<br>
+    - 専攻：セキュリティ・ネットワークコース<br>
+    - 卒業研究：ゼロ知識証明とIoTシステム<br>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">🌐 SNS & ポートフォリオ</div>
+  <div class="content">
+    <a href="https://github.com/ryosukeyoshioka" style="color: #4fc3f7;">GitHub</a> | 
+    <a href="https://qiita.com/ryosukeyoshioka" style="color: #4fc3f7;">Qiita</a><br>
+    - 趣味：Web制作・IoTガジェット・古民家改造
+  </div>
+</section>
+
+<script>
+  // ランダムな星を背景に生成
+  for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.top = `${Math.random() * 100}vh`;
+    star.style.left = `${Math.random() * 100}vw`;
+    star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+    document.getElementById("stars").appendChild(star);
+  }
+</script>
+
 </body>
 </html>
