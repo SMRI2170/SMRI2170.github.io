@@ -3,287 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ネオンプロフィール</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
+  <title>魔法書プロフィール</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * { box-sizing: border-box; }
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      background: black;
-      font-family: 'Orbitron', sans-serif;
-      color: white;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    #loader {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      padding: 10px 0;
-      text-align: center;
-      z-index: 1000;
-      box-shadow: 0 0 10px #0ff;
-    }
-
-    nav a {
-      margin: 0 15px;
-      color: #0ff;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
-
-    nav a:hover {
-      color: #ff0;
-    }
-
-    nav a.active {
-      color: #ff0;
-      text-shadow: 0 0 10px #ff0;
-    }
-
-    header {
-      text-align: center;
-      padding: 120px 20px 50px;
-      font-size: 2.5rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-    }
-
-    .sns {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .sns a {
-      margin: 0 10px;
-      font-size: 2rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-    }
-
-    section {
-      padding: 60px 20px;
-      max-width: 800px;
-      margin: auto;
-      transition: all 1s ease;
-      opacity: 0;
-      transform: translateY(50px);
-    }
-
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .card {
-      background: #111;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-left: 3px solid #0ff;
-      box-shadow: 0 0 10px #0ff3;
-    }
-
-    h2 {
-      color: #f0f;
-      border-bottom: 2px solid #f0f;
-      padding-bottom: 10px;
-    }
-
-    #typed-text {
-      white-space: pre-wrap;
-      font-size: 1rem;
+      background: linear-gradient(#2c2c2c, #1a1a1a);
+      font-family: 'serif';
       color: #fff;
-      text-shadow: 0 0 5px #0ff;
-      min-height: 4em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .book {
+      perspective: 2000px;
+    }
+
+    .page {
+      width: 600px;
+      height: 400px;
+      background: #fef7e0;
+      color: #000;
+      position: absolute;
+      transform-origin: left;
+      transition: transform 1s;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .page:nth-child(1) { z-index: 3; background: #8b4513; color: #fff; }
+    .page:nth-child(2) { z-index: 2; }
+    .page:nth-child(3) { z-index: 1; }
+
+    .book:hover .page:nth-child(2) {
+      transform: rotateY(-160deg);
+    }
+
+    .book:hover .page:nth-child(3) {
+      transform: rotateY(-160deg);
+      transition-delay: 0.3s;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li::before {
+      content: '\2605';
+      margin-right: 8px;
     }
   </style>
 </head>
 <body>
-
-<canvas id="bg"></canvas>
-
-<div id="loader"><h1 style="color:#0ff;">Loading...</h1></div>
-
-<nav>
-  <a href="#about">自己紹介</a>
-  <a href="#skills">スキル</a>
-  <a href="#github">GitHub</a>
-  <a href="#qiita">Qiita</a>
-</nav>
-
-<header>
-  <h1>RYOSUKE YOSHIOKA</h1>
-  <p>🟣 テクノロジーとアイデアで未来を創る</p>
-  <div class="sns">
-    <a href="https://github.com/SMRI2170" target="_blank"><i class="fab fa-github"></i></a>
-    <a href="https://qiita.com/ryosuke0712" target="_blank"><i class="fab fa-quora"></i></a>
+  <div class="book">
+    <div class="page">
+      <h1>魔法書：プロフィール</h1>
+      <p>ようこそ、私の魔法書へ。</p>
+      <p>名前：吉岡龍佑<br>学歴：立命館大学 情報理工学部</p>
+    </div>
+    <div class="page">
+      <h1>スキルツリー</h1>
+      <ul>
+        <li>Python（機械学習・IoT）</li>
+        <li>JavaScript / React</li>
+        <li>Webデザイン / UI UX</li>
+        <li>ブロックチェーン / ZKP</li>
+      </ul>
+    </div>
+    <div class="page">
+      <h1>プロジェクト</h1>
+      <p>⚔️ AIで顔属性解析 / YOLO・SSRNet 使用</p>
+      <p>🌱 IoT × ZKP によるプライバシー保護型センシング</p>
+      <p>🎥 動画：<a href="#">プロジェクト紹介動画</a></p>
+    </div>
   </div>
-</header>
-
-<section id="about">
-  <h2>🧑 自己紹介</h2>
-  <p id="typed-text"></p>
-</section>
-
-<section id="skills">
-  <h2>🛠️ スキル</h2>
-  <ul>
-    <li>Python</li>
-    <li>React</li>
-    <li>TensorFlow / Keras</li>
-    <li>OpenCV / YOLO / DeepFace</li>
-    <li>ブロックチェーン & IoT</li>
-  </ul>
-</section>
-
-<section id="github">
-  <h2>💻 GitHub</h2>
-  <div id="github-repos">Loading...</div>
-</section>
-
-<section id="qiita">
-  <h2>📚 Qiita</h2>
-  <div id="qiita-articles">Loading...</div>
-</section>
-
-<script>
-  // ローディング解除
-  window.addEventListener('load', () => {
-    document.getElementById('loader').style.display = 'none';
-    window.dispatchEvent(new Event('scroll'));
-  });
-
-  // フェードインアニメーション
-  const sections = document.querySelectorAll('section');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-  }, { threshold: 0.3 });
-  sections.forEach(section => observer.observe(section));
-
-  // ナビリンクのハイライト
-  const navLinks = document.querySelectorAll('nav a');
-  function updateNavHighlight() {
-    const fromTop = window.scrollY + 80;
-    navLinks.forEach(link => {
-      const section = document.querySelector(link.getAttribute("href"));
-      if (section && section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
-        link.classList.add("active");
-      } else {
-        link.classList.remove("active");
-      }
-    });
-  }
-  window.addEventListener('scroll', updateNavHighlight);
-  window.addEventListener('load', updateNavHighlight);
-
-  // GitHub API
-  fetch('https://api.github.com/users/SMRI2170/repos')
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('github-repos');
-      container.innerHTML = '';
-      data.slice(0, 5).forEach(repo => {
-        container.innerHTML += `<div class="card"><strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong><br/>${repo.description || "No description"}</div>`;
-      });
-    });
-
-  // Qiita API
-  fetch('https://qiita.com/api/v2/users/ryosuke0712/items?page=1&per_page=5')
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('qiita-articles');
-      container.innerHTML = '';
-      data.forEach(item => {
-        container.innerHTML += `<div class="card"><strong><a href="${item.url}" target="_blank">${item.title}</a></strong><br/>いいね: ${item.likes_count}</div>`;
-      });
-    });
-
-  // Canvas背景アニメーション（星のような流れ）
-  const canvas = document.getElementById('bg');
-  const ctx = canvas.getContext('2d');
-  let stars = [];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    stars = Array.from({length: 100}, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 1.5,
-      speed: Math.random() * 0.5 + 0.2
-    }));
-  }
-
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  function animateStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#0ff';
-    stars.forEach(star => {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
-      ctx.fill();
-      star.y += star.speed;
-      if (star.y > canvas.height) {
-        star.y = 0;
-        star.x = Math.random() * canvas.width;
-      }
-    });
-    requestAnimationFrame(animateStars);
-  }
-
-  animateStars();
-
-  // タイプライターアニメーション
-  const typedText = "立命館大学 情報理工学部所属。\nIoT・ZKP・ブロックチェーンを活用した持続可能なシステムを研究中。";
-  let i = 0;
-  function typeWriter() {
-    const el = document.getElementById("typed-text");
-    if (i < typedText.length) {
-      el.textContent += typedText[i++];
-      setTimeout(typeWriter, 50);
-    }
-  }
-  const aboutSec = document.getElementById("about");
-  const observerType = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        typeWriter();
-        observerType.disconnect();
-      }
-    });
-  }, { threshold: 0.6 });
-  observerType.observe(aboutSec);
-</script>
-
 </body>
 </html>
