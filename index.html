@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>宇宙プロフィール 拡張版</title>
+  <title>宇宙プロフィール：完全版</title>
   <style>
     body {
       margin: 0;
       background: black;
       color: white;
       font-family: 'Courier New', monospace;
-      scroll-behavior: smooth;
       overflow-x: hidden;
     }
     section {
@@ -28,89 +27,7 @@
       margin-bottom: 1em;
     }
 
-    /* スキル惑星 */
-    .planet {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: #8e44ad;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      cursor: pointer;
-      animation: orbit 12s linear infinite;
-      position: absolute;
-    }
-    @keyframes orbit {
-      0% { transform: rotate(0deg) translateX(200px) rotate(0deg); }
-      100% { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
-    }
-
-    /* ポップアップ */
-    .popup {
-      position: fixed;
-      top: 30%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.9);
-      padding: 2em;
-      border-radius: 12px;
-      display: none;
-      z-index: 10;
-      border: 1px solid #fff;
-    }
-
-    /* ロケット */
-    .rocket {
-      width: 80px;
-      animation: fly 8s linear forwards;
-    }
-    @keyframes fly {
-      0% { transform: translateY(100vh); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translateY(0); }
-    }
-    .smoke {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      bottom: 10px;
-      animation: smoke 3s linear infinite;
-    }
-    @keyframes smoke {
-      0% { transform: translateY(0) scale(1); opacity: 0.6; }
-      100% { transform: translateY(-100px) scale(2); opacity: 0; }
-    }
-
-    /* 衛星 */
-    .satellite {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #3498db;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: satelliteOrbit 10s linear infinite;
-      position: absolute;
-      cursor: pointer;
-    }
-    @keyframes satelliteOrbit {
-      0% { transform: rotate(0deg) translateX(180px) rotate(-0deg); }
-      100% { transform: rotate(360deg) translateX(180px) rotate(-360deg); }
-    }
-
-    .satellite video {
-      display: none;
-      width: 240px;
-      border: 2px solid white;
-      border-radius: 10px;
-    }
-
-    /* SNS基地 */
+    /* 🌍 SNS宇宙基地 */
     .sns-btn {
       margin: 1em;
       padding: 1em 2em;
@@ -119,11 +36,81 @@
       border-radius: 30px;
       font-size: 1.2em;
       cursor: pointer;
-      animation: landing 2s ease-in-out;
+      animation: glow 2s infinite alternate;
+      box-shadow: 0 0 10px #2ecc71;
     }
-    @keyframes landing {
-      0% { transform: scale(0.2); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #2ecc71; }
+      100% { box-shadow: 0 0 30px #2ecc71; }
+    }
+
+    /* 🎯 スキル惑星ポップアップ */
+    .popup {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.95);
+      padding: 2em;
+      border-radius: 12px;
+      display: none;
+      z-index: 20;
+      border: 1px solid #fff;
+      width: 300px;
+    }
+
+    .popup img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1em;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    /* 🌌 ドラッグ可能な衛星 */
+    .satellite {
+      width: 80px;
+      height: 80px;
+      background: #3498db;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 200px;
+      left: 50%;
+      cursor: grab;
+      user-select: none;
+    }
+
+    /* 🚀 ロケット */
+    .rocket {
+      width: 100px;
+      animation: launch 3s ease-out forwards;
+      z-index: 10;
+    }
+
+    @keyframes launch {
+      0% { transform: translateY(100vh); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(0); }
+    }
+
+    /* 🔘 ボタン */
+    button.close-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      margin-top: 1em;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -132,66 +119,115 @@
 <!-- ポップアップ -->
 <div id="popup" class="popup"></div>
 
-<!-- スキル -->
+<!-- Canvas for Stars -->
+<canvas id="starCanvas"></canvas>
+
+<!-- スキル惑星セクション -->
 <section>
   <div class="title">🪐 スキルの惑星</div>
-  <div class="planet" style="top: 30%;" onclick="showSkill('React', 'UIライブラリ、SPA構築')">React</div>
-  <div class="planet" style="top: 50%;" onclick="showSkill('Python', 'データ分析、AI、IoT連携')">Python</div>
-  <div class="planet" style="top: 70%;" onclick="showSkill('IoT', 'センサ、ESP32、ZKP連携')">IoT</div>
-</section>
-
-<!-- ロケット -->
-<section>
-  <div class="title">🚀 ロケット進学タイムライン</div>
-  <audio id="rocket-sound" src="https://www.soundjay.com/mechanical/rocket-flyby-01.mp3" preload="auto"></audio>
-  <img class="rocket" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Emoji_u1f680.svg/120px-Emoji_u1f680.svg.png"
-       onload="document.getElementById('rocket-sound').play()" />
-  <div class="smoke" style="left: 48%;"></div>
-</section>
-
-<!-- プロジェクト -->
-<section>
-  <div class="title">🛰️ プロジェクト衛星</div>
-  <div class="satellite" style="top: 200px; left: 50%;" 
-       onmouseover="showVideo('project1')" onmouseout="hideVideo('project1')">
-    IoT
-    <video id="project1" src="https://www.w3schools.com/html/mov_bbb.mp4" muted autoplay loop></video>
+  <div class="planet" style="width:120px;height:120px;background:#8e44ad;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showSkill('AI スキルチャート', 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Bar_chart_2021.png', 'React, Python, AI分析などの技術レベルを表示')">
+    AI星
   </div>
 </section>
 
-<!-- SNS -->
+<!-- ロケットセクション -->
+<section>
+  <div class="title">🚀 ロケット発射演出</div>
+  <img class="rocket" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Emoji_u1f680.svg/120px-Emoji_u1f680.svg.png" />
+</section>
+
+<!-- 衛星プロジェクト -->
+<section>
+  <div class="title">🛰️ プロジェクト衛星</div>
+  <div class="satellite" id="draggable">ドラッグ！</div>
+</section>
+
+<!-- SNS宇宙基地 -->
 <section>
   <div class="title">🌍 SNS宇宙基地</div>
-  <audio id="beep" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
   <button class="sns-btn" onclick="launchSNS('https://github.com/ryosukeyoshioka')">GitHub</button>
   <button class="sns-btn" onclick="launchSNS('https://qiita.com/ryosukeyoshioka')">Qiita</button>
 </section>
 
 <script>
-  // スキルポップアップ
-  function showSkill(title, desc) {
+  // 🎯 スキル表示ポップアップ
+  function showSkill(title, imgURL, desc) {
     const popup = document.getElementById('popup');
-    popup.innerHTML = `<h2>${title}</h2><p>${desc}</p><button onclick="popup.style.display='none'">閉じる</button>`;
+    popup.innerHTML = `<h2>${title}</h2>
+      <img src="${imgURL}" alt="${title}" />
+      <p>${desc}</p>
+      <button class="close-btn" onclick="popup.style.display='none'">閉じる</button>`;
     popup.style.display = 'block';
   }
 
-  // 衛星ホバーで動画表示
-  function showVideo(id) {
-    document.getElementById(id).style.display = 'block';
-  }
-
-  function hideVideo(id) {
-    document.getElementById(id).style.display = 'none';
-  }
-
-  // SNS着陸音
+  // 🌍 SNSクリック音＋遅延ジャンプ
   function launchSNS(url) {
-    const beep = document.getElementById('beep');
-    beep.play();
-    setTimeout(() => {
-      window.open(url, '_blank');
-    }, 500); // 音が鳴ってから移動
+    const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+    audio.play();
+    setTimeout(() => window.open(url, "_blank"), 400);
   }
+
+  // 🌠 Canvas 星（ロケットから散布）
+  const canvas = document.getElementById("starCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const stars = [];
+  function createStar() {
+    stars.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 4,
+      dy: (Math.random() - 0.5) * 4
+    });
+  }
+
+  function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach((s, i) => {
+      s.x += s.dx;
+      s.y += s.dy;
+      s.radius *= 0.97;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "white";
+      ctx.fill();
+      if (s.radius < 0.5) stars.splice(i, 1);
+    });
+    requestAnimationFrame(animateStars);
+  }
+
+  for (let i = 0; i < 80; i++) setTimeout(createStar, i * 100);
+  animateStars();
+
+  // 🛰️ 衛星をドラッグ可能に
+  const sat = document.getElementById('draggable');
+  let isDragging = false;
+
+  sat.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    sat.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    sat.style.cursor = 'grab';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      sat.style.left = `${e.clientX - 40}px`;
+      sat.style.top = `${e.clientY - 40}px`;
+    }
+  });
+
+  // リサイズ時にCanvas再調整
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
 </script>
 
 </body>
