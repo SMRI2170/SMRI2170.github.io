@@ -1,187 +1,75 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>自己PR - カラフルY2Kネオン＆ガラスモーフィズム</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap');
-
-  body {
-    margin: 0; padding: 20px;
-    background: linear-gradient(135deg, #2a0048, #5b0068);
-    font-family: 'Orbitron', 'Press Start 2P', monospace;
-    color: #fffde7;
-  }
-
-  /* カラフルネオンテキスト */
-  .neon-text {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 3rem;
-    text-align: center;
-    background: linear-gradient(90deg, #b254ff, #ff47b0, #ffea47, #b6ff4b, #47e3ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow:
-      0 0 8px #b254ff,
-      0 0 15px #ff47b0,
-      0 0 25px #ffea47,
-      0 0 40px #b6ff4b,
-      0 0 80px #47e3ff;
-    margin-bottom: 40px;
-  }
-
-  /* ガラスモーフィズムカード */
-  .glass-card {
-    background: rgba(40, 20, 60, 0.4);
-    border-radius: 15px;
-    border: 1.5px solid transparent;
-    background-clip: padding-box;
-    box-shadow:
-      0 0 10px #ff47b0aa,
-      0 0 20px #b6ff4baa,
-      0 0 30px #47e3ffaa,
-      inset 0 0 15px #b254ff55;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: 25px 30px;
-    margin: 30px auto;
-    max-width: 720px;
-    color: #fffea7;
-  }
-
-  h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid #ff47b0;
-    color: #ffe947;
-    text-shadow: 0 0 5px #b254ff;
-  }
-
-  /* プロフィール写真 */
-  .profile-pic {
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    background: linear-gradient(135deg, #b254ff, #ff47b0, #b6ff4b);
-    box-shadow:
-      0 0 12px #b254ffcc,
-      inset 0 0 10px #ff47b0cc;
-    margin-bottom: 15px;
-    display: block;
-    object-fit: cover;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.6;
-    letter-spacing: 0.03em;
-    color: #fff7a7;
-  }
-  p strong {
-    color: #b6ff4b;
-    text-shadow: 0 0 6px #b6ff4baa;
-  }
-
-  .digital-led {
-    font-family: 'Press Start 2P', monospace;
-    color: #47e3ff;
-    font-size: 1.4rem;
-    letter-spacing: 0.2em;
-    text-shadow:
-      0 0 7px #47e3ff,
-      0 0 12px #47e3ff,
-      0 0 20px #47e3ffaa;
-    background: #240052;
-    padding: 8px 20px;
-    border-radius: 8px;
-    border: 1px solid #47e3ff77;
-    width: fit-content;
-    margin-top: 10px;
-  }
-
-  a.button {
-    display: inline-block;
-    padding: 14px 32px;
-    margin-top: 15px;
-    color: #240052;
-    background: linear-gradient(90deg, #b254ff, #ff47b0);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.95rem;
-    text-decoration: none;
-    border: 3px solid #ffea47;
-    border-radius: 14px;
-    box-shadow:
-      0 0 15px #b254ffcc,
-      0 0 25px #ff47b0cc;
-    transition: all 0.3s ease;
-  }
-  a.button:hover {
-    background: linear-gradient(90deg, #ffea47, #b6ff4b);
-    color: #240052;
-    box-shadow:
-      0 0 18px #ffe947,
-      0 0 28px #b6ff4b;
-    border-color: #b6ff4b;
-  }
-
-  /* リンクの蛍光カラー */
-  a {
-    color: #ff47b0;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  a:hover {
-    color: #b6ff4b;
-    text-shadow: 0 0 8px #b6ff4b;
-  }
-
-  @media (max-width: 600px) {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>レトロドットWeb</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
     body {
-      padding: 10px;
+      background-color: #000;
+      color: #D895FF; /* 明るめの紫 */
+      font-family: 'Press Start 2P', cursive;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
-    .glass-card {
+
+    header {
+      background-color: #222;
       padding: 20px;
-      margin: 20px auto;
+      border-bottom: 4px solid #D895FF;
     }
-    .neon-text {
-      font-size: 2.2rem;
-      margin-bottom: 30px;
+
+    h1 {
+      font-size: 20px;
+      animation: blink 1s steps(2, start) infinite;
     }
-  }
-</style>
+
+    @keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
+
+    main {
+      padding: 40px 20px;
+    }
+
+    .pixel-button {
+      background-color: #D895FF;
+      color: #000;
+      padding: 10px 20px;
+      border: 4px solid #fff;
+      display: inline-block;
+      font-size: 12px;
+      margin-top: 20px;
+      cursor: pointer;
+      image-rendering: pixelated;
+    }
+
+    .pixel-button:hover {
+      background-color: #fff;
+      color: #D895FF;
+    }
+
+    footer {
+      font-size: 10px;
+      margin-top: 40px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-
-  <h1 class="neon-text">WELCOME TO MY Y2K PORTFOLIO</h1>
-
-  <section class="glass-card" style="text-align:center;">
-    <img src="https://i.pravatar.cc/100" alt="プロフィール写真" class="profile-pic" />
-    <h2>プロフィール</h2>
-    <p>こんにちは。私は<strong>〇〇</strong>と申します。<br>
-       未来的でレトロなデザインとテクノロジーを組み合わせた作品づくりが得意です。<br>
-       <strong>Y2Kスタイル</strong>をこよなく愛し、ビットフォントや蛍光カラーを活かしたUIを設計します。</p>
-  </section>
-
-  <section class="glass-card">
-    <h2>スキルセット</h2>
-    <ul>
-      <li>HTML / CSS / JavaScript (ネオン風UI制作)</li>
-      <li>Python / OpenCV (画像処理・解析)</li>
-      <li>React / Vue (モダンフロントエンド)</li>
-      <li>UI/UX デザイン (<span style="color:#ffea47;">Y2K</span> & <span style="color:#b6ff4b;">レトロフューチャー</span>)</li>
-    </ul>
-  </section>
-
-  <section class="glass-card">
-    <h2>連絡先</h2>
-    <p>メールアドレス: <span class="digital-led">example@example.com</span></p>
-    <p>GitHub: <a href="https://github.com/yourusername" class="button" target="_blank" rel="noopener noreferrer">GitHubを見る</a></p>
-  </section>
-
+  <header>
+    <h1>★ レトロドットWebへようこそ！ ★</h1>
+  </header>
+  <main>
+    <p>まるで80年代のゲーム画面のようなスタイル！</p>
+    <div class="pixel-button">スタート</div>
+  </main>
+  <footer>
+    <p>© 2025 ドットデザイン制作</p>
+  </footer>
 </body>
 </html>
