@@ -3,149 +3,247 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>デジタルアート紹介サイト</title>
+<title>Y2K & サイケデリック デジタルアートサイト</title>
 <style>
-  /* 背景はコゲ茶色 */
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Press+Start+2P&family=Orbitron&display=swap');
+
+  /* 全体リセット */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+
   body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #4B2E0D; /* コゲ茶色 */
-    color: #FFFFFF;
-    line-height: 1.6;
+    background: 
+      radial-gradient(circle at center, 
+        #ff00ff55, #ff9900aa, #00ffff88, #ffff0088);
+    font-family: 'Fredoka One', cursive, sans-serif;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* 粗いノイズ背景 */
+  body::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+      radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 2px);
+    background-size: 8px 8px;
+    z-index: 0;
   }
 
   header {
-    padding: 2rem;
     text-align: center;
-    border-bottom: 2px solid #fff;
+    padding: 2rem 1rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.15em;
+    color: #eee;
+    text-shadow:
+      0 0 8px #0ff, 0 0 20px #0ff, /* ネオンブルー光沢 */
+      0 0 30px #ff77ff, 0 0 40px #ff77ff; /* メタリックピンク光 */
   }
 
-  header h1 {
-    font-size: 2.8rem;
-    letter-spacing: 0.1em;
-  }
-
-  nav {
-    margin-top: 0.5rem;
-  }
-
-  nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 1rem;
-    font-weight: 600;
-    transition: color 0.3s;
-  }
-  nav a:hover {
-    color: #FFB74D;
+  .subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.9rem;
+    color: #ff00ffcc;
+    margin-top: -1rem;
+    text-shadow: 0 0 4px #ff00ff88;
+    letter-spacing: 0.2em;
   }
 
   main {
-    max-width: 960px;
-    margin: 3rem auto;
-    padding: 0 1rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: rgba(0,0,0,0.4);
+    border-radius: 1rem;
+    box-shadow: 0 0 12px 3px #ff00ff88;
+    position: relative;
+    z-index: 10;
   }
 
-  section.artworks {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 2rem;
+  h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: #ff33cc;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px #ff33ccaa;
   }
 
-  article.artwork {
-    background-color: #5E3B12;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-  }
-  article.artwork:hover {
-    transform: scale(1.03);
+  p {
+    line-height: 1.6;
+    font-weight: 600;
+    color: #ffe;
+    margin-bottom: 1.2rem;
   }
 
-  article.artwork img {
-    width: 100%;
+  /* 反復スタンプ風アイコン */
+  .stamp-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .stamp {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    clip-path: polygon(
+      10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 2rem;
+    color: white;
+    text-shadow: 0 0 6px #0ff, 0 0 12px #ff00ff;
+    user-select: none;
+    transform: rotate(calc(var(--i) * 7deg));
+    filter: drop-shadow(0 0 3px #ff00ffaa);
+    cursor: default;
+  }
+
+  /* カラフルポップボタン */
+  .btn-pop {
+    background: linear-gradient(45deg, #ff33cc, #00ffff);
+    border: none;
+    border-radius: 2rem;
+    padding: 1rem 3rem;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    box-shadow:
+      0 0 8px #ff33cc, 0 0 20px #00ffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  .btn-pop:hover {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    box-shadow:
+      0 0 20px #ff00ff, 0 0 40px #00ffff;
+    transform: scale(1.1);
+  }
+
+  /* メタリックテキスト */
+  .metal-text {
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(90deg, #ccc, #fff, #ccc);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 5px #ccc;
+    letter-spacing: 0.1em;
+  }
+
+  /* サイケグラデ背景 */
+  .psychedelic-bg {
+    background: repeating-conic-gradient(
+      from 0deg,
+      #ff00ff88 0deg 10deg,
+      #00ffff88 10deg 20deg,
+      #ffff0088 20deg 30deg,
+      #ff00ff88 30deg 40deg
+    );
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    color: #222;
+    font-weight: 700;
+    text-shadow: 0 0 8px #fff8;
+    box-shadow: 0 0 20px #ff00ff88 inset;
+  }
+
+  /* 光るピースマーク */
+  .peace {
+    font-size: 4rem;
+    color: #ff00ff;
+    text-shadow:
+      0 0 8px #ff00ff, 0 0 16px #ff00ff, 0 0 32px #ff00ff;
+    animation: glow 2.5s ease-in-out infinite alternate;
+    user-select: none;
+    margin: 2rem auto;
     display: block;
-    height: 180px;
-    object-fit: cover;
+    width: fit-content;
   }
 
-  article.artwork h3 {
-    margin: 1rem;
-    font-size: 1.4rem;
-    color: #FFD54F;
+  @keyframes glow {
+    0% { text-shadow: 0 0 8px #ff00ff, 0 0 16px #ff00ff; }
+    100% { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
   }
 
-  article.artwork p {
-    margin: 0 1rem 1rem;
-    font-size: 1rem;
-    color: #FFE082;
-  }
-
+  /* フッター */
   footer {
     text-align: center;
-    padding: 1.5rem;
+    padding: 1rem;
+    color: #eee;
     font-size: 0.9rem;
-    color: #BFA26A;
-    border-top: 1px solid #fff;
-  }
-
-  @media(max-width:480px) {
-    header h1 {
-      font-size: 2rem;
-    }
-    nav a {
-      margin: 0 0.5rem;
-      font-size: 0.9rem;
-    }
+    margin-top: 3rem;
+    text-shadow: 0 0 4px #ff00ff88;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Digital Art Gallery</h1>
-  <nav>
-    <a href="#artworks">作品紹介</a>
-    <a href="#about">このサイトについて</a>
-    <a href="#contact">お問い合わせ</a>
-  </nav>
+  Y2K DIGITAL ART<br />
+  <span class="subtitle">RETRO × PSYCHEDELIC × METALLIC</span>
 </header>
 
 <main>
-  <section id="artworks" class="artworks">
-    <article class="artwork">
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="デジタルアート1" />
-      <h3>光の抽象画</h3>
-      <p>鮮やかなネオンカラーで表現された光の抽象的なデジタルアート作品。</p>
-    </article>
-    <article class="artwork">
-      <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&q=80" alt="デジタルアート2" />
-      <h3>サイバーパンク・シティ</h3>
-      <p>未来都市をテーマにしたサイバーパンク風のCGアート作品。</p>
-    </article>
-    <article class="artwork">
-      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80" alt="デジタルアート3" />
-      <h3>幾何学模様</h3>
-      <p>シンプルながら深みのある幾何学模様を用いたデジタルデザイン。</p>
-    </article>
+  <section>
+    <h2 class="metal-text">カラフルでポップなデザイン</h2>
+    <p>彩度高めのビビッドカラーと丸っこいフォントが楽しい！ポップで親しみやすいデザインです。</p>
   </section>
 
-  <section id="about" style="margin-top:4rem;">
-    <h2>このサイトについて</h2>
-    <p>このサイトは、最新のデジタルアート作品を紹介するために作られました。  
-    Z世代の感性を取り入れた多様な作品を掲載し、デジタルアートの魅力を伝えます。</p>
+  <section>
+    <h2 class="metal-text">レトロな質感とY2Kスタイル</h2>
+    <p>古紙のような粗い質感とメタリックな光沢感、2000年代初頭の未来感あふれるスタイルを融合。</p>
   </section>
 
-  <section id="contact" style="margin-top:4rem;">
-    <h2>お問い合わせ</h2>
-    <p>作品のご依頼や質問は以下のメールアドレスまでご連絡ください。</p>
-    <p><a href="mailto:contact@digitalartgallery.jp" style="color:#FFB74D;">contact@digitalartgallery.jp</a></p>
+  <section>
+    <h2 class="metal-text">デジタルアート×テクノロジー</h2>
+    <p>ドット絵やピクセルフォントを使いながら、現代的に滑らかなUIと対比させることで新しさも表現。</p>
+  </section>
+
+  <section class="stamp-container">
+    <!-- スタンプ風アイコンの反復 -->
+    <div class="stamp" style="--i: 0;">★</div>
+    <div class="stamp" style="--i: 1;">☯</div>
+    <div class="stamp" style="--i: 2;">☮</div>
+    <div class="stamp" style="--i: 3;">✿</div>
+    <div class="stamp" style="--i: 4;">⚡</div>
+    <div class="stamp" style="--i: 5;">☆</div>
+  </section>
+
+  <section>
+    <h2 class="metal-text">反復と対比</h2>
+    <p>切り貼り感のあるランダム配置と、強烈な色の対比でエネルギッシュなビジュアルを作り出します。</p>
+  </section>
+
+  <section class="psychedelic-bg">
+    <h2>サイケデリック要素</h2>
+    <p>蛍光色のグラデーションや渦巻き模様、ピースマークでポジティブかつ幻想的な雰囲気を演出。</p>
+  </section>
+
+  <section>
+    <span class="peace">✌️</span>
+  </section>
+
+  <section>
+    <button class="btn-pop" onclick="alert('Hello, Y2K world!')">ポップなボタン</button>
   </section>
 </main>
 
 <footer>
-  &copy; 2025 Digital Art Gallery
+  &copy; 2025 YourName. All rights reserved.
 </footer>
 
 </body>
