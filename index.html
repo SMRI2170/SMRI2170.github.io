@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Y2K & サイケデリック デジタルアートサイト</title>
+<title>わかりやすいY2K＆サイケデリック</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Press+Start+2P&family=Orbitron&display=swap');
 
-  /* 全体リセット */
   * {
     margin: 0; padding: 0; box-sizing: border-box;
   }
@@ -23,7 +22,7 @@
     position: relative;
   }
 
-  /* 粗いノイズ背景 */
+  /* 粗いドットノイズを背景に */
   body::before {
     content: "";
     pointer-events: none;
@@ -43,15 +42,15 @@
     letter-spacing: 0.15em;
     color: #eee;
     text-shadow:
-      0 0 8px #0ff, 0 0 20px #0ff, /* ネオンブルー光沢 */
-      0 0 30px #ff77ff, 0 0 40px #ff77ff; /* メタリックピンク光 */
+      0 0 8px #0ff, 0 0 20px #0ff, 
+      0 0 30px #ff77ff, 0 0 40px #ff77ff;
   }
 
   .subtitle {
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #ff00ffcc;
-    margin-top: -1rem;
+    margin-top: -0.8rem;
     text-shadow: 0 0 4px #ff00ff88;
     letter-spacing: 0.2em;
   }
@@ -59,8 +58,8 @@
   main {
     max-width: 900px;
     margin: 2rem auto;
-    padding: 1rem;
-    background: rgba(0,0,0,0.4);
+    padding: 1.5rem 2rem;
+    background: rgba(0,0,0,0.5);
     border-radius: 1rem;
     box-shadow: 0 0 12px 3px #ff00ff88;
     position: relative;
@@ -71,24 +70,25 @@
     font-family: 'Fredoka One', cursive;
     font-size: 2rem;
     color: #ff33cc;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
     text-shadow: 0 0 8px #ff33ccaa;
   }
 
   p {
     line-height: 1.6;
     font-weight: 600;
-    color: #ffe;
-    margin-bottom: 1.2rem;
+    color: #fff;
+    margin-bottom: 1.4rem;
+    font-size: 1.1rem;
   }
 
-  /* 反復スタンプ風アイコン */
+  /* スタンプ風アイコンの反復 */
   .stamp-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.2rem;
     justify-content: center;
-    margin: 2rem 0;
+    margin: 2rem 0 3rem 0;
   }
 
   .stamp {
@@ -105,12 +105,11 @@
     color: white;
     text-shadow: 0 0 6px #0ff, 0 0 12px #ff00ff;
     user-select: none;
-    transform: rotate(calc(var(--i) * 7deg));
     filter: drop-shadow(0 0 3px #ff00ffaa);
     cursor: default;
   }
 
-  /* カラフルポップボタン */
+  /* ポップなボタン */
   .btn-pop {
     background: linear-gradient(45deg, #ff33cc, #00ffff);
     border: none;
@@ -118,7 +117,7 @@
     padding: 1rem 3rem;
     color: white;
     font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     box-shadow:
       0 0 8px #ff33cc, 0 0 20px #00ffff;
     cursor: pointer;
@@ -132,7 +131,7 @@
     transform: scale(1.1);
   }
 
-  /* メタリックテキスト */
+  /* メタリック風テキスト */
   .metal-text {
     font-family: 'Orbitron', sans-serif;
     background: linear-gradient(90deg, #ccc, #fff, #ccc);
@@ -143,7 +142,7 @@
     letter-spacing: 0.1em;
   }
 
-  /* サイケグラデ背景 */
+  /* サイケデリックな背景 */
   .psychedelic-bg {
     background: repeating-conic-gradient(
       from 0deg,
@@ -153,11 +152,11 @@
       #ff00ff88 30deg 40deg
     );
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 1.2rem 1rem;
     margin-top: 1rem;
     color: #222;
     font-weight: 700;
-    text-shadow: 0 0 8px #fff8;
+    text-shadow: 0 0 6px #fff8;
     box-shadow: 0 0 20px #ff00ff88 inset;
   }
 
@@ -179,12 +178,11 @@
     100% { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
   }
 
-  /* フッター */
   footer {
     text-align: center;
     padding: 1rem;
     color: #eee;
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-top: 3rem;
     text-shadow: 0 0 4px #ff00ff88;
   }
@@ -193,58 +191,44 @@
 <body>
 
 <header>
-  Y2K DIGITAL ART<br />
-  <span class="subtitle">RETRO × PSYCHEDELIC × METALLIC</span>
+  Y2Kデジタルアートサイト<br />
+  <span class="subtitle">レトロ × サイケ × メタリック</span>
 </header>
 
 <main>
   <section>
-    <h2 class="metal-text">カラフルでポップなデザイン</h2>
-    <p>彩度高めのビビッドカラーと丸っこいフォントが楽しい！ポップで親しみやすいデザインです。</p>
+    <h2 class="metal-text">カラフルでポップ</h2>
+    <p>鮮やかな色と、丸くてかわいい文字で、見ていて楽しいデザインです。</p>
   </section>
 
   <section>
-    <h2 class="metal-text">レトロな質感とY2Kスタイル</h2>
-    <p>古紙のような粗い質感とメタリックな光沢感、2000年代初頭の未来感あふれるスタイルを融合。</p>
+    <h2 class="metal-text">レトロな質感とY2K</h2>
+    <p>古い紙のようなざらっとした感じと、未来的なメタリックの光が混ざったデザインです。</p>
   </section>
 
   <section>
-    <h2 class="metal-text">デジタルアート×テクノロジー</h2>
-    <p>ドット絵やピクセルフォントを使いながら、現代的に滑らかなUIと対比させることで新しさも表現。</p>
+    <h2 class="metal-text">デジタルアートの魅力</h2>
+    <p>ドット絵や昔の画面風のデザインを使いながら、今のきれいな画面とのコントラストを楽しめます。</p>
   </section>
 
   <section class="stamp-container">
-    <!-- スタンプ風アイコンの反復 -->
-    <div class="stamp" style="--i: 0;">★</div>
-    <div class="stamp" style="--i: 1;">☯</div>
-    <div class="stamp" style="--i: 2;">☮</div>
-    <div class="stamp" style="--i: 3;">✿</div>
-    <div class="stamp" style="--i: 4;">⚡</div>
-    <div class="stamp" style="--i: 5;">☆</div>
+    <div class="stamp">★</div>
+    <div class="stamp">☯</div>
+    <div class="stamp">☮</div>
+    <div class="stamp">✿</div>
+    <div class="stamp">⚡</div>
+    <div class="stamp">☆</div>
   </section>
 
   <section>
     <h2 class="metal-text">反復と対比</h2>
-    <p>切り貼り感のあるランダム配置と、強烈な色の対比でエネルギッシュなビジュアルを作り出します。</p>
+    <p>同じ形を何度も使って、はっきり違う色を合わせて、見ていて楽しいデザインにしています。</p>
   </section>
 
   <section class="psychedelic-bg">
     <h2>サイケデリック要素</h2>
-    <p>蛍光色のグラデーションや渦巻き模様、ピースマークでポジティブかつ幻想的な雰囲気を演出。</p>
+    <p>強い色のグラデーションや、まわるような模様で、ワクワクする雰囲気を出しています。</p>
   </section>
 
   <section>
-    <span class="peace">✌️</span>
-  </section>
-
-  <section>
-    <button class="btn-pop" onclick="alert('Hello, Y2K world!')">ポップなボタン</button>
-  </section>
-</main>
-
-<footer>
-  &copy; 2025 YourName. All rights reserved.
-</footer>
-
-</body>
-</html>
+    <span class="peace
