@@ -2,88 +2,60 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>魔法書プロフィール</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>プロフィールサイト</title>
   <style>
+    :root {
+      --base-color: #ffffff;
+      --main-color: #000000;
+      --accent-color: #006400;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --base-color: #000000;
+        --main-color: #ffffff;
+      }
+    }
+
     body {
+      background-color: var(--base-color);
+      color: var(--main-color);
+      font-family: 'Helvetica Neue', sans-serif;
       margin: 0;
-      background: linear-gradient(#2c2c2c, #1a1a1a);
-      font-family: 'serif';
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      padding: 2rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .book {
-      perspective: 2000px;
+    h1, h2, h3 {
+      color: var(--accent-color);
     }
 
-    .page {
-      width: 600px;
-      height: 400px;
-      background: #fef7e0;
-      color: #000;
-      position: absolute;
-      transform-origin: left;
-      transition: transform 1s;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      padding: 20px;
-      box-sizing: border-box;
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
     }
 
-    .page:nth-child(1) { z-index: 3; background: #8b4513; color: #fff; }
-    .page:nth-child(2) { z-index: 2; }
-    .page:nth-child(3) { z-index: 1; }
-
-    .book:hover .page:nth-child(2) {
-      transform: rotateY(-160deg);
+    a:hover {
+      text-decoration: underline;
     }
 
-    .book:hover .page:nth-child(3) {
-      transform: rotateY(-160deg);
-      transition-delay: 0.3s;
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-top: 0;
-    }
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    ul li::before {
-      content: '\2605';
-      margin-right: 8px;
+    .profile-card {
+      border: 2px solid var(--accent-color);
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 600px;
+      margin: auto;
+      background-color: rgba(0, 100, 0, 0.05);
     }
   </style>
 </head>
 <body>
-  <div class="book">
-    <div class="page">
-      <h1>魔法書：プロフィール</h1>
-      <p>ようこそ、私の魔法書へ。</p>
-      <p>名前：吉岡龍佑<br>学歴：立命館大学 情報理工学部</p>
-    </div>
-    <div class="page">
-      <h1>スキルツリー</h1>
-      <ul>
-        <li>Python（機械学習・IoT）</li>
-        <li>JavaScript / React</li>
-        <li>Webデザイン / UI UX</li>
-        <li>ブロックチェーン / ZKP</li>
-      </ul>
-    </div>
-    <div class="page">
-      <h1>プロジェクト</h1>
-      <p>⚔️ AIで顔属性解析 / YOLO・SSRNet 使用</p>
-      <p>🌱 IoT × ZKP によるプライバシー保護型センシング</p>
-      <p>🎥 動画：<a href="#">プロジェクト紹介動画</a></p>
-    </div>
+  <div class="profile-card">
+    <h1>吉岡 龍佑</h1>
+    <p>立命館大学 / 情報理工学部 / セキュリティ・ネットワークコース</p>
+    <p>興味: ゼロ知識証明 / IoT / AI / Webデザイン</p>
+    <a href="https://github.com/yourusername">GitHubを見る</a>
   </div>
 </body>
 </html>
