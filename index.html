@@ -1,121 +1,90 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ゲームクリアで入場</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 Not Found</title>
   <style>
     body {
       margin: 0;
+      background: radial-gradient(ellipse at center, #0d0d0d 0%, #000000 100%);
+      font-family: 'Courier New', monospace;
+      color: #fff;
       overflow: hidden;
-      background-color: black;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    h1 {
+      font-size: 6em;
+      margin: 0;
+      letter-spacing: 0.1em;
+    }
+
+    p {
+      font-size: 1.5em;
+      margin: 0.5em 0;
+    }
+
+    .astronaut {
+      font-size: 2em;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .home-btn {
+      margin-top: 1.5em;
+      padding: 0.5em 1.5em;
+      font-size: 1em;
+      background: #8e44ad;
       color: white;
-      font-family: sans-serif;
-      text-align: center;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s;
     }
-    canvas {
-      display: block;
-      margin: 0 auto;
-      background: #111;
-      border: 2px solid white;
-    }
-    #mainContent {
-      display: none;
-      margin-top: 20px;
+
+    .home-btn:hover {
+      background: #732d91;
     }
   </style>
 </head>
 <body>
-  <h1>敵を全滅させるとサイトに入れます！</h1>
-  <canvas id="gameCanvas" width="400" height="500"></canvas>
-
-  <div id="mainContent">
-    <h2>🎉 クリア！ようこそ！</h2>
-    <p>ここからサイト本編の情報が見られます。</p>
-    <p>GitHubや作品リンクなどをここに配置しましょう。</p>
-  </div>
-
+  <!-- ランダムな星 -->
   <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-
-    let player = { x: 200, y: 450, width: 20, height: 20 };
-    let bullets = [];
-    let enemies = [];
-    let keys = {};
-
-    for (let i = 0; i < 5; i++) {
-      enemies.push({ x: 60 + i * 60, y: 50, width: 20, height: 20, alive: true });
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+      document.body.appendChild(star);
     }
-
-    document.addEventListener("keydown", (e) => {
-      keys[e.key] = true;
-      if (e.key === " ") {
-        bullets.push({ x: player.x + 8, y: player.y, speed: 5 });
-      }
-    });
-
-    document.addEventListener("keyup", (e) => {
-      keys[e.key] = false;
-    });
-
-    function update() {
-      if (keys["ArrowLeft"]) player.x -= 5;
-      if (keys["ArrowRight"]) player.x += 5;
-      player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
-
-      bullets.forEach((b) => (b.y -= b.speed));
-
-      bullets = bullets.filter((b) => b.y > 0);
-
-      // 敵と衝突判定
-      bullets.forEach((bullet) => {
-        enemies.forEach((enemy) => {
-          if (
-            enemy.alive &&
-            bullet.x < enemy.x + enemy.width &&
-            bullet.x + 4 > enemy.x &&
-            bullet.y < enemy.y + enemy.height &&
-            bullet.y + 10 > enemy.y
-          ) {
-            enemy.alive = false;
-            bullet.y = -10;
-          }
-        });
-      });
-
-      // 敵全滅判定
-      if (enemies.every((e) => !e.alive)) {
-        document.getElementById("gameCanvas").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // プレイヤー
-      ctx.fillStyle = "white";
-      ctx.fillRect(player.x, player.y, player.width, player.height);
-
-      // 弾
-      ctx.fillStyle = "red";
-      bullets.forEach((b) => ctx.fillRect(b.x, b.y, 4, 10));
-
-      // 敵
-      ctx.fillStyle = "lime";
-      enemies.forEach((e) => {
-        if (e.alive) ctx.fillRect(e.x, e.y, e.width, e.height);
-      });
-    }
-
-    function gameLoop() {
-      update();
-      draw();
-      requestAnimationFrame(gameLoop);
-    }
-
-    gameLoop();
   </script>
+
+  <div class="astronaut">👨‍🚀</div>
+  <h1>404</h1>
+  <p>宇宙の彼方でページが迷子になりました。</p>
+  <button class="home-btn" onclick="window.location.href='/'">ホームに戻る</button>
 </body>
 </html>
