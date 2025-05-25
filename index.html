@@ -46,16 +46,26 @@
       margin: 10px 0 20px;
     }
 
-    .profile-card a {
-      display: inline-block;
-      margin: 5px 10px;
+    .social-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .social-links a {
       text-decoration: none;
       color: #0077cc;
       font-weight: bold;
+      border: 1px solid #0077cc;
+      border-radius: 8px;
+      padding: 8px 12px;
+      transition: background-color 0.2s, color 0.2s;
     }
 
-    .profile-card a:hover {
-      text-decoration: underline;
+    .social-links a:hover {
+      background-color: #0077cc;
+      color: #fff;
     }
   </style>
 </head>
@@ -64,8 +74,10 @@
     <img src="15665_0.jpg" alt="プロフィール画像" />
     <h1>吉岡 龍佑</h1>
     <p>情報理工学部の学生。IoTや機械学習に興味があります。</p>
-    <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-    <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+    <div class="social-links">
+      <a href="https://github.com/SMRI2170" target="_blank">GitHub</a>
+      <a href="https://qiita.com/ryosuke0712" target="_blank">Qiita</a>
+    </div>
   </div>
 </body>
 </html>
