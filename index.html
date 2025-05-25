@@ -2,29 +2,70 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vivid Art Gallery</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>プロフィール</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 40px;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .profile-card img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .profile-card h1 {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+
+    .profile-card p {
+      font-size: 16px;
+      color: #666;
+      margin: 10px 0 20px;
+    }
+
+    .profile-card a {
+      display: inline-block;
+      margin: 5px 10px;
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+
+    .profile-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Vivid Art Gallery</h1>
-    <p>色彩が踊るデジタルアートの世界へようこそ</p>
-  </header>
-
-  <main>
-    <section class="gallery">
-      <div class="art-card"><img src="https://source.unsplash.com/400x400/?art" alt="art1" /></div>
-      <div class="art-card"><img src="https://source.unsplash.com/401x400/?colorful,painting" alt="art2" /></div>
-      <div class="art-card"><img src="https://source.unsplash.com/402x400/?abstract,art" alt="art3" /></div>
-      <div class="art-card"><img src="https://source.unsplash.com/403x400/?vivid,art" alt="art4" /></div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Vivid Art Gallery</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <div class="profile-card">
+    <img src="15665_0.jpg" alt="プロフィール画像" />
+    <h1>吉岡 龍佑</h1>
+    <p>情報理工学部の学生。IoTや機械学習に興味があります。</p>
+    <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+    <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+  </div>
 </body>
 </html>
