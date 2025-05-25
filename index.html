@@ -16,6 +16,7 @@
       font-family: 'Georgia', 'Times New Roman', serif;
       background-color: #1f3b1f;
       color: #ffffff;
+      overflow-x: hidden; /* 横スクロール防止 */
     }
 
     a {
@@ -64,10 +65,17 @@
 
     .nav a {
       transition: transform 0.3s ease, opacity 0.3s ease;
+      position: relative;
     }
 
     .nav a:hover {
       transform: scale(1.05);
+    }
+
+    /* 追加：現在のセクションリンクをハイライト */
+    .nav a.active {
+      font-weight: bold;
+      border-bottom: 2px solid #ffffff;
     }
 
     .name {
@@ -137,6 +145,29 @@
       height: auto;
     }
 
+    /* トップに戻るボタン */
+    #back-to-top {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background-color: #375537;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 1002;
+    }
+
+    #back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
     @media screen and (max-width: 768px) {
       .nav {
         display: none;
@@ -150,6 +181,7 @@
         padding: 60px 20px;
         box-shadow: -2px 0 8px rgba(0,0,0,0.3);
         z-index: 1000;
+        overflow-y: auto;
       }
 
       .nav.open {
@@ -168,6 +200,11 @@
         font-size: 14px;
         max-width: 200px;
         text-align: right;
+      }
+
+      /* ナビ開いたときに背景スクロール止める */
+      body.nav-open {
+        overflow: hidden;
       }
     }
 
@@ -207,16 +244,16 @@
   </div>
 
   <div class="hero">
-    <div class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">
+    <div class="nav-toggle" id="nav-toggle">
       <i class="fas fa-bars"></i>
     </div>
-    <div class="nav">
+    <nav class="nav" id="nav">
       <a href="#education">Education</a>
       <a href="#skills">Skills</a>
       <a href="#github">GitHub</a>
       <a href="#qiita">Qiita</a>
       <a href="#contact">Contact</a>
-    </div>
+    </nav>
     <div class="name">RYOSUKE Yoshioka</div>
     <div class="bio">
       A creative developer exploring the harmony<br> of design, technology, and purpose.
@@ -283,24 +320,85 @@
     </div>
   </section>
 
+  <!-- トップに戻るボタン -->
+  <div id="back-to-top" title="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
   <script>
+    // IntersectionObserverでセクションの遅延フェードイン(順番に0.3秒ずつ遅らせる)
+    const sections = document.querySelectorAll('section');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          // 遅延時間は表示される順に0.3秒ずつ増やす
+          const delay = Array.from(sections).indexOf(entry.target) * 300;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
         }
       });
     }, { threshold: 0.1 });
+    sections.forEach(sec => observer.observe(sec));
 
-    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-
-    // ページ読み込み後にローディング画面をフェードアウトさせて非表示にする
+    // ローディング画面のフェードアウト
     window.addEventListener('load', () => {
       const loadingScreen = document.getElementById('loading-screen');
       loadingScreen.style.opacity = '0';
       setTimeout(() => {
         loadingScreen.style.display = 'none';
       }, 500);
+    });
+
+    // ナビの開閉時にbodyのスクロールを止める（モバイル用）
+    const navToggle = document.getElementById('nav-toggle');
+    const nav = document.getElementById('nav');
+    navToggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      document.body.classList.toggle('nav-open');
+    });
+
+    // スクロールに応じて現在のセクションをナビでハイライト
+    const navLinks = document.querySelectorAll('.nav a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 60; // 少し余裕持たせる
+        const sectionHeight = section.offsetHeight;
+        if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+
+      // トップに戻るボタン表示制御
+      const backToTop = document.getElementById('back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+
+    // トップに戻るボタンクリックでスクロールトップへ
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ナビリンククリックでモバイル時にナビ閉じる
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          document.body.classList.remove('nav-open');
+        }
+      });
     });
   </script>
 </body>
