@@ -3,139 +3,165 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>自己PR - Y2Kレトロ風</title>
+<title>自己PR - Y2Kネオン＆ガラスモーフィズム</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap');
 
+  /* 背景 */
   body {
-    background: linear-gradient(135deg, #1e1e2f, #4a3e6f);
-    color: #e0e0e0;
-    font-family: 'Press Start 2P', monospace;
-    margin: 0;
-    padding: 20px;
+    margin: 0; padding: 20px;
+    background: linear-gradient(135deg, #0f0f1e, #101838);
+    font-family: 'Orbitron', 'Press Start 2P', monospace;
+    color: #e0e0f0;
   }
 
-  header {
-    text-align: center;
-    padding: 30px 0;
-    border-bottom: 3px solid #a0f0f0;
-    text-shadow: 2px 2px #008080;
-  }
-
-  header h1 {
-    font-size: 2.5rem;
-    letter-spacing: 0.15em;
+  /* ネオンテキスト */
+  .neon-text {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
     color: #00fff7;
+    text-align: center;
+    text-shadow:
+      0 0 5px #00fff7,
+      0 0 15px #00fff7,
+      0 0 20px #00fff7,
+      0 0 40px #00ffffcc,
+      0 0 80px #00ffffcc;
+    margin-bottom: 40px;
   }
 
-  main {
-    max-width: 800px;
-    margin: 40px auto;
-    background: rgba(0, 128, 128, 0.15);
-    border: 3px solid #00fff7;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 0 12px #00fff7;
-  }
-
-  section {
-    margin-bottom: 30px;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-    border-bottom: 2px dashed #00fff7;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    color: #40ffff;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.6;
+  /* ガラスモーフィズムのカード */
+  .glass-card {
+    background: rgba(10, 25, 50, 0.4);
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow:
+      0 4px 30px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 25px 30px;
+    margin: 30px auto;
+    max-width: 720px;
     color: #b0f7f7;
   }
 
-  /* レトロなビット風アイコン(シンプルに) */
-  .icon {
-    width: 48px;
-    height: 48px;
-    background: #00fff7;
-    margin-right: 10px;
-    display: inline-block;
-    clip-path: polygon(
-      25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%
-    );
-    box-shadow: inset 0 0 4px #004040, 0 0 6px #00fff7;
+  /* 見出し */
+  h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #40ffff;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #00fff7;
+    padding-bottom: 6px;
   }
 
-  /* ボタン風リンク */
+  /* プロフィール写真やアイコン */
+  .profile-pic {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    border: 2px solid #00fff7;
+    background: rgba(0, 255, 255, 0.25);
+    box-shadow:
+      0 0 15px #00ffff99,
+      inset 0 0 8px #00ffffaa;
+    margin-bottom: 15px;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* テキスト本文 */
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+
+  /* デジタルLED風カウンター表示 */
+  .digital-led {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ffff;
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    text-shadow:
+      0 0 5px #00ffff,
+      0 0 10px #00ffff,
+      0 0 15px #00ffff,
+      0 0 20px #00ffffaa;
+    background: #002022;
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1px solid #00ffff66;
+    width: fit-content;
+    margin-top: 10px;
+  }
+
+  /* ボタン */
   a.button {
     display: inline-block;
-    padding: 12px 28px;
-    margin-top: 10px;
-    color: #004040;
-    background: #00fff7;
+    padding: 14px 32px;
+    margin-top: 15px;
+    color: #002020;
+    background: #00ffff;
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     text-decoration: none;
-    border: 3px solid #004040;
-    border-radius: 8px;
-    box-shadow: 0 0 8px #00fff7;
+    border: 3px solid #002020;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00ffffcc;
     transition: all 0.3s ease;
   }
-
   a.button:hover {
-    background: #004040;
-    color: #00fff7;
-    box-shadow: 0 0 12px #40ffff;
+    background: #002020;
+    color: #00ffff;
+    box-shadow: 0 0 18px #40ffff;
     border-color: #40ffff;
   }
 
-  /* 粗いビットフォント風文字装飾 */
-  .bit-text {
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    text-shadow:
-      1px 1px 0 #004040,
-      2px 2px 0 #002020;
-  }
-
-  /* レスポンシブ */
+  /* レスポンシブ調整 */
   @media (max-width: 600px) {
     body {
       padding: 10px;
     }
-    main {
+    .glass-card {
       padding: 20px;
-      border-width: 2px;
-      box-shadow: 0 0 8px #00fff7;
+      margin: 20px auto;
+    }
+    .neon-text {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
     }
   }
 </style>
 </head>
 <body>
-<header>
-  <h1 class="bit-text">Y2K レトロ 自己PR</h1>
-</header>
 
-<main>
-  <section>
-    <h2 class="bit-text">プロフィール <span class="icon"></span></h2>
-    <p>はじめまして。私は〇〇と申します。プログラミングとデザインが得意で、特にレトロでスタイリッシュなUI/UXを作るのが好きです。</p>
+  <h1 class="neon-text">WELCOME TO MY Y2K PORTFOLIO</h1>
+
+  <section class="glass-card" style="text-align:center;">
+    <img src="https://i.pravatar.cc/100" alt="プロフィール写真" class="profile-pic" />
+    <h2>プロフィール</h2>
+    <p>こんにちは。私は〇〇と申します。<br>
+       未来的でレトロなデザインとテクノロジーを組み合わせた作品づくりが得意です。<br>
+       Y2Kスタイルをこよなく愛し、ビットフォントや蛍光カラーを活かしたUIを設計します。</p>
   </section>
 
-  <section>
-    <h2 class="bit-text">スキルセット <span class="icon"></span></h2>
-    <p>HTML, CSS, JavaScript, Python, OpenCVなどを使い、Webサイトやアプリケーションを開発します。<br>
-    デザインではY2K・レトロスタイルにこだわり、ビットフォントやメタリックなカラーを活用します。</p>
+  <section class="glass-card">
+    <h2>スキルセット</h2>
+    <ul>
+      <li>HTML / CSS / JavaScript (ネオン風UI制作)</li>
+      <li>Python / OpenCV (画像処理・解析)</li>
+      <li>React / Vue (モダンフロントエンド)</li>
+      <li>UI/UX デザイン (Y2K & レトロフューチャー)</li>
+    </ul>
   </section>
 
-  <section>
-    <h2 class="bit-text">連絡先 <span class="icon"></span></h2>
-    <p>メール: example@example.com<br>
-    GitHub: <a href="https://github.com/yourusername" class="button" target="_blank" rel="noopener noreferrer">GitHubをみる</a></p>
+  <section class="glass-card">
+    <h2>連絡先</h2>
+    <p>メールアドレス: <span class="digital-led">example@example.com</span></p>
+    <p>GitHub: <a href="https://github.com/yourusername" class="button" target="_blank" rel="noopener noreferrer">GitHubを見る</a></p>
   </section>
-</main>
+
 </body>
 </html>
