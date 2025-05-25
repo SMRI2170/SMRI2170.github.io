@@ -2,52 +2,148 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>勇者RYOSUKEの冒険</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
     body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Press Start 2P', cursive;
+      margin: 0;
+      padding: 0;
+      /* 初期背景は草原 */
       background-image: url("https://opengameart.org/sites/default/files/grass.png");
       background-repeat: repeat;
       background-size: 32px 32px;
-      font-family: 'Press Start 2P', cursive;
-      color: white;
-      margin: 0;
-      padding: 0;
+      transition: background-image 0.5s ease;
     }
     header {
-      background-color: rgba(0, 0, 0, 0.8);
-      text-align: center;
+      background: #222;
       padding: 20px;
+      text-align: center;
       font-size: 14px;
+      position: relative;
+      z-index: 10;
+    }
+    /* 背景切り替えボタンエリア */
+    .bg-switcher {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+    }
+    .bg-switcher button {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      padding: 6px 8px;
+      background: #222;
+      border: 2px solid #fff;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .bg-switcher button:hover {
+      background-color: #555;
+    }
+    .start-screen {
+      text-align: center;
+      padding: 100px 20px;
+      position: relative;
+      z-index: 5;
+    }
+    .start-button {
+      font-size: 20px;
+      padding: 10px 20px;
+      background: #fff;
+      color: #000;
+      border: none;
+      cursor: pointer;
     }
     .dialog-box {
-      background-color: rgba(0, 0, 0, 0.7);
+      background: rgba(68, 68, 68, 0.8);
       border: 4px solid #fff;
       padding: 20px;
       margin: 20px auto;
       width: 80%;
       max-width: 600px;
+      position: relative;
+      z-index: 5;
+      backdrop-filter: blur(3px);
+    }
+    .profile-section {
+      padding: 20px;
+      position: relative;
+      z-index: 5;
     }
   </style>
 </head>
 <body>
   <header>🎮 勇者 RYOSUKE の 冒険記</header>
 
-  <div class="dialog-box">
-    <p>【名前】RYOSUKE</p>
-    <p>【職業】魔導士</p>
-    <p>【レベル】21</p>
-    <p>【HP】120 / 120</p>
+  <!-- 背景切り替えボタン -->
+  <div class="bg-switcher" aria-label="背景切り替えボタン">
+    <button type="button" onclick="changeBackground('grass')">草原</button>
+    <button type="button" onclick="changeBackground('forest')">森</button>
+    <button type="button" onclick="changeBackground('castle')">城</button>
   </div>
 
-  <div class="dialog-box">
-    <p>🪄 スキル</p>
-    <ul>
-      <li>魔法（Python）Lv.10</li>
-      <li>錬金術（HTML）Lv.8</li>
-      <li>伝説のReact Lv.7</li>
-    </ul>
+  <div class="start-screen">
+    <p>PRESS START</p>
+    <button class="start-button" onclick="document.querySelector('.main-content').style.display='block'; this.parentElement.style.display='none';">START</button>
   </div>
+
+  <div class="main-content" style="display:none;">
+    <section class="profile-section">
+      <div class="dialog-box">
+        <p>【名前】RYOSUKE</p>
+        <p>【職業】アーキテクト</p>
+        <p>【レベル】21</p>
+        <p>【HP】108/120</p>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <div class="dialog-box">
+        <p>🎯スキル</p>
+        <ul>
+          <li>HTML & CSS - レベル10</li>
+          <li>JavaScript - レベル8</li>
+          <li>React - レベル6</li>
+          <li>Python - レベル9</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <div class="dialog-box">
+        <p>🏰 宿屋へようこそ。お問合せは以下まで。</p>
+        <p>📧 ryosuke@example.com</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function changeBackground(type) {
+      let url = "";
+      switch(type) {
+        case "grass":
+          url = "https://opengameart.org/sites/default/files/grass.png";
+          break;
+        case "forest":
+          url = "https://opengameart.org/sites/default/files/forest_tile.png";
+          break;
+        case "castle":
+          url = "https://opengameart.org/sites/default/files/castle_tile.png";
+          break;
+        default:
+          url = "https://opengameart.org/sites/default/files/grass.png";
+      }
+      document.body.style.backgroundImage = `url('${url}')`;
+    }
+  </script>
 </body>
 </html>
