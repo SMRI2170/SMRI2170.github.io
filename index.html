@@ -1,206 +1,85 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>宇宙レトロシューティング</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>勇者RYOSUKEの冒険</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
+      background-color: #000;
+      color: #fff;
       font-family: 'Press Start 2P', cursive;
-      background: black;
-      color: #D895FF;
-      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
-
-    .starfield {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 300%;
-      background: repeating-radial-gradient(#D895FF 1px, transparent 2px);
-      animation: starscroll 60s linear infinite;
-      z-index: -2;
-    }
-
-    .planet {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background: radial-gradient(circle, #b18aff, #51318a);
-      border-radius: 50%;
-      top: 120vh;
-      left: 20%;
-      z-index: -1;
-    }
-
-    .asteroid {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      background: gray;
-      border-radius: 50%;
-      top: 220vh;
-      left: 70%;
-      z-index: -1;
-    }
-
-    @keyframes starscroll {
-      from { background-position: 0 0; }
-      to { background-position: 0 1000px; }
-    }
-
     header {
+      background: #222;
+      padding: 20px;
       text-align: center;
-      padding: 50px 20px;
-    }
-
-    .ship {
-      position: fixed;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 50px;
-      background: url('https://i.imgur.com/Ox1Z6bo.png') no-repeat center;
-      background-size: contain;
-      image-rendering: pixelated;
-      z-index: 2;
-    }
-
-    .bullet {
-      position: fixed;
-      width: 6px;
-      height: 20px;
-      background: #fff;
-      top: 0;
-      z-index: 1;
-    }
-
-    .score {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 6px;
-      border: 2px solid #D895FF;
-      z-index: 3;
-    }
-
-    .powerup {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 10px;
-      background: #D895FF;
-      color: black;
-      padding: 6px;
-      display: none;
-      z-index: 3;
-    }
-
-    section {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       font-size: 14px;
     }
-
-    .enemy {
-      width: 40px;
-      height: 40px;
-      background: url('https://i.imgur.com/kpHWjHt.png') no-repeat center;
-      background-size: contain;
-      image-rendering: pixelated;
-      animation: float 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(10px); }
-    }
-
-    footer {
-      padding: 40px;
+    .start-screen {
       text-align: center;
-      font-size: 10px;
-      color: #aaa;
+      padding: 100px 20px;
+    }
+    .start-button {
+      font-size: 20px;
+      padding: 10px 20px;
+      background: #fff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+    .dialog-box {
+      background: #444;
+      border: 4px solid #fff;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 600px;
+    }
+    .profile-section {
+      padding: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="starfield"></div>
-  <div class="planet"></div>
-  <div class="asteroid"></div>
+  <header>🎮 勇者 RYOSUKE の 冒険記</header>
 
-  <div class="score">SCORE: <span id="score">0</span></div>
-  <div class="powerup" id="powerupMsg">POWER UP!</div>
+  <div class="start-screen">
+    <p>PRESS START</p>
+    <button class="start-button" onclick="document.querySelector('.main-content').style.display='block'; this.parentElement.style.display='none';">START</button>
+  </div>
 
-  <header>
-    <h1>🚀 宇宙ドット冒険へようこそ！</h1>
-    <p>スクロールして進もう！</p>
-  </header>
+  <div class="main-content" style="display:none;">
+    <section class="profile-section">
+      <div class="dialog-box">
+        <p>【名前】RYOSUKE</p>
+        <p>【職業】アーキテクト</p>
+        <p>【レベル】21</p>
+        <p>【HP】108/120</p>
+      </div>
+    </section>
 
-  <div class="ship" id="ship"></div>
+    <section class="profile-section">
+      <div class="dialog-box">
+        <p>🎯スキル</p>
+        <ul>
+          <li>HTML & CSS - レベル10</li>
+          <li>JavaScript - レベル8</li>
+          <li>React - レベル6</li>
+          <li>Python - レベル9</li>
+        </ul>
+      </div>
+    </section>
 
-  <section><div class="enemy"></div></section>
-  <section><p>中ボスエリアへ接近中…</p></section>
-  <section><div class="enemy"></div><div class="enemy" style="margin-left: 60px;"></div></section>
-  <section><h2>🚨 ボス出現！</h2><p>最後までスクロールして倒そう！</p></section>
-
-  <footer>
-    <p>© 2025 ドットシップ開発団</p>
-  </footer>
-
-  <script>
-    let score = 0;
-
-    document.addEventListener('keydown', e => {
-      if (e.key === ' ') {
-        shootBullet();
-      }
-    });
-
-    function shootBullet() {
-      const bullet = document.createElement('div');
-      bullet.classList.add('bullet');
-      const ship = document.getElementById('ship');
-      const shipRect = ship.getBoundingClientRect();
-      bullet.style.left = `${shipRect.left + shipRect.width / 2 - 3}px`;
-      bullet.style.top = `${shipRect.top}px`;
-      document.body.appendChild(bullet);
-
-      const interval = setInterval(() => {
-        const currentTop = parseInt(bullet.style.top);
-        bullet.style.top = (currentTop - 10) + 'px';
-        if (currentTop < 0) {
-          clearInterval(interval);
-          bullet.remove();
-        }
-      }, 20);
-    }
-
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const scoreElement = document.getElementById('score');
-      const newScore = Math.floor(scrollY / 100) * 10;
-      if (newScore !== score) {
-        score = newScore;
-        scoreElement.textContent = score;
-      }
-
-      const powerupMsg = document.getElementById('powerupMsg');
-      if (scrollY > 1000 && scrollY < 1100) {
-        powerupMsg.style.display = 'block';
-      } else {
-        powerupMsg.style.display = 'none';
-      }
-    });
-  </script>
+    <section class="profile-section">
+      <div class="dialog-box">
+        <p>🏰 宿屋へようこそ。お問合せは以下まで。</p>
+        <p>📧 ryosuke@example.com</p>
+      </div>
+    </section>
+  </div>
 </body>
 </html>
