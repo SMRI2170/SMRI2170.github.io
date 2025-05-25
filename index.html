@@ -1,85 +1,53 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>勇者RYOSUKEの冒険</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #000;
-      color: #fff;
+      background-image: url("https://opengameart.org/sites/default/files/grass.png");
+      background-repeat: repeat;
+      background-size: 32px 32px;
       font-family: 'Press Start 2P', cursive;
+      color: white;
       margin: 0;
       padding: 0;
     }
     header {
-      background: #222;
-      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
       text-align: center;
+      padding: 20px;
       font-size: 14px;
     }
-    .start-screen {
-      text-align: center;
-      padding: 100px 20px;
-    }
-    .start-button {
-      font-size: 20px;
-      padding: 10px 20px;
-      background: #fff;
-      color: #000;
-      border: none;
-      cursor: pointer;
-    }
     .dialog-box {
-      background: #444;
+      background-color: rgba(0, 0, 0, 0.7);
       border: 4px solid #fff;
       padding: 20px;
       margin: 20px auto;
       width: 80%;
       max-width: 600px;
     }
-    .profile-section {
-      padding: 20px;
-    }
   </style>
 </head>
 <body>
   <header>🎮 勇者 RYOSUKE の 冒険記</header>
 
-  <div class="start-screen">
-    <p>PRESS START</p>
-    <button class="start-button" onclick="document.querySelector('.main-content').style.display='block'; this.parentElement.style.display='none';">START</button>
+  <div class="dialog-box">
+    <p>【名前】RYOSUKE</p>
+    <p>【職業】魔導士</p>
+    <p>【レベル】21</p>
+    <p>【HP】120 / 120</p>
   </div>
 
-  <div class="main-content" style="display:none;">
-    <section class="profile-section">
-      <div class="dialog-box">
-        <p>【名前】RYOSUKE</p>
-        <p>【職業】アーキテクト</p>
-        <p>【レベル】21</p>
-        <p>【HP】108/120</p>
-      </div>
-    </section>
-
-    <section class="profile-section">
-      <div class="dialog-box">
-        <p>🎯スキル</p>
-        <ul>
-          <li>HTML & CSS - レベル10</li>
-          <li>JavaScript - レベル8</li>
-          <li>React - レベル6</li>
-          <li>Python - レベル9</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="profile-section">
-      <div class="dialog-box">
-        <p>🏰 宿屋へようこそ。お問合せは以下まで。</p>
-        <p>📧 ryosuke@example.com</p>
-      </div>
-    </section>
+  <div class="dialog-box">
+    <p>🪄 スキル</p>
+    <ul>
+      <li>魔法（Python）Lv.10</li>
+      <li>錬金術（HTML）Lv.8</li>
+      <li>伝説のReact Lv.7</li>
+    </ul>
   </div>
 </body>
 </html>
