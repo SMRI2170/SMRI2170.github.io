@@ -4,21 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RYOSUKE Yoshioka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       font-family: 'Georgia', 'Times New Roman', serif;
-      background-color: #3b2f2f; /* コゲ茶色 */
-      color: #ffffff; /* 白色テキスト */
+      background-color: #3b2f2f;
+      color: #ffffff;
       scroll-behavior: smooth;
     }
 
-    /* ===== Hero Section ===== */
     .hero {
       position: relative;
       height: 100vh;
-      background-image: url('background.jpg'); /* あなたの背景画像 */
+      background-image: url('background.jpg');
       background-size: cover;
       background-position: center;
       color: white;
@@ -72,10 +72,17 @@
       opacity: 0.75;
     }
 
-    /* ===== Section Style ===== */
     section {
       padding: 80px 10%;
-      background-color: #4d3b3b; /* 濃い茶色系 */
+      background-color: #4d3b3b;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     section h2 {
@@ -85,90 +92,147 @@
       padding-left: 10px;
     }
 
-    .education ul, .skills ul {
+    .education ul, .skills ul, .awards ul, .contact ul, .projects ul {
       list-style: none;
       padding: 0;
     }
 
-    .education li, .skills li {
+    li {
       margin-bottom: 12px;
       font-size: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      background-color: #3b2f2f;
     }
   </style>
 </head>
 <body>
-
-<!-- Hero section -->
-<div class="hero">
-  <div class="content-wrapper">
-    <div class="nav">
-      <a href="#education">Education</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </div>
-
-    <div class="name">RYOSUKE Yoshioka</div>
-
-    <div class="bio">
-      A creative developer exploring the harmony<br> of design, technology, and purpose.
-    </div>
-  </div>
-</div>
-
-<!-- Education Section -->
-<section id="education" class="education">
-  <h2>Education</h2>
-  <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px;">
-    <div style="flex: 1; min-width: 250px;">
-      <ul>
-        <li>Ritsumeikan University, B.Sc. in Information Science (2025)</li>
-        <li>Kyoto High School, Science Track (2021)</li>
-      </ul>
-    </div>
-    <div style="flex: 1; min-width: 250px;">
-      <img src="U.jpg" alt="Ritsumeikan University" style="width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
+  <div class="hero">
+    <div class="content-wrapper">
+      <div class="nav">
+        <a href="#about">About</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#awards">Awards</a>
+        <a href="#github">GitHub</a>
+        <a href="#qiita">Qiita</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="name">RYOSUKE Yoshioka</div>
+      <div class="bio">
+        A creative developer exploring the harmony<br> of design, technology, and purpose.
+      </div>
     </div>
   </div>
-</section>
 
-<!-- Skills Section -->
-<section id="skills" class="skills">
-  <h2>Skills</h2>
-  <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px;">
-    <div style="flex: 1; min-width: 250px;">
-      <ul>
-        <li>Python, JavaScript, HTML/CSS</li>
-        <li>Machine Learning, Computer Vision</li>
-        <li>React, Node.js, Flask</li>
-        <li>AWS, Docker, Git</li>
-      </ul>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      I am a passionate developer who loves building meaningful projects that combine technology with creativity.
+      My interests include IoT, computer vision, machine learning, and UI/UX design.
+    </p>
+  </section>
+
+  <section id="education" class="education">
+    <h2>Education</h2>
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px;">
+      <div style="flex: 1; min-width: 250px;">
+        <ul>
+          <li>Ritsumeikan University, B.Sc. in Information Science (2025)</li>
+          <li>Kyoto High School, Science Track (2021)</li>
+        </ul>
+      </div>
+      <div style="flex: 1; min-width: 250px;">
+        <img src="U.jpg" alt="Ritsumeikan University" style="width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
+      </div>
     </div>
-    <div style="flex: 1; min-width: 250px;">
-      <img src="rasp.jpg" alt="Skills Image" style="width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
+  </section>
+
+  <section id="skills" class="skills">
+    <h2>Skills</h2>
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px;">
+      <div style="flex: 1; min-width: 250px;">
+        <ul>
+          <li>Python, JavaScript, HTML/CSS</li>
+          <li>Machine Learning, Computer Vision</li>
+          <li>React, Node.js, Flask</li>
+          <li>AWS, Docker, Git</li>
+        </ul>
+      </div>
+      <div style="flex: 1; min-width: 250px;">
+        <img src="rasp.jpg" alt="Skills Image" style="width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- GitHub Section -->
-<section id="github" style="padding: 80px 10%; background-color: #5c4444;">
-  <h2 style="border-left: 5px solid #ddd; padding-left: 10px;">GitHub Stats</h2>
-  <div style="text-align: center;">
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=SMRI2170&layout=compact&theme=tokyonight" alt="Top Languages" style="max-width: 100%; height: auto;" />
-    <br><br>
-    <img src="https://github-readme-stats.vercel.app/api?username=SMRI2170&show_icons=true&theme=tokyonight" alt="GitHub Stats" style="max-width: 100%; height: auto;" />
-    <br><br>
-    <a href="https://github.com/SMRI2170" target="_blank" style="color: #ffffff;">Visit My GitHub Profile →</a>
-  </div>
-</section>
+  <section id="projects" class="projects">
+    <h2>Projects</h2>
+    <ul>
+      <li><strong>EcoAquaponics:</strong> IoT-based smart aquaculture system using Raspberry Pi</li>
+      <li><strong>Age & Gender Estimator:</strong> YOLO + SSRNet for video-based demographic analysis</li>
+      <li><strong>zk-IoT:</strong> Privacy-preserving drone proof system with ZKP</li>
+    </ul>
+  </section>
 
-<!-- Qiita Section -->
-<section id="qiita" style="padding: 80px 10%; background-color: #4d3b3b;">
-  <h2 style="border-left: 5px solid #ddd; padding-left: 10px;">Qiita Articles</h2>
-  <ul>
-    <li><a href="https://qiita.com/ryosuke0712" target="_blank" style="color: #ffffff;">View My Qiita Profile (@ryosuke0712)</a></li>
-    <li><a href="https://qiita.com/ryosuke0712/items" target="_blank" style="color: #ffffff;">List of My Articles →</a></li>
-  </ul>
-</section>
+  <section id="awards" class="awards">
+    <h2>Awards & Activities</h2>
+    <ul>
+      <li>Winner - Ritsumeikan Hackathon 2024</li>
+      <li>Speaker - IoT×Blockchain Conference 2024</li>
+      <li>Member - ACM Student Chapter</li>
+    </ul>
+  </section>
 
+  <section id="github" style="background-color: #5c4444;">
+    <h2>GitHub Stats</h2>
+    <div style="text-align: center;">
+      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=SMRI2170&layout=compact&theme=tokyonight" alt="Top Languages" style="max-width: 100%; height: auto;" />
+      <br><br>
+      <img src="https://github-readme-stats.vercel.app/api?username=SMRI2170&show_icons=true&theme=tokyonight" alt="GitHub Stats" style="max-width: 100%; height: auto;" />
+      <br><br>
+      <a href="https://github.com/SMRI2170" target="_blank" style="color: #ffffff;">
+        <i class="fab fa-github"></i> Visit My GitHub Profile →
+      </a>
+    </div>
+  </section>
+
+  <section id="qiita">
+    <h2>Qiita Articles</h2>
+    <ul>
+      <li><a href="https://qiita.com/ryosuke0712" target="_blank" style="color: #ffffff;">
+        <i class="fa-brands fa-quora"></i> View My Qiita Profile (@ryosuke0712)</a></li>
+      <li><a href="https://qiita.com/ryosuke0712/items" target="_blank" style="color: #ffffff;">
+        List of My Articles →</a></li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Feel free to reach out via:</p>
+    <ul>
+      <li>Email: ryosuke@example.com</li>
+      <li>Twitter: <a href="https://twitter.com/yourhandle" style="color: white;">@yourhandle</a></li>
+      <li>LinkedIn: <a href="https://linkedin.com/in/yourname" style="color: white;">LinkedIn Profile</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 RYOSUKE Yoshioka. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('scroll', () => {
+      document.querySelectorAll('section').forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          sec.classList.add('visible');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
