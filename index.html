@@ -3,123 +3,143 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>自己PR - Y2Kネオン＆ガラスモーフィズム</title>
+<title>自己PR - カラフルY2Kネオン＆ガラスモーフィズム</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap');
 
-  /* 背景 */
   body {
     margin: 0; padding: 20px;
-    background: linear-gradient(135deg, #0f0f1e, #101838);
+    background: linear-gradient(135deg, #2a0048, #5b0068);
     font-family: 'Orbitron', 'Press Start 2P', monospace;
-    color: #e0e0f0;
+    color: #fffde7;
   }
 
-  /* ネオンテキスト */
+  /* カラフルネオンテキスト */
   .neon-text {
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     font-size: 3rem;
-    color: #00fff7;
     text-align: center;
+    background: linear-gradient(90deg, #b254ff, #ff47b0, #ffea47, #b6ff4b, #47e3ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-shadow:
-      0 0 5px #00fff7,
-      0 0 15px #00fff7,
-      0 0 20px #00fff7,
-      0 0 40px #00ffffcc,
-      0 0 80px #00ffffcc;
+      0 0 8px #b254ff,
+      0 0 15px #ff47b0,
+      0 0 25px #ffea47,
+      0 0 40px #b6ff4b,
+      0 0 80px #47e3ff;
     margin-bottom: 40px;
   }
 
-  /* ガラスモーフィズムのカード */
+  /* ガラスモーフィズムカード */
   .glass-card {
-    background: rgba(10, 25, 50, 0.4);
+    background: rgba(40, 20, 60, 0.4);
     border-radius: 15px;
-    border: 1px solid rgba(0, 255, 255, 0.3);
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
     box-shadow:
-      0 4px 30px rgba(0, 255, 255, 0.2);
+      0 0 10px #ff47b0aa,
+      0 0 20px #b6ff4baa,
+      0 0 30px #47e3ffaa,
+      inset 0 0 15px #b254ff55;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     padding: 25px 30px;
     margin: 30px auto;
     max-width: 720px;
-    color: #b0f7f7;
+    color: #fffea7;
   }
 
-  /* 見出し */
   h2 {
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     font-size: 1.8rem;
-    color: #40ffff;
     margin-bottom: 20px;
-    border-bottom: 2px solid #00fff7;
     padding-bottom: 6px;
+    border-bottom: 2px solid #ff47b0;
+    color: #ffe947;
+    text-shadow: 0 0 5px #b254ff;
   }
 
-  /* プロフィール写真やアイコン */
+  /* プロフィール写真 */
   .profile-pic {
     width: 100px; height: 100px;
     border-radius: 50%;
-    border: 2px solid #00fff7;
-    background: rgba(0, 255, 255, 0.25);
+    border: 3px solid transparent;
+    background: linear-gradient(135deg, #b254ff, #ff47b0, #b6ff4b);
     box-shadow:
-      0 0 15px #00ffff99,
-      inset 0 0 8px #00ffffaa;
+      0 0 12px #b254ffcc,
+      inset 0 0 10px #ff47b0cc;
     margin-bottom: 15px;
     display: block;
     object-fit: cover;
   }
 
-  /* テキスト本文 */
   p {
     font-size: 1rem;
     line-height: 1.6;
     letter-spacing: 0.03em;
+    color: #fff7a7;
+  }
+  p strong {
+    color: #b6ff4b;
+    text-shadow: 0 0 6px #b6ff4baa;
   }
 
-  /* デジタルLED風カウンター表示 */
   .digital-led {
     font-family: 'Press Start 2P', monospace;
-    color: #00ffff;
+    color: #47e3ff;
     font-size: 1.4rem;
     letter-spacing: 0.2em;
     text-shadow:
-      0 0 5px #00ffff,
-      0 0 10px #00ffff,
-      0 0 15px #00ffff,
-      0 0 20px #00ffffaa;
-    background: #002022;
+      0 0 7px #47e3ff,
+      0 0 12px #47e3ff,
+      0 0 20px #47e3ffaa;
+    background: #240052;
     padding: 8px 20px;
-    border-radius: 6px;
-    border: 1px solid #00ffff66;
+    border-radius: 8px;
+    border: 1px solid #47e3ff77;
     width: fit-content;
     margin-top: 10px;
   }
 
-  /* ボタン */
   a.button {
     display: inline-block;
     padding: 14px 32px;
     margin-top: 15px;
-    color: #002020;
-    background: #00ffff;
+    color: #240052;
+    background: linear-gradient(90deg, #b254ff, #ff47b0);
     font-family: 'Press Start 2P', monospace;
     font-size: 0.95rem;
     text-decoration: none;
-    border: 3px solid #002020;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #00ffffcc;
+    border: 3px solid #ffea47;
+    border-radius: 14px;
+    box-shadow:
+      0 0 15px #b254ffcc,
+      0 0 25px #ff47b0cc;
     transition: all 0.3s ease;
   }
   a.button:hover {
-    background: #002020;
-    color: #00ffff;
-    box-shadow: 0 0 18px #40ffff;
-    border-color: #40ffff;
+    background: linear-gradient(90deg, #ffea47, #b6ff4b);
+    color: #240052;
+    box-shadow:
+      0 0 18px #ffe947,
+      0 0 28px #b6ff4b;
+    border-color: #b6ff4b;
   }
 
-  /* レスポンシブ調整 */
+  /* リンクの蛍光カラー */
+  a {
+    color: #ff47b0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover {
+    color: #b6ff4b;
+    text-shadow: 0 0 8px #b6ff4b;
+  }
+
   @media (max-width: 600px) {
     body {
       padding: 10px;
@@ -142,9 +162,9 @@
   <section class="glass-card" style="text-align:center;">
     <img src="https://i.pravatar.cc/100" alt="プロフィール写真" class="profile-pic" />
     <h2>プロフィール</h2>
-    <p>こんにちは。私は〇〇と申します。<br>
+    <p>こんにちは。私は<strong>〇〇</strong>と申します。<br>
        未来的でレトロなデザインとテクノロジーを組み合わせた作品づくりが得意です。<br>
-       Y2Kスタイルをこよなく愛し、ビットフォントや蛍光カラーを活かしたUIを設計します。</p>
+       <strong>Y2Kスタイル</strong>をこよなく愛し、ビットフォントや蛍光カラーを活かしたUIを設計します。</p>
   </section>
 
   <section class="glass-card">
@@ -153,7 +173,7 @@
       <li>HTML / CSS / JavaScript (ネオン風UI制作)</li>
       <li>Python / OpenCV (画像処理・解析)</li>
       <li>React / Vue (モダンフロントエンド)</li>
-      <li>UI/UX デザイン (Y2K & レトロフューチャー)</li>
+      <li>UI/UX デザイン (<span style="color:#ffea47;">Y2K</span> & <span style="color:#b6ff4b;">レトロフューチャー</span>)</li>
     </ul>
   </section>
 
