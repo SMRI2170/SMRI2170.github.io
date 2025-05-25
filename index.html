@@ -17,67 +17,77 @@
       position: relative;
       width: 100%;
       height: 100vh;
-      background-image: url('15666_0.jpg'); /* 背景画像を適切に設定 */
+      background-image: url('background.jpg'); /* 背景画像 */
       background-size: cover;
       background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .content-wrapper {
+      position: relative;
+      width: 90%;
+      height: 90%;
     }
 
     .name {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
+      bottom: 60px;
+      left: 60px;
       font-size: 36px;
       font-weight: bold;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
     }
 
     .bio {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      bottom: 60px;
+      right: 60px;
       max-width: 300px;
       font-size: 16px;
       text-align: right;
-      line-height: 1.4;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+      line-height: 1.5;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
     }
 
     .nav {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 60px;
+      right: 60px;
       display: flex;
-      gap: 20px;
+      gap: 24px;
       font-size: 16px;
       font-weight: 500;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
     }
 
     .nav a {
       color: white;
       text-decoration: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s ease;
     }
 
     .nav a:hover {
-      opacity: 0.7;
+      opacity: 0.75;
     }
   </style>
 </head>
 <body>
 
 <div class="background">
-  <div class="nav">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </div>
+  <div class="content-wrapper">
+    <div class="nav">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
 
-  <div class="name">RYOSUKE YOSHIOKA</div>
+    <div class="name">RYOSUKE YOSHIOKA</div>
 
-  <div class="bio">
-    Passionate about technology and creativity.<br />
-    Exploring the intersection of code, design, and impact.
+    <div class="bio">
+      A creative developer exploring the harmony of design, technology, and purpose.
+    </div>
   </div>
 </div>
 
