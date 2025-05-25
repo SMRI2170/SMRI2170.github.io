@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>宇宙レトロゲーム風サイト</title>
+  <title>宇宙レトロシューティング</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
@@ -19,9 +19,31 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 200%;
+      height: 300%;
       background: repeating-radial-gradient(#D895FF 1px, transparent 2px);
       animation: starscroll 60s linear infinite;
+      z-index: -2;
+    }
+
+    .planet {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, #b18aff, #51318a);
+      border-radius: 50%;
+      top: 120vh;
+      left: 20%;
+      z-index: -1;
+    }
+
+    .asteroid {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: gray;
+      border-radius: 50%;
+      top: 220vh;
+      left: 70%;
       z-index: -1;
     }
 
@@ -46,6 +68,39 @@
       background-size: contain;
       image-rendering: pixelated;
       z-index: 2;
+    }
+
+    .bullet {
+      position: fixed;
+      width: 6px;
+      height: 20px;
+      background: #fff;
+      top: 0;
+      z-index: 1;
+    }
+
+    .score {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px;
+      border: 2px solid #D895FF;
+      z-index: 3;
+    }
+
+    .powerup {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      background: #D895FF;
+      color: black;
+      padding: 6px;
+      display: none;
+      z-index: 3;
     }
 
     section {
@@ -79,37 +134,73 @@
   </style>
 </head>
 <body>
-
   <div class="starfield"></div>
+  <div class="planet"></div>
+  <div class="asteroid"></div>
+
+  <div class="score">SCORE: <span id="score">0</span></div>
+  <div class="powerup" id="powerupMsg">POWER UP!</div>
 
   <header>
     <h1>🚀 宇宙ドット冒険へようこそ！</h1>
     <p>スクロールして進もう！</p>
   </header>
 
-  <div class="ship"></div>
+  <div class="ship" id="ship"></div>
 
-  <section>
-    <div class="enemy"></div>
-  </section>
-
-  <section>
-    <p>中ボスエリアへ接近中…</p>
-  </section>
-
-  <section>
-    <div class="enemy"></div>
-    <div class="enemy" style="margin-left: 60px;"></div>
-  </section>
-
-  <section>
-    <h2>🚨 ボス出現！</h2>
-    <p>最後までスクロールして倒そう！</p>
-  </section>
+  <section><div class="enemy"></div></section>
+  <section><p>中ボスエリアへ接近中…</p></section>
+  <section><div class="enemy"></div><div class="enemy" style="margin-left: 60px;"></div></section>
+  <section><h2>🚨 ボス出現！</h2><p>最後までスクロールして倒そう！</p></section>
 
   <footer>
     <p>© 2025 ドットシップ開発団</p>
   </footer>
 
+  <script>
+    let score = 0;
+
+    document.addEventListener('keydown', e => {
+      if (e.key === ' ') {
+        shootBullet();
+      }
+    });
+
+    function shootBullet() {
+      const bullet = document.createElement('div');
+      bullet.classList.add('bullet');
+      const ship = document.getElementById('ship');
+      const shipRect = ship.getBoundingClientRect();
+      bullet.style.left = `${shipRect.left + shipRect.width / 2 - 3}px`;
+      bullet.style.top = `${shipRect.top}px`;
+      document.body.appendChild(bullet);
+
+      const interval = setInterval(() => {
+        const currentTop = parseInt(bullet.style.top);
+        bullet.style.top = (currentTop - 10) + 'px';
+        if (currentTop < 0) {
+          clearInterval(interval);
+          bullet.remove();
+        }
+      }, 20);
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const scoreElement = document.getElementById('score');
+      const newScore = Math.floor(scrollY / 100) * 10;
+      if (newScore !== score) {
+        score = newScore;
+        scoreElement.textContent = score;
+      }
+
+      const powerupMsg = document.getElementById('powerupMsg');
+      if (scrollY > 1000 && scrollY < 1100) {
+        powerupMsg.style.display = 'block';
+      } else {
+        powerupMsg.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
