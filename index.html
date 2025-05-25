@@ -12,9 +12,9 @@
       margin: 0;
       padding: 0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
 
     .profile-card {
@@ -25,6 +25,7 @@
       padding: 40px;
       max-width: 400px;
       width: 90%;
+      margin-top: 60px;
     }
 
     .profile-card img {
@@ -67,17 +68,125 @@
       background-color: #0077cc;
       color: #fff;
     }
+
+    /* 経歴・スキルセクション */
+    .section {
+      max-width: 700px;
+      width: 90%;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #0077cc;
+      padding-bottom: 8px;
+      color: #0077cc;
+    }
+
+    .experience-item, .skill-item {
+      margin-bottom: 15px;
+    }
+
+    .experience-item strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 3px;
+      color: #333;
+    }
+
+    .experience-item span {
+      font-size: 14px;
+      color: #999;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .skill-item {
+      background-color: #0077cc;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body>
+
   <div class="profile-card">
     <img src="15665_0.jpg" alt="プロフィール画像" />
     <h1>吉岡 龍佑</h1>
     <p>情報理工学部の学生。IoTや機械学習に興味があります。</p>
     <div class="social-links">
-      <a href="https://github.com/SMRI2170" target="_blank">GitHub</a>
-      <a href="https://qiita.com/ryosuke0712" target="_blank">Qiita</a>
+      <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+      <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+      <a href="https://qiita.com/yourusername" target="_blank">Qiita</a>
     </div>
   </div>
+
+  <section class="section" id="experience">
+    <h2>経歴</h2>
+    <div class="experience-item">
+      <strong>2023年4月 - 現在</strong>
+      <span>立命館大学 情報理工学部 入学</span>
+    </div>
+    <div class="experience-item">
+      <strong>2024年8月</strong>
+      <span>IoTと機械学習を活用した研究プロジェクト参加</span>
+    </div>
+    <div class="experience-item">
+      <strong>2024年12月</strong>
+      <span>ゼロ知識証明（ZKP）関連の論文執筆</span>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <h2>スキル</h2>
+    <div class="skill-list">
+      <div class="skill-item">Python</div>
+      <div class="skill-item">機械学習</div>
+      <div class="skill-item">IoT</div>
+      <div class="skill-item">OpenCV</div>
+      <div class="skill-item">ゼロ知識証明</div>
+      <div class="skill-item">JavaScript</div>
+      <div class="skill-item">HTML / CSS</div>
+    </div>
+  </section>
+
+  <script>
+    // スクロール時に要素が見えたらフェードインさせる処理
+    function onScroll() {
+      const sections = document.querySelectorAll('.section');
+      const triggerBottom = window.innerHeight * 0.85;
+
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < triggerBottom) {
+          section.classList.add('visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('load', onScroll);
+  </script>
+
 </body>
 </html>
