@@ -11,33 +11,33 @@
     <script>
         // TailwindCSS JIT AOT for dynamic classes
         tailwind.config = {
-          darkMode: 'class',
-          theme: {
-            extend: {
-                colors: {
-                    // Light mode
-                    light: {
-                        bg: '#f8fafc',
-                        text: '#0f172a',
-                        card: '#ffffff',
-                        border: '#e2e8f0',
-                        heading: '#1e293b',
-                        accent: '#4f46e5',
-                        subtext: '#64748b',
-                    },
-                    // Dark mode (current default)
-                    dark: {
-                        bg: '#0a0a0a',
-                        text: '#e2e8f0',
-                        card: 'rgba(23, 30, 44, 0.7)',
-                        border: 'rgba(51, 65, 85, 0.5)',
-                        heading: '#ffffff',
-                        accent: '#818cf8',
-                        subtext: '#94a3b8',
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // Light mode
+                        light: {
+                            bg: '#f8fafc',
+                            text: '#0f172a',
+                            card: '#ffffff',
+                            border: '#e2e8f0',
+                            heading: '#1e293b',
+                            accent: '#4f46e5',
+                            subtext: '#64748b',
+                        },
+                        // Dark mode (current default)
+                        dark: {
+                            bg: '#0a0a0a',
+                            text: '#e2e8f0',
+                            card: 'rgba(23, 30, 44, 0.7)',
+                            border: 'rgba(51, 65, 85, 0.5)',
+                            heading: '#ffffff',
+                            accent: '#818cf8',
+                            subtext: '#94a3b8',
+                        }
                     }
                 }
             }
-          }
         }
     </script>
     <style>
@@ -64,8 +64,18 @@
         }
 
         /* --- Custom Cursor --- */
+        /* Hide custom cursor on small screens as it's for desktop only */
+        @media (max-width: 767px) {
+            body, a, button {
+                cursor: auto !important; /* Revert to default cursor on small screens */
+            }
+            .cursor-dot, .cursor-outline {
+                display: none !important;
+            }
+        }
+
         body, a, button {
-            cursor: none;
+            cursor: none; /* Custom cursor for larger screens */
         }
         .cursor-dot, .cursor-outline {
             pointer-events: none;
@@ -90,7 +100,7 @@
             border: 2px solid var(--accent-color);
         }
         html.light .cursor-outline {
-             background-color: rgba(79, 70, 229, 0.2);
+            background-color: rgba(79, 70, 229, 0.2);
         }
         
         body {
@@ -102,14 +112,42 @@
         }
 
         #webgl-canvas { position: fixed; top: 0; left: 0; outline: none; z-index: 0; }
-        .content-section { position: relative; z-index: 1; padding: 15vh 5%; max-width: 800px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .content-section {
+            position: relative;
+            z-index: 1;
+            padding: 10vh 1rem; /* Default padding for mobile */
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (min-width: 768px) { /* Adjust padding for larger screens */
+            .content-section {
+                padding: 15vh 5%;
+            }
+        }
+
         .hero-title { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; line-height: 1.1; color: var(--heading-color); }
         .hero-title span { display: inline-block; }
         .text-backdrop { background-color: var(--backdrop-color); padding: 1.5rem 2rem; border-radius: 12px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-color); transition: background-color 0.5s ease, border-color 0.5s ease; }
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.is-visible { opacity: 1; transform: translateY(0); }
         
-        #page-nav { position: fixed; top: 50%; right: 20px; transform: translateY(-50%); z-index: 1000; }
+        #page-nav {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+        /* Hide page navigation on small screens */
+        @media (max-width: 767px) {
+            #page-nav {
+                display: none;
+            }
+        }
         #page-nav ul { list-style: none; padding: 0; margin: 0; }
         #page-nav li { margin: 15px 0; }
         #page-nav a { display: block; width: 12px; height: 12px; background-color: var(--border-color); border-radius: 50%; transition: all 0.3s ease; position: relative; }
@@ -121,22 +159,103 @@
         
         .timeline { position: relative; padding: 2rem 0; }
         .timeline::before { content: ''; position: absolute; top: 0; left: 15px; height: 100%; width: 2px; background: var(--border-color); }
+        /* Adjust timeline for mobile */
+        @media (max-width: 767px) {
+            .timeline::before {
+                left: 20px; /* Slightly more space from edge */
+            }
+            .timeline-item {
+                padding-left: 60px; /* Adjust padding for item content */
+                margin-bottom: 40px;
+            }
+            .timeline-item::before {
+                left: 13px; /* Align dot with line */
+            }
+        }
         .timeline-item { position: relative; padding-left: 50px; margin-bottom: 50px; }
         .timeline-item::before { content: ''; position: absolute; top: 5px; left: 8px; width: 16px; height: 16px; border-radius: 50%; background: var(--card-color); border: 3px solid var(--accent-color); z-index: 1; }
         .timeline-content { opacity: 0; transform: translateX(20px); transition: 0.5s; }
         .timeline-item.is-visible .timeline-content { opacity: 1; transform: translateX(0); }
 
-        .skill-diagram-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; perspective: 1000px; }
-        .skill-node { padding: 8px 16px; border-radius: 20px; background: var(--card-color); border: 1px solid var(--border-color); transition: all 0.3s ease; }
-        .skill-node.highlight { background: var(--accent-color); color: white; transform: scale(1.1) translateZ(50px); box-shadow: 0 0 20px var(--accent-color); }
-        .skill-node.dimmed { opacity: 0.3; }
+        /* Skill Diagram 3D Container */
+        .skill-diagram-3d-container {
+            position: relative;
+            width: 100%;
+            height: 500px; /* Default height */
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: rgba(0,0,0,0.1); /* Slightly transparent background */
+            display: flex; /* Use flex to center canvas */
+            justify-content: center;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .skill-diagram-3d-container {
+                height: 600px; /* Larger height for desktop */
+            }
+        }
+        #skill-diagram-canvas {
+            display: block; /* Remove extra space below canvas */
+            width: 100%;
+            height: 100%;
+        }
+        #skill-labels-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through to canvas */
+        }
+        .skill-label {
+            position: absolute;
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            transform: translate(-50%, -50%);
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+            white-space: nowrap;
+            pointer-events: auto; /* Allow interaction with labels */
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Helps with readability over particles */
+            z-index: 10; /* Ensure labels are above canvas but below cursor */
+        }
+        .skill-label.highlight {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            font-weight: bold;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .skill-label.dimmed {
+            opacity: 0.4;
+        }
         
         .work-card { background-color: var(--card-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .work-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
 
         .modal { position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
-        .modal-content { background-color: var(--bg-color); margin: auto; padding: 30px; border: 1px solid var(--border-color); width: 90%; max-width: 700px; border-radius: 10px; position: relative; animation: slide-down 0.5s ease-out; }
+        .modal-content {
+            background-color: var(--bg-color);
+            margin: auto;
+            padding: 20px; /* Default padding for modal content */
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 700px;
+            border-radius: 10px;
+            position: relative;
+            animation: slide-down 0.5s ease-out;
+        }
+        @media (min-width: 768px) { /* Adjust padding for larger screens */
+            .modal-content {
+                padding: 30px;
+            }
+        }
         @keyframes slide-down { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .close-button { color: var(--subtext-color); position: absolute; top: 15px; right: 25px; font-size: 28px; font-weight: bold; }
 
@@ -169,13 +288,13 @@
     <main>
         <section id="hero" class="content-section" data-nav="Home">
              <div>
-                <h1 class="hero-title">
-                    <span>RYOSUKE</span><br>
-                    <span>YOSHIOKA</span>
-                </h1>
-                <p class="mt-4 text-xl md:text-2xl" style="color: var(--subtext-color);">IoT Security & Privacy Engineer</p>
-                <p class="mt-2" style="color: var(--subtext-color);">Crafting Trust in a Connected World with Zero-Knowledge Proofs.</p>
-            </div>
+                 <h1 class="hero-title">
+                     <span>RYOSUKE</span><br>
+                     <span>YOSHIOKA</span>
+                 </h1>
+                 <p class="mt-4 text-xl md:text-2xl" style="color: var(--subtext-color);">IoT Security & Privacy Engineer</p>
+                 <p class="mt-2" style="color: var(--subtext-color);">Crafting Trust in a Connected World with Zero-Knowledge Proofs.</p>
+             </div>
         </section>
 
         <!-- MODIFIED: About section HTML structure -->
@@ -239,8 +358,10 @@
         <section id="skill-diagram" class="content-section" data-nav="Skills">
              <div class="text-backdrop fade-in">
                 <h2 class="text-3xl font-bold mb-6 text-center" style="color: var(--accent-color);">スキル相関図</h2>
-                <p class="text-center mb-6" style="color: var(--subtext-color);">スキルにカーソルを合わせると、関連技術がハイライトされます。</p>
-                <div class="skill-diagram-container">
+                <p class="text-center mb-4" style="color: var(--subtext-color);">スキルをドラッグするか、タップすると関連技術がハイライトされます。</p>
+                <div class="skill-diagram-3d-container">
+                    <canvas id="skill-diagram-canvas"></canvas>
+                    <div id="skill-labels-container"></div>
                 </div>
             </div>
         </section>
@@ -279,6 +400,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script> <!-- OrbitControls -->
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -288,6 +411,22 @@
         const sunIcon = document.getElementById('theme-icon-sun');
         const moonIcon = document.getElementById('theme-icon-moon');
         const htmlEl = document.documentElement;
+
+        // --- THREE.JS PARTICLE SYSTEM (BACKGROUND) ---
+        const sceneBg = new THREE.Scene();
+        const cameraBg = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const rendererBg = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), alpha: true, antialias: true });
+        rendererBg.setSize(window.innerWidth, window.innerHeight);
+        rendererBg.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const getBackgroundColor = () => {
+            return getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
+        };
+
+        const updateFogColorBg = () => {
+            const bgColor = getBackgroundColor();
+            sceneBg.fog = new THREE.Fog(new THREE.Color(bgColor), 1, 15);
+        };
 
         const applyTheme = (theme) => {
             if (theme === 'light') {
@@ -301,6 +440,8 @@
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
             }
+            updateFogColorBg();
+            // Also update skill diagram colors if necessary, though it dynamically gets them
         };
 
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -346,13 +487,8 @@
 
         sections.forEach(section => sectionObserver.observe(section));
 
-
-        // --- THREE.JS PARTICLE SYSTEM ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        // Initial fog setup for background
+        updateFogColorBg();
 
         const particleCount = 7000;
         const positions = new Float32Array(particleCount * 3);
@@ -364,7 +500,7 @@
             positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
 
             const color = new THREE.Color();
-            color.setHSL(Math.random(), 0.7, 0.7);
+            color.setHSL(Math.random(), 0.5, 0.7); 
             colors[i * 3] = color.r;
             colors[i * 3 + 1] = color.g;
             colors[i * 3 + 2] = color.b;
@@ -375,65 +511,82 @@
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.05,
+            size: 0.07,
             vertexColors: true,
             blending: THREE.AdditiveBlending,
             transparent: true,
             opacity: 0.8,
             depthWrite: false,
+            sizeAttenuation: true
         });
 
         const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particleSystem);
-        camera.position.z = 5;
+        sceneBg.add(particleSystem);
+        cameraBg.position.z = 5;
         
-        // --- Custom Cursor Logic ---
+        // --- Custom Cursor Logic (desktop only) ---
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
-        const interactiveElements = document.querySelectorAll('a, button, .skill-node, .work-card');
+        const interactiveElements = document.querySelectorAll('a, button, .skill-label, .work-card'); // Added .skill-label
 
         const mouse = { x: -100, y: -100 };
         const delayedMouse = { x: -100, y: -100 };
+        let targetCameraX = 0;
+        let targetCameraY = 0;
 
-        window.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
+        if (window.innerWidth >= 768) {
+            window.addEventListener('mousemove', e => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+
+                targetCameraX = (e.clientX / window.innerWidth) * 2 - 1;
+                targetCameraY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+        }
         
         const lerp = (a, b, n) => (1 - n) * a + n * b;
         
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
+        const clockBg = new THREE.Clock();
+        function animateBg() {
+            requestAnimationFrame(animateBg);
             particleSystem.rotation.y += 0.0005;
-            delayedMouse.x = lerp(delayedMouse.x, mouse.x, 0.1);
-            delayedMouse.y = lerp(delayedMouse.y, mouse.y, 0.1);
-            cursorDot.style.left = `${mouse.x}px`;
-            cursorDot.style.top = `${mouse.y}px`;
-            cursorOutline.style.left = `${delayedMouse.x}px`;
-            cursorOutline.style.top = `${delayedMouse.y}px`;
-            renderer.render(scene, camera);
+
+            if (window.innerWidth >= 768) {
+                delayedMouse.x = lerp(delayedMouse.x, mouse.x, 0.1);
+                delayedMouse.y = lerp(delayedMouse.y, mouse.y, 0.1);
+                cursorDot.style.left = `${mouse.x}px`;
+                cursorDot.style.top = `${mouse.y}px`;
+                cursorOutline.style.left = `${delayedMouse.x}px`;
+                cursorOutline.style.top = `${delayedMouse.y}px`;
+
+                cameraBg.position.x = lerp(cameraBg.position.x, targetCameraX * 0.5, 0.05);
+                cameraBg.position.y = lerp(cameraBg.position.y, targetCameraY * 0.5, 0.05);
+            }
+
+            rendererBg.render(sceneBg, cameraBg);
         }
-        animate();
+        animateBg();
 
-        document.body.addEventListener('mouseenter', () => {
-            cursorDot.style.opacity = 1;
-            cursorOutline.style.opacity = 1;
-        });
+        if (window.innerWidth >= 768) {
+            document.body.addEventListener('mouseenter', () => {
+                cursorDot.style.opacity = 1;
+                cursorOutline.style.opacity = 1;
+            });
 
-        document.body.addEventListener('mouseleave', () => {
-            cursorDot.style.opacity = 0;
-            cursorOutline.style.opacity = 0;
-        });
-        
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseover', () => {
-                gsap.to(cursorOutline, { duration: 0.3, scale: 1.5 });
+            document.body.addEventListener('mouseleave', () => {
+                cursorDot.style.opacity = 0;
+                cursorOutline.style.opacity = 0;
             });
-            el.addEventListener('mouseout', () => {
-                gsap.to(cursorOutline, { duration: 0.3, scale: 1 });
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    gsap.to(cursorOutline, { duration: 0.3, scale: 1.5 });
+                });
+                el.addEventListener('mouseout', () => {
+                    gsap.to(cursorOutline, { duration: 0.3, scale: 1 });
+                });
             });
-        });
+        }
 
         // --- Advanced Scroll Animations ---
         gsap.timeline({
@@ -449,11 +602,11 @@
             y: Math.PI,
             ease: "power1.inOut"
         })
-        .to(camera.position, {
+        .to(cameraBg.position, {
             z: 3.5,
             ease: "power1.inOut"
         }, "<")
-        .to(camera.position, {
+        .to(cameraBg.position, {
             z: 6,
             ease: "power1.inOut"
         });
@@ -471,9 +624,29 @@
         });
 
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Background particles resize
+            cameraBg.aspect = window.innerWidth / window.innerHeight;
+            cameraBg.updateProjectionMatrix();
+            rendererBg.setSize(window.innerWidth, window.innerHeight);
+
+            // Skill diagram resize
+            if (skillDiagramRenderer) {
+                const container = document.querySelector('.skill-diagram-3d-container');
+                skillDiagramCamera.aspect = container.clientWidth / container.clientHeight;
+                skillDiagramCamera.updateProjectionMatrix();
+                skillDiagramRenderer.setSize(container.clientWidth, container.clientHeight);
+            }
+
+            // Re-evaluate cursor visibility on resize
+            if (window.innerWidth < 768) {
+                document.body.style.cursor = 'auto';
+                cursorDot.style.display = 'none';
+                cursorOutline.style.display = 'none';
+            } else {
+                document.body.style.cursor = 'none';
+                cursorDot.style.display = 'block';
+                cursorOutline.style.display = 'block';
+            }
         });
         
         // --- MODIFIED: New text reveal animation ---
@@ -490,7 +663,7 @@
             y: 0,
             duration: 0.8,
             ease: 'power2.out',
-            stagger: 0.3 
+            stagger: 0.3    
         });
 
 
@@ -523,49 +696,6 @@
         }
         fetchQiitaArticles();
 
-        const skills = {
-            'ZKP': { related: ['Circom', 'Solidity', 'Go', 'Math'] },
-            'IoT': { related: ['Python', 'C/C++', 'Jetson', 'ESP32', 'AWS'] },
-            'Web': { related: ['JavaScript', 'React', 'HTML/CSS', 'Go'] },
-            'Data': { related: ['Python', 'SQL', 'AWS', 'Grafana'] },
-            'CV': { related: ['Python', 'OpenCV', 'TensorFlow', 'Jetson'] },
-        };
-        const allSkills = ['ZKP', 'IoT', 'Web', 'Data', 'CV', 'Circom', 'Solidity', 'Go', 'Math', 'Python', 'C/C++', 'Jetson', 'ESP32', 'AWS', 'JavaScript', 'React', 'HTML/CSS', 'SQL', 'Grafana', 'OpenCV', 'TensorFlow'];
-        const skillContainer = document.querySelector('.skill-diagram-container');
-        
-        allSkills.forEach(skill => {
-            const node = document.createElement('div');
-            node.className = 'skill-node';
-            node.textContent = skill;
-            node.dataset.skill = skill;
-            skillContainer.appendChild(node);
-        });
-
-        const skillNodes = document.querySelectorAll('.skill-node');
-        skillContainer.addEventListener('mouseover', (e) => {
-            if (e.target.classList.contains('skill-node')) {
-                const currentSkill = e.target.dataset.skill;
-                let relatedSkills = [];
-                for (const category in skills) {
-                    if (category === currentSkill || skills[category].related.includes(currentSkill)) {
-                         relatedSkills = [...new Set([...relatedSkills, category, ...skills[category].related])];
-                    }
-                }
-                skillNodes.forEach(node => {
-                    if(relatedSkills.includes(node.dataset.skill)) {
-                        node.classList.remove('dimmed');
-                        node.classList.add('highlight');
-                    } else {
-                        node.classList.add('dimmed');
-                        node.classList.remove('highlight');
-                    }
-                });
-            }
-        });
-        skillContainer.addEventListener('mouseout', () => {
-            skillNodes.forEach(node => node.classList.remove('highlight', 'dimmed'));
-        });
-
         const caseStudyModal = document.getElementById('case-study-modal');
         const caseStudyButtons = document.querySelectorAll('.case-study-button');
         const modalTitle = document.getElementById('modal-title');
@@ -587,7 +717,7 @@
                     <p><strong>背景:</strong> 現代社会におけるストレス問題に対し、客観的な指標で状態を把握する必要がありました。</p>
                     <p><strong>アプローチ:</strong> Raspberry Piと各種センサー（温湿度、CO2、心拍）を用いて、作業環境と個人のバイタルデータを同時に収集。特に心拍データからは心拍変動（HRV）を算出し、自律神経のバランスを示す指標として利用しました。</p>
                     <p><strong>システム構成:</strong> 収集したデータはAWS IoT Core経由でS3に保存。データ解析にはPython（Pandas, Scikit-learn）を使用し、複数のデータからストレスレベルを推定する簡易的な機械学習モデルを検討。結果はGrafanaとInfluxDBを用いてリアルタイムに可視化しました。</p>
-                    <p><strong>成果:</strong> 複合的なデータを用いることで、より精度の高いコンディション把握が可能になることを示唆しました。</p>
+                    <p><strong>成果:</b> 複合的なデータを用いることで、より精度の高いコンディション把握が可能になることを示唆しました。</p>
                 `
             }
         };
@@ -608,6 +738,537 @@
             });
         }, { threshold: 0.2 });
         fadeInElements.forEach(el => genericObserver.observe(el));
+
+        // Initial check for custom cursor visibility on load
+        if (window.innerWidth < 768) {
+            document.body.style.cursor = 'auto';
+            cursorDot.style.display = 'none';
+            cursorOutline.style.display = 'none';
+        } else {
+            document.body.style.cursor = 'none';
+            cursorDot.style.display = 'block';
+            cursorOutline.style.display = 'block';
+        }
+
+
+        // --- Skill Diagram Three.js Setup ---
+        const skillDiagramContainer = document.querySelector('.skill-diagram-3d-container');
+        const skillDiagramCanvas = document.getElementById('skill-diagram-canvas');
+        const skillLabelsContainer = document.getElementById('skill-labels-container');
+
+        let skillDiagramScene, skillDiagramCamera, skillDiagramRenderer, skillDiagramControls;
+        let skillNodesMap = new Map(); // Map skill name to THREE.Mesh
+        let skillLabelsMap = new Map(); // Map skill name to HTML element
+        let skillLines = []; // Array to store all connection lines
+        let raycaster = new THREE.Raycaster();
+        let mouseSkill = new THREE.Vector2();
+        let currentIntersected = null; // Stores the name of the currently highlighted skill
+
+        const skillsData = [
+            { name: 'ZKP', category: 'core', color: 0x818cf8 },
+            { name: 'IoT', category: 'core', color: 0x60a5fa },
+            { name: 'Web', category: 'core', color: 0xfde047 },
+            { name: 'Data', category: 'core', color: 0xf472b6 },
+            { name: 'CV', category: 'core', color: 0x93c5fd },
+            { name: 'Circom', category: 'sub', color: 0x818cf8 },
+            { name: 'Solidity', category: 'sub', color: 0x818cf8 },
+            { name: 'Go', category: 'sub', color: 0x818cf8 },
+            { name: 'Math', category: 'sub', color: 0x818cf8 },
+            { name: 'Python', category: 'sub', color: 0x60a5fa },
+            { name: 'C/C++', category: 'sub', color: 0x60a5fa },
+            { name: 'Jetson', category: 'sub', color: 0x60a5fa },
+            { name: 'ESP32', category: 'sub', color: 0x60a5fa },
+            { name: 'AWS', category: 'sub', color: 0x60a5fa },
+            { name: 'JavaScript', category: 'sub', color: 0xfde047 },
+            { name: 'React', category: 'sub', color: 0xfde047 },
+            { name: 'HTML/CSS', category: 'sub', color: 0xfde047 },
+            { name: 'SQL', category: 'sub', color: 0xf472b6 },
+            { name: 'Grafana', category: 'sub', color: 0xf472b6 },
+            { name: 'OpenCV', category: 'sub', color: 0x93c5fd },
+            { name: 'TensorFlow', category: 'sub', color: 0x93c5fd },
+        ];
+
+        const skillRelations = [
+            ['ZKP', 'Circom'], ['ZKP', 'Solidity'], ['ZKP', 'Go'], ['ZKP', 'Math'],
+            ['IoT', 'Python'], ['IoT', 'C/C++', 'Jetson'], ['IoT', 'ESP32'], ['IoT', 'AWS'],
+            ['Web', 'JavaScript'], ['Web', 'React'], ['Web', 'HTML/CSS'], ['Web', 'Go'],
+            ['Data', 'Python'], ['Data', 'SQL'], ['Data', 'AWS'], ['Data', 'Grafana'],
+            ['CV', 'Python'], ['CV', 'OpenCV'], ['CV', 'TensorFlow'], ['CV', 'Jetson'],
+        ];
+
+        const connectionDistanceThreshold = 2.5; // Distance for lines to appear
+        const nodeMovementSpeed = 0.003; // Slightly increased for more random movement
+        // REMOVED: attractionStrength as requested
+        const repulsionStrength = 0.0005; // Slightly reduced to allow closer contact/bumping
+        const boundaryRadius = 3.5; // Nodes stay within this sphere
+        const boundaryRepulsionStrength = 0.01; // Stronger push from boundaries
+        const damping = 0.97; // High damping for smooth, persistent drift
+
+        function initSkillDiagramWebGL() {
+            // Scene
+            skillDiagramScene = new THREE.Scene();
+            skillDiagramScene.background = null; // transparent background
+
+            // Camera
+            const aspect = skillDiagramContainer.clientWidth / skillDiagramContainer.clientHeight;
+            skillDiagramCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 100);
+            skillDiagramCamera.position.z = 7;
+
+            // Renderer
+            skillDiagramRenderer = new THREE.WebGLRenderer({ canvas: skillDiagramCanvas, alpha: true, antialias: true });
+            skillDiagramRenderer.setSize(skillDiagramContainer.clientWidth, skillDiagramContainer.clientHeight);
+            skillDiagramRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Controls
+            skillDiagramControls = new THREE.OrbitControls(skillDiagramCamera, skillDiagramRenderer.domElement);
+            skillDiagramControls.enableDamping = true; // smooth camera movement
+            skillDiagramControls.dampingFactor = 0.05;
+            skillDiagramControls.zoomSpeed = 0.5;
+            skillDiagramControls.rotateSpeed = 0.5;
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            skillDiagramScene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            skillDiagramScene.add(directionalLight);
+
+            // Create Nodes
+            const nodeRadius = 0.3;
+            const coreNodeRadius = 0.4;
+
+            // Initial positions: core skills in a circle, sub skills scattered
+            const coreSkills = skillsData.filter(s => s.category === 'core');
+            const subSkills = skillsData.filter(s => s.category === 'sub');
+            const initialCoreRadius = 2.0;
+            const initialSubSpread = 1.0;
+
+            coreSkills.forEach((skill, index) => {
+                const angle = (index / coreSkills.length) * Math.PI * 2;
+                const x = initialCoreRadius * Math.cos(angle);
+                const y = initialCoreRadius * Math.sin(angle);
+                const z = (Math.random() - 0.5) * 0.5; // Slight Z variation
+
+                // MODIFIED: Use DodecahedronGeometry for core skills
+                const material = new THREE.MeshStandardMaterial({ 
+                    color: skill.color, 
+                    emissive: 0x000000, 
+                    emissiveIntensity: 0, 
+                    transparent: true, 
+                    opacity: 0.9 
+                });
+                const mesh = new THREE.Mesh(new THREE.DodecahedronGeometry(coreNodeRadius, 0), material); // Dodecahedron
+                mesh.position.set(x, y, z);
+                mesh.name = skill.name; // Store skill name in mesh for identification
+                mesh.userData.originalColor = skill.color; // Store original color
+                mesh.userData.category = skill.category;
+                mesh.userData.velocity = new THREE.Vector3(); // Add velocity for movement
+                skillDiagramScene.add(mesh);
+                skillNodesMap.set(skill.name, mesh);
+
+                // Create HTML Label
+                const label = document.createElement('div');
+                label.className = 'skill-label';
+                label.textContent = skill.name;
+                label.dataset.skill = skill.name; // For event delegation
+                skillLabelsContainer.appendChild(label);
+                skillLabelsMap.set(skill.name, label);
+            });
+
+            subSkills.forEach(skill => {
+                const material = new THREE.MeshStandardMaterial({ 
+                    color: skill.color, 
+                    emissive: 0x000000, 
+                    emissiveIntensity: 0, 
+                    transparent: true, 
+                    opacity: 0.8 
+                });
+                const mesh = new THREE.Mesh(new THREE.SphereGeometry(nodeRadius, 32, 32), material); // Sphere
+                mesh.position.set(
+                    (Math.random() - 0.5) * initialSubSpread,
+                    (Math.random() - 0.5) * initialSubSpread,
+                    (Math.random() - 0.5) * initialSubSpread
+                );
+                mesh.name = skill.name;
+                mesh.userData.originalColor = skill.color;
+                mesh.userData.category = skill.category;
+                mesh.userData.velocity = new THREE.Vector3(); // Add velocity for movement
+                skillDiagramScene.add(mesh);
+                skillNodesMap.set(skill.name, mesh);
+
+                // Create HTML Label
+                const label = document.createElement('div');
+                label.className = 'skill-label';
+                label.textContent = skill.name;
+                label.dataset.skill = skill.name;
+                skillLabelsContainer.appendChild(label);
+                skillLabelsMap.set(skill.name, label);
+            });
+
+            // Create Lines (initially transparent)
+            // MODIFIED: Use accent color for lines during highlight
+            const defaultLineColor = new THREE.Color(0x94a3b8); // subtext color
+            // Ensure this dynamically pulls from CSS to match theme
+            const getAccentColorHex = () => {
+                const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+                return parseInt(accentColor.replace('#', '0x'));
+            };
+            let highlightedLineColor = new THREE.Color(getAccentColorHex()); 
+
+            const lineMaterial = new THREE.LineBasicMaterial({ color: defaultLineColor, transparent: true, opacity: 0.0, linewidth: 2 }); // Start transparent
+
+            skillRelations.forEach(relation => {
+                const fromNode = skillNodesMap.get(relation[0]);
+                const toNode = skillNodesMap.get(relation[1]);
+
+                if (fromNode && toNode) {
+                    const points = [];
+                    points.push(fromNode.position);
+                    points.push(toNode.position);
+                    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                    const line = new THREE.Line(geometry, lineMaterial.clone()); // Clone material for individual control
+                    line.userData.skills = [relation[0], relation[1]]; // Store skills for highlighting
+                    line.visible = false; // Initially not visible
+                    skillDiagramScene.add(line);
+                    skillLines.push(line);
+                }
+            });
+
+            // Raycaster for mouse interaction
+            skillDiagramCanvas.addEventListener('mousemove', onSkillCanvasMouseMove);
+            skillDiagramCanvas.addEventListener('touchmove', onSkillCanvasTouchMove, { passive: true });
+            skillDiagramCanvas.addEventListener('mouseleave', onSkillCanvasMouseLeave);
+            skillDiagramCanvas.addEventListener('click', onSkillCanvasClick);
+            skillLabelsContainer.addEventListener('click', onSkillLabelClick); // For mobile taps on labels
+
+            // Set up an Intersection Observer to pause/play animation when skill diagram is not visible
+            const skillDiagramObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        skillDiagramControls.enabled = true;
+                        animateSkillDiagram(); // Start animation loop
+                    } else {
+                        skillDiagramControls.enabled = false;
+                    }
+                });
+            }, { threshold: 0.1 });
+            skillDiagramObserver.observe(skillDiagramContainer);
+
+            // Initial render
+            skillDiagramRenderer.render(skillDiagramScene, skillDiagramCamera);
+        }
+
+        function animateSkillDiagram() {
+            requestAnimationFrame(animateSkillDiagram);
+
+            // Update controls
+            skillDiagramControls.update();
+
+            // Node movement logic
+            const allNodes = Array.from(skillNodesMap.values());
+            allNodes.forEach(nodeMesh => {
+                // Apply a small, random force
+                nodeMesh.userData.velocity.x += (Math.random() - 0.5) * nodeMovementSpeed;
+                nodeMesh.userData.velocity.y += (Math.random() - 0.5) * nodeMovementSpeed;
+                nodeMesh.userData.velocity.z += (Math.random() - 0.5) * nodeMovementSpeed;
+
+                // REMOVED: Attraction to center to keep nodes somewhat contained
+                // const toCenter = new THREE.Vector3().copy(nodeMesh.position).negate();
+                // nodeMesh.userData.velocity.add(toCenter.normalize().multiplyScalar(attractionStrength));
+
+                // Repulsion from other nodes
+                allNodes.forEach(otherNodeMesh => {
+                    if (nodeMesh !== otherNodeMesh) {
+                        const distance = nodeMesh.position.distanceTo(otherNodeMesh.position);
+                        // Apply strong repulsion if very close, allowing "bumping"
+                        if (distance < (nodeMesh.geometry.parameters.radius + otherNodeMesh.geometry.parameters.radius) * 1.5) { 
+                            const repelVector = new THREE.Vector3().subVectors(nodeMesh.position, otherNodeMesh.position);
+                            // Inverse square law, but with a slight falloff to allow closer contact
+                            const strength = repulsionStrength / (distance * distance);
+                            nodeMesh.userData.velocity.add(repelVector.normalize().multiplyScalar(strength)); 
+                        }
+                    }
+                });
+
+                // Boundary enforcement: push nodes back if they go too far
+                const currentDistance = nodeMesh.position.length();
+                if (currentDistance > boundaryRadius) {
+                    nodeMesh.userData.velocity.sub(nodeMesh.position.clone().normalize().multiplyScalar(boundaryRepulsionStrength * (currentDistance - boundaryRadius))); // Stronger pull back proportional to distance beyond boundary
+                }
+
+                // Apply damping to slow down movement
+                nodeMesh.userData.velocity.multiplyScalar(damping);
+
+                // Update position
+                nodeMesh.position.add(nodeMesh.userData.velocity);
+            });
+
+
+            // Line visibility and update logic (only if not currently highlighted)
+            if (!currentIntersected) {
+                skillLines.forEach(line => {
+                    const fromNode = skillNodesMap.get(line.userData.skills[0]);
+                    const toNode = skillNodesMap.get(line.userData.skills[1]);
+
+                    if (fromNode && toNode) {
+                        const distance = fromNode.position.distanceTo(toNode.position);
+                        if (distance < connectionDistanceThreshold) {
+                            gsap.to(line.material, { opacity: 0.5, duration: 0.2 });
+                            line.visible = true; // Ensure visible if fading in
+                        } else {
+                            gsap.to(line.material, { opacity: 0.0, duration: 0.2, onComplete: () => line.visible = false }); // Hide when faded out
+                        }
+                        // Update line geometry always
+                        line.geometry.setFromPoints([fromNode.position, toNode.position]);
+                        line.geometry.attributes.position.needsUpdate = true;
+                    }
+                });
+            } else {
+                 // When highlighted, lines are controlled by highlightSkill/resetSkillHighlight,
+                 // but their geometry still needs to update as nodes move.
+                 skillLines.forEach(line => {
+                    const fromNode = skillNodesMap.get(line.userData.skills[0]);
+                    const toNode = skillNodesMap.get(line.userData.skills[1]);
+                    if (fromNode && toNode) {
+                        line.geometry.setFromPoints([fromNode.position, toNode.position]);
+                        line.geometry.attributes.position.needsUpdate = true;
+                    }
+                 });
+            }
+
+
+            // Raycast for hover (desktop only)
+            if (window.innerWidth >= 768 && skillDiagramRenderer && skillDiagramCamera) {
+                const rect = skillDiagramCanvas.getBoundingClientRect();
+                raycaster.setFromCamera(mouseSkill, skillDiagramCamera);
+                const intersects = raycaster.intersectObjects(Array.from(skillNodesMap.values()), true);
+
+                if (intersects.length > 0) {
+                    const intersectedObject = intersects[0].object;
+                    if (intersectedObject.name && intersectedObject.name !== currentIntersected) {
+                        if (currentIntersected) {
+                            resetSkillHighlight(currentIntersected); // Reset previous highlight
+                        }
+                        highlightSkill(intersectedObject.name);
+                        currentIntersected = intersectedObject.name;
+                    }
+                } else {
+                    if (currentIntersected) {
+                        resetSkillHighlight(currentIntersected);
+                        currentIntersected = null;
+                    }
+                }
+            }
+
+
+            // Update HTML labels position
+            skillNodesMap.forEach((mesh, skillName) => {
+                const label = skillLabelsMap.get(skillName);
+                if (label) {
+                    const vector = new THREE.Vector3();
+                    mesh.getWorldPosition(vector); // Get world position of the mesh
+
+                    // Project 3D position to 2D screen coordinates
+                    vector.project(skillDiagramCamera);
+
+                    const x = (vector.x * 0.5 + 0.5) * skillDiagramContainer.clientWidth;
+                    const y = (-vector.y * 0.5 + 0.5) * skillDiagramContainer.clientHeight;
+
+                    // Check if node is behind camera or too far
+                    const distance = mesh.position.distanceTo(skillDiagramCamera.position);
+                    const isVisible = vector.z < 1 && distance < skillDiagramCamera.far / 2; // Adjusted visibility check
+
+                    label.style.left = `${x}px`;
+                    label.style.top = `${y}px`;
+                    label.style.opacity = isVisible ? 1 : 0;
+                    label.style.display = isVisible ? 'block' : 'none';
+                }
+            });
+
+            skillDiagramRenderer.render(skillDiagramScene, skillDiagramCamera);
+        }
+
+        function onSkillCanvasMouseMove(event) {
+            const rect = skillDiagramCanvas.getBoundingClientRect();
+            mouseSkill.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseSkill.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        }
+
+        function onSkillCanvasTouchMove(event) {
+            if (event.touches.length > 0) {
+                const rect = skillDiagramCanvas.getBoundingClientRect();
+                mouseSkill.x = ((event.touches[0].clientX - rect.left) / rect.width) * 2 - 1;
+                mouseSkill.y = -((event.touches[0].clientY - rect.top) / rect.height) * 2 + 1;
+            }
+        }
+
+        function onSkillCanvasMouseLeave() {
+            if (currentIntersected) {
+                resetSkillHighlight(currentIntersected);
+                currentIntersected = null;
+            }
+        }
+
+        function onSkillCanvasClick(event) {
+            // This handles clicks on the canvas itself, not labels
+            const rect = skillDiagramCanvas.getBoundingClientRect();
+            mouseSkill.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseSkill.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouseSkill, skillDiagramCamera);
+            const intersects = raycaster.intersectObjects(Array.from(skillNodesMap.values()), true);
+
+            if (intersects.length > 0) {
+                const intersectedObject = intersects[0].object;
+                if (intersectedObject.name) {
+                    if (currentIntersected === intersectedObject.name) {
+                        // Tapping the same node again resets it
+                        resetSkillHighlight(intersectedObject.name);
+                        currentIntersected = null;
+                    } else {
+                        // Tapping a new node highlights it
+                        if (currentIntersected) {
+                            resetSkillHighlight(currentIntersected);
+                        }
+                        highlightSkill(intersectedObject.name);
+                        currentIntersected = intersectedObject.name;
+                    }
+                }
+            } else {
+                // Clicked on empty space, reset highlight
+                if (currentIntersected) {
+                    resetSkillHighlight(currentIntersected);
+                    currentIntersected = null;
+                }
+            }
+        }
+
+        function onSkillLabelClick(event) {
+            // This handles clicks directly on the HTML labels
+            const skillName = event.target.dataset.skill;
+            if (skillName) {
+                if (currentIntersected === skillName) {
+                    resetSkillHighlight(skillName);
+                    currentIntersected = null;
+                } else {
+                    if (currentIntersected) {
+                        resetSkillHighlight(currentIntersected);
+                    }
+                    highlightSkill(skillName);
+                    currentIntersected = skillName;
+                }
+            }
+        }
+
+        function highlightSkill(skillName) {
+            const relatedSkills = new Set();
+            relatedSkills.add(skillName);
+
+            // Add directly related skills
+            skillRelations.forEach(relation => {
+                if (relation[0] === skillName) {
+                    relatedSkills.add(relation[1]);
+                } else if (relation[1] === skillName) {
+                    relatedSkills.add(relation[0]);
+                }
+            });
+
+            // Highlight nodes
+            skillNodesMap.forEach((mesh, name) => {
+                const label = skillLabelsMap.get(name);
+                if (relatedSkills.has(name)) {
+                    gsap.to(mesh.material.color, { 
+                        r: new THREE.Color(mesh.userData.originalColor).r, 
+                        g: new THREE.Color(mesh.userData.originalColor).g, 
+                        b: new THREE.Color(mesh.userData.originalColor).b, 
+                        duration: 0.3 
+                    });
+                    gsap.to(mesh.material.emissive, { 
+                        r: new THREE.Color(mesh.userData.originalColor).r, // Full color glow
+                        g: new THREE.Color(mesh.userData.originalColor).g,
+                        b: new THREE.Color(mesh.userData.originalColor).b,
+                        duration: 0.3 
+                    });
+                    gsap.to(mesh.material.emissiveIntensity, { value: 0.8, duration: 0.3 }); // Stronger glow
+                    gsap.to(mesh.material, { opacity: 1.0, duration: 0.3 });
+                    if (label) {
+                        label.classList.remove('dimmed');
+                        label.classList.add('highlight');
+                    }
+                } else {
+                    gsap.to(mesh.material, { opacity: 0.2, duration: 0.3 });
+                    gsap.to(mesh.material.emissive, { r: 0, g: 0, b: 0, duration: 0.3 }); // Remove glow
+                    gsap.to(mesh.material.emissiveIntensity, { value: 0, duration: 0.3 });
+                    if (label) {
+                        label.classList.add('dimmed');
+                        label.classList.remove('highlight');
+                    }
+                }
+            });
+
+            // Highlight lines
+            const highlightedLineColor = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim().replace('#', '0x'));
+            skillLines.forEach(line => {
+                const [s1, s2] = line.userData.skills;
+                if (relatedSkills.has(s1) && relatedSkills.has(s2)) {
+                    gsap.to(line.material, { opacity: 1.0, duration: 0.3 });
+                    gsap.to(line.material.color, { 
+                        r: highlightedLineColor.r, 
+                        g: highlightedLineColor.g, 
+                        b: highlightedLineColor.b, 
+                        duration: 0.3 
+                    });
+                    line.visible = true; // Ensure line is visible when highlighted
+                } else {
+                    gsap.to(line.material, { opacity: 0.0, duration: 0.3, onComplete: () => line.visible = false }); // Hide
+                }
+            });
+        }
+
+        function resetSkillHighlight() {
+            skillNodesMap.forEach((mesh, name) => {
+                gsap.to(mesh.material.color, { 
+                    r: new THREE.Color(mesh.userData.originalColor).r, 
+                    g: new THREE.Color(mesh.userData.originalColor).g, 
+                    b: new THREE.Color(mesh.userData.originalColor).b, 
+                    duration: 0.3 
+                });
+                gsap.to(mesh.material.emissive, { r: 0, g: 0, b: 0, duration: 0.3 }); // Remove glow
+                gsap.to(mesh.material.emissiveIntensity, { value: 0, duration: 0.3 });
+                gsap.to(mesh.material, { opacity: mesh.userData.category === 'core' ? 0.9 : 0.8, duration: 0.3 });
+                const label = skillLabelsMap.get(name);
+                if (label) {
+                    label.classList.remove('highlight', 'dimmed');
+                }
+            });
+
+            // Revert lines to dynamic visibility based on distance
+            const defaultLineColor = new THREE.Color(0x94a3b8);
+            skillLines.forEach(line => {
+                const fromNode = skillNodesMap.get(line.userData.skills[0]);
+                const toNode = skillNodesMap.get(line.userData.skills[1]);
+                if (fromNode && toNode) {
+                    const distance = fromNode.position.distanceTo(toNode.position);
+                    if (distance < connectionDistanceThreshold) {
+                        gsap.to(line.material, { opacity: 0.5, duration: 0.3 });
+                        line.visible = true;
+                    } else {
+                        gsap.to(line.material, { opacity: 0.0, duration: 0.3, onComplete: () => line.visible = false });
+                    }
+                } else {
+                    gsap.to(line.material, { opacity: 0.0, duration: 0.3, onComplete: () => line.visible = false });
+                }
+                gsap.to(line.material.color, { 
+                    r: defaultLineColor.r, 
+                    g: defaultLineColor.g, 
+                    b: defaultLineColor.b, 
+                    duration: 0.3 
+                }); // Reset to original line color
+            });
+        }
+
+        initSkillDiagramWebGL();
+        animateSkillDiagram(); // Start the animation loop for the skill diagram
     });
     </script>
 </body>
