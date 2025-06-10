@@ -1,854 +1,614 @@
 <!DOCTYPE html>
-<html lang="ja" class="scroll-smooth">
+<html lang="ja" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ryosuke Yoshioka - ZKP, AI, and Secure Systems Innovator</title>
-    <!-- Chosen Palette: Cyberpunk Dark Mode (Deep Navy, Electric Blue, Neon Green) -->
-    <!-- Application Structure Plan: A single-page application with a narrative flow. It starts with a strong hero section to define the user's niche, followed by a personal introduction. An interactive skills section allows for exploration without being overwhelming. The core of the site is the project case studies, which provide concrete proof of expertise, each with generated visuals and clear explanations. A unique interactive diagram for ZKP serves as a "wow" factor to explain a complex topic. This structure was chosen to tell a compelling story about the user's specialized skills, moving from "who I am" to "what I know" and "what I've built," which is highly effective for a technical portfolio. -->
-    <!-- Visualization & Content Choices: 
-        - ✨ Preloader -> Hacker-style typing animation. Goal: Create an engaging, themed entry point.
-        - ✨ Hero Visual -> Interactive 3D Object (Three.js). Goal: Create a stunning, high-tech first impression. Method: A rotating 3D wireframe geometric shape in the hero section background. Justification: Immediately establishes a "cool" and "dope" aesthetic, showcasing advanced frontend skills.
-        - ✨ Skills -> Enhanced Interactive Skill Map (HTML Canvas/JS). Goal: Visualize the interconnectedness of skills. Method: A dynamic particle network with repulsion physics and click-to-highlight functionality. Justification: More engaging and informative, demonstrating relationships between technologies.
-        - ✨ ZKP Concept -> Interactive ZKP Simulator. Goal: Allow users to "experience" the core idea of ZKP. Method: A simplified, frontend simulation of proving knowledge of factors of a number without revealing them. Justification: The ultimate demonstration of expertise, moving from explaining to showing.
-        - ✨ AI/ML Demo -> AI Attribute Estimation Simulator. Goal: Demonstrate ML project capabilities. Method: Simulates facial attribute analysis from an image using a text-based Gemini call. Justification: Provides a tangible and impressive demonstration of ML research topics.
-        - Project Details -> AI Project Assistant (Gemini API). Goal: Provide deep, interactive insights into each project.
-        - ✨ Writings & Contributions -> Dynamic API Feed with AI Code Explainer (GitHub/Qiita/Gemini APIs). Goal: Show continuous learning and explain code contributions.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>Ryosuke Yoshioka | Interactive Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Rajdhani:wght@500;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        // TailwindCSS JIT AOT for dynamic classes
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+                colors: {
+                    // Light mode
+                    light: {
+                        bg: '#f8fafc',
+                        text: '#0f172a',
+                        card: '#ffffff',
+                        border: '#e2e8f0',
+                        heading: '#1e293b',
+                        accent: '#4f46e5',
+                        subtext: '#64748b',
+                    },
+                    // Dark mode (current default)
+                    dark: {
+                        bg: '#0a0a0a',
+                        text: '#e2e8f0',
+                        card: 'rgba(23, 30, 44, 0.7)',
+                        border: 'rgba(51, 65, 85, 0.5)',
+                        heading: '#ffffff',
+                        accent: '#818cf8',
+                        subtext: '#94a3b8',
+                    }
+                }
+            }
+          }
+        }
+    </script>
     <style>
-        body { font-family: 'Noto Sans JP', 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; opacity: 0; transition: opacity 0.5s ease-in-out; }
-        body.loaded { opacity: 1; }
-        h1, h2, h3, h4, .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
-        .font-code { font-family: 'Source Code Pro', monospace; }
-        .neon-text { color: #58a6ff; text-shadow: 0 0 5px #58a6ff, 0 0 10px #58a6ff; }
-        .neon-border { border-color: #58a6ff; box-shadow: 0 0 5px #58a6ff; }
-        .skill-tag { background-color: rgba(45, 128, 255, 0.1); border: 1px solid rgba(45, 128, 255, 0.3); color: #88c0ff; transition: all 0.3s ease; }
-        .skill-tag:hover { background-color: rgba(45, 128, 255, 0.2); box-shadow: 0 0 10px rgba(45, 128, 255, 0.5); transform: translateY(-2px); }
-        .project-card, .writing-card { background-color: #161b22; border: 1px solid #30363d; transition: all 0.3s ease; }
-        .project-card:hover, .writing-card:hover { border-color: #58a6ff; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
-        .chart-container { position: relative; width: 100%; max-width: 600px; margin: auto; height: 350px; max-height: 40vh; }
-        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        #skill-canvas { cursor: pointer; width: 100%; height: 100%; }
-        .modal-message { max-width: 80%; padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; word-wrap: break-word; }
-        .modal-message.user { background-color: #21262d; align-self: flex-end; }
-        .modal-message.ai { background-color: #30363d; align-self: flex-start; }
-        .blinking-cursor { font-weight: bold; animation: 1s blink step-end infinite; }
-        @keyframes blink { from, to { color: transparent } 50% { color: #58a6ff; } }
-        .zkp-sim-status { transition: all 0.5s ease-in-out; }
-        .prose { color: #c9d1d9; } .prose h1, .prose h2, .prose h3 { color: #58a6ff; } .prose a { color: #88c0ff; } .prose strong { color: #e6edf3; } .prose blockquote { border-left-color: #484f58; color: #8b949e;} .prose code { color: #f778ba; }
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0d1117; z-index: 100; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s ease; }
-        #preloader.hidden { opacity: 0; visibility: hidden; }
-        .typing-effect { color: #3fb950; font-size: 1.5rem; text-align: center; padding: 1rem; }
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #e2e8f0;
+            --card-color: rgba(23, 30, 44, 0.7);
+            --border-color: rgba(51, 65, 85, 0.5);
+            --heading-color: #ffffff;
+            --accent-color: #818cf8;
+            --subtext-color: #94a3b8;
+            --backdrop-color: rgba(10, 10, 10, 0.7);
+        }
+
+        html.light {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-color: #ffffff;
+            --border-color: #e2e8f0;
+            --heading-color: #1e293b;
+            --accent-color: #4f46e5;
+            --subtext-color: #475569;
+            --backdrop-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* --- Custom Cursor --- */
+        body, a, button {
+            cursor: none;
+        }
+        .cursor-dot, .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            z-index: 9999;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(129, 140, 248, 0.2); /* accent color with alpha */
+            border: 2px solid var(--accent-color);
+        }
+        html.light .cursor-outline {
+             background-color: rgba(79, 70, 229, 0.2);
+        }
+        
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        #webgl-canvas { position: fixed; top: 0; left: 0; outline: none; z-index: 0; }
+        .content-section { position: relative; z-index: 1; padding: 15vh 5%; max-width: 800px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; line-height: 1.1; color: var(--heading-color); }
+        .hero-title span { display: inline-block; }
+        .text-backdrop { background-color: var(--backdrop-color); padding: 1.5rem 2rem; border-radius: 12px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-color); transition: background-color 0.5s ease, border-color 0.5s ease; }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.is-visible { opacity: 1; transform: translateY(0); }
+        
+        #page-nav { position: fixed; top: 50%; right: 20px; transform: translateY(-50%); z-index: 1000; }
+        #page-nav ul { list-style: none; padding: 0; margin: 0; }
+        #page-nav li { margin: 15px 0; }
+        #page-nav a { display: block; width: 12px; height: 12px; background-color: var(--border-color); border-radius: 50%; transition: all 0.3s ease; position: relative; }
+        #page-nav a.active { background-color: var(--accent-color); transform: scale(1.3); }
+        #page-nav a .tooltip { visibility: hidden; opacity: 0; width: 120px; background-color: #333; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; top: 50%; right: 150%; transform: translateY(-50%); transition: opacity 0.3s ease; }
+        #page-nav a:hover .tooltip { visibility: visible; opacity: 1; }
+
+        #theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 1001; background: var(--card-color); border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        
+        .timeline { position: relative; padding: 2rem 0; }
+        .timeline::before { content: ''; position: absolute; top: 0; left: 15px; height: 100%; width: 2px; background: var(--border-color); }
+        .timeline-item { position: relative; padding-left: 50px; margin-bottom: 50px; }
+        .timeline-item::before { content: ''; position: absolute; top: 5px; left: 8px; width: 16px; height: 16px; border-radius: 50%; background: var(--card-color); border: 3px solid var(--accent-color); z-index: 1; }
+        .timeline-content { opacity: 0; transform: translateX(20px); transition: 0.5s; }
+        .timeline-item.is-visible .timeline-content { opacity: 1; transform: translateX(0); }
+
+        .skill-diagram-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; perspective: 1000px; }
+        .skill-node { padding: 8px 16px; border-radius: 20px; background: var(--card-color); border: 1px solid var(--border-color); transition: all 0.3s ease; }
+        .skill-node.highlight { background: var(--accent-color); color: white; transform: scale(1.1) translateZ(50px); box-shadow: 0 0 20px var(--accent-color); }
+        .skill-node.dimmed { opacity: 0.3; }
+        
+        .work-card { background-color: var(--card-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .work-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+
+        .modal { position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background-color: var(--bg-color); margin: auto; padding: 30px; border: 1px solid var(--border-color); width: 90%; max-width: 700px; border-radius: 10px; position: relative; animation: slide-down 0.5s ease-out; }
+        @keyframes slide-down { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-button { color: var(--subtext-color); position: absolute; top: 15px; right: 25px; font-size: 28px; font-weight: bold; }
+
+        /* MODIFIED: About section text style */
+        #about h2, #about p {
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+        }
+        html.light #about h2, html.light #about p {
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
     </style>
 </head>
-<body class="antialiased">
+<body>
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div id="typing-text" class="font-code typing-effect"></div>
-    </div>
-
-    <!-- Header -->
-    <header class="bg-gray-900/50 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-gray-800">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#home" class="text-xl md:text-2xl font-bold tracking-wider neon-text font-rajdhani">RYOSUKE YOSHIOKA</a>
-            <nav class="hidden md:flex space-x-8 font-rajdhani">
-                <a href="#about" class="text-gray-300 hover:neon-text transition-colors duration-300">ABOUT</a>
-                <a href="#skills" class="text-gray-300 hover:neon-text transition-colors duration-300">SKILLS</a>
-                <a href="#projects" class="text-gray-300 hover:neon-text transition-colors duration-300">PROJECTS</a>
-                <a href="#writings" class="text-gray-300 hover:neon-text transition-colors duration-300">WRITINGS</a>
-                <a href="#contact" class="text-gray-300 hover:neon-text transition-colors duration-300">CONTACT</a>
-            </nav>
-            <button id="mobile-menu-button" class="md:hidden text-2xl">☰</button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
-             <a href="#about" class="block text-center py-3 hover:bg-gray-800">ABOUT</a>
-            <a href="#skills" class="block text-center py-3 hover:bg-gray-800">SKILLS</a>
-            <a href="#projects" class="block text-center py-3 hover:bg-gray-800">PROJECTS</a>
-            <a href="#writings" class="block text-center py-3 hover:bg-gray-800">WRITINGS</a>
-            <a href="#contact" class="block text-center py-3 hover:bg-gray-800">CONTACT</a>
-        </div>
-    </header>
+    <nav id="page-nav">
+        <ul></ul>
+    </nav>
+    
+    <button id="theme-toggle" aria-label="テーマを切り替える">
+        <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class=""><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+    
+    <canvas id="webgl-canvas"></canvas>
 
     <main>
-        <!-- Hero Section -->
-        <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-            <canvas id="hero-canvas"></canvas>
-            <div class="container mx-auto px-6 text-center z-10">
-                <img src="https://placehold.co/150x150/161b22/58a6ff?text=RY" alt="Ryosuke Yoshioka" class="w-36 h-36 rounded-full mx-auto mb-6 border-4 neon-border">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight">吉岡 龍佑</h1>
-                <p class="text-xl md:text-2xl neon-text font-semibold mb-8 font-rajdhani">ZKP | AI/ML | Secure Systems</p>
-                <p class="max-w-3xl mx-auto text-gray-300 mb-10 text-lg bg-black/20 backdrop-blur-sm p-2 rounded">
-                    ゼロ知識証明、機械学習、ブロックチェーンの交差点で、プライバシーを保護するインテリジェントなシステムを構築しています。<br>立命館大学情報理工学部で、次世代のセキュアな技術を探求中です。
-                </p>
-                <a href="#projects" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg shadow-blue-600/20">
-                    プロジェクトを見る
-                </a>
+        <section id="hero" class="content-section" data-nav="Home">
+             <div>
+                <h1 class="hero-title">
+                    <span>RYOSUKE</span><br>
+                    <span>YOSHIOKA</span>
+                </h1>
+                <p class="mt-4 text-xl md:text-2xl" style="color: var(--subtext-color);">IoT Security & Privacy Engineer</p>
+                <p class="mt-2" style="color: var(--subtext-color);">Crafting Trust in a Connected World with Zero-Knowledge Proofs.</p>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-12 neon-text">ABOUT ME</h2>
-                <div class="flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-2/3">
-                        <h3 class="text-2xl font-bold mb-4 text-white">プライバシー技術の革新者</h3>
-                        <p class="mb-4 text-gray-400">
-                            立命館大学情報理工学部セキュリティ・ネットワークコースに在籍する吉岡龍佑です。テクノロジーが社会に深く浸透する中で、個人のプライバシーをいかにして守るかという課題に強い関心を持っています。特に、ゼロ知識証明（ZKP）が持つ「情報を明かさずに真実を証明する」力に魅了され、その可能性を追求しています。
-                        </p>
-                        <p class="mb-4 text-gray-400">
-                           私の研究とプロジェクトは、ZKP、機械学習、IoT、ブロックチェーンといった最先端技術を組み合わせることに焦点を当てています。例えば、プライバシーを保護しながらドローンの位置を検証するシステムや、室内の環境データと生体情報からストレスを予測し、より快適な生活を支援するAIシステムなどを開発してきました。
-                        </p>
-                        <p class="text-gray-400">
-                           複雑な問題を技術で解決し、より安全で信頼できるデジタル社会を創造することが私の目標です。
-                        </p>
-                    </div>
-                    <div class="md:w-1/3 p-6 bg-gray-900/50 border border-gray-800 rounded-lg">
-                         <h4 class="text-xl font-bold mb-4 text-white">基本情報</h4>
-                         <ul class="space-y-3 text-gray-300">
-                             <li><strong>氏名:</strong> 吉岡 龍佑 (Yoshioka Ryosuke)</li>
-                             <li><strong>大学:</strong> 立命館大学</li>
-                             <li><strong>学部:</strong> 情報理工学部</li>
-                             <li><strong>コース:</strong> セキュリティ・ネットワークコース</li>
-                             <li><strong>年齢:</strong> 21歳</li>
-                         </ul>
-                    </div>
-                </div>
+        <!-- MODIFIED: About section HTML structure -->
+        <section id="about" class="content-section" data-nav="About">
+            <div>
+                <h2 class="scroll-text-reveal text-3xl font-bold mb-4" style="color: var(--accent-color);">はじめまして。</h2>
+                <p class="scroll-text-reveal mb-4">
+                    立命館大学 情報理工学部 情報理工学科に所属している吉岡龍佑と申します。私の専門分野は、IoTにおけるセキュリティとプライバシー保護技術、特に「ゼロ知識証明（ZKP）」を活用したシステムの設計と実装です。
+                </p>
+                <p class="scroll-text-reveal">
+                    機密性を保ちながら信頼を構築する、新しい時代の認証基盤の実現を目指し、日々研究開発に取り組んでいます。
+                </p>
             </div>
         </section>
 
-        <!-- Skills Section -->
-        <section id="skills" class="py-20 md:py-32 bg-gray-900/50">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-12 neon-text">INTERACTIVE SKILL MAP</h2>
-                 <p class="text-center max-w-2xl mx-auto mb-12 text-gray-400">
-                    私のスキルセットは、孤立した点ではなく相互に接続されたネットワークです。このインタラクティブなマップで、私の技術がどのように連携しているかを探求してください。ノード（スキル）にカーソルを合わせるかクリックしてみてください。
-                </p>
-                <div id="skill-map-container" class="relative w-full max-w-4xl h-[60vh] mx-auto bg-gray-900 border border-gray-700 rounded-lg">
-                    <canvas id="skill-canvas"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-4 neon-text">PROJECTS & RESEARCH</h2>
-                <p class="text-center max-w-3xl mx-auto mb-16 text-gray-400">
-                    理論を実践に。私のスキルがどのように現実世界の問題解決に活用されたかを示す主要なプロジェクトです。各プロジェクトは、ケーススタディとしてご覧いただけます。AIアシスタントに質問して、より深く探求することも可能です。
-                </p>
-                <div class="grid md:grid-cols-2 gap-8">
-                    
-                    <div class="project-card rounded-lg overflow-hidden flex flex-col" data-project-name="ZKPドローン位置検証システム" data-project-desc="プライバシーを完全に保護しながら、ドローンとスマートフォンが30m以上離れていることをゼロ知識証明で検証するシステム。CircomでZKP回路を設計し、PythonとJavaScriptで証明・検証プロセスを実装した。GPS情報などの生データを公開することなく、特定の条件（距離）を満たしていることだけを証明できるのが特徴。">
-                        <img src="https://placehold.co/600x400/0d1117/58a6ff?text=ZKP+Drone+Verification" alt="ZKP Drone Verification" class="w-full h-48 object-cover">
-                        <div class="p-6 flex-grow flex flex-col">
-                            <h3 class="text-2xl font-bold mb-3 text-white">ZKPドローン位置検証システム</h3>
-                            <p class="text-gray-400 mb-4 flex-grow">プライバシーを完全に保護しながら、ドローンとスマートフォンが30m以上離れていることをゼロ知識証明で検証するシステムを構築しました。</p>
-                            <div class="mt-auto pt-4 flex items-center justify-between">
-                                <a href="#zkp-explainer" class="text-blue-400 hover:text-blue-300 font-semibold">ZKPの仕組みを体験 &rarr;</a>
-                                <button class="ai-assistant-btn bg-blue-600/50 text-white text-sm py-2 px-4 rounded-lg hover:bg-blue-600/80 transition-all">✨ AIに質問する</button>
-                            </div>
+        <section id="history" class="content-section" data-nav="History">
+            <div class="fade-in">
+                <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--accent-color);">経歴</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3 class="text-xl font-bold" style="color: var(--heading-color);">立命館大学入学</h3>
+                            <p class="text-sm" style="color: var(--subtext-color);">2021年4月</p>
+                            <p class="mt-2">情報理工学部 情報理工学科に入学。プログラミングと情報科学の基礎を学ぶ。</p>
                         </div>
                     </div>
-
-                    <div class="project-card rounded-lg overflow-hidden flex flex-col" data-project-name="IoTとAIによるストレス分析システム" data-project-desc="室内環境（温度、湿度、CO2濃度）と生体情報（心拍）をIoTセンサーで収集し、AIでストレス状態を予測・可視化するシステム。Raspberry Piでデータを収集し、AWSサーバーでデータを処理・分析。OpenCVや各種機械学習モデルを用いて、心拍変動（HRV）からストレスレベルを推定し、エアコンや換気扇を自動制御して快適な環境を維持することを目指す。">
-                        <img src="https://placehold.co/600x400/0d1117/3fb950?text=AI+Stress+Analysis" alt="AI Stress Analysis" class="w-full h-48 object-cover">
-                        <div class="p-6 flex-grow flex flex-col">
-                            <h3 class="text-2xl font-bold mb-3 text-white">IoTとAIによるストレス分析システム</h3>
-                            <p class="text-gray-400 mb-4 flex-grow">室内環境と生体情報をIoTセンサーで収集し、AIでストレス状態を予測・可視化。環境改善のフィードバックを行います。</p>
-                            <div class="mt-auto pt-4 flex items-center justify-between">
-                                <a href="#ai-demo" class="text-blue-400 hover:text-blue-300 font-semibold">AIデモを見る &rarr;</a>
-                                <button class="ai-assistant-btn bg-blue-600/50 text-white text-sm py-2 px-4 rounded-lg hover:bg-blue-600/80 transition-all">✨ AIに質問する</button>
-                            </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3 class="text-xl font-bold" style="color: var(--heading-color);">セキュリティ・ネットワークコース選択</h3>
+                            <p class="text-sm" style="color: var(--subtext-color);">2023年4月</p>
+                            <p class="mt-2">IoTとプライバシー技術への関心から、専門コースを選択。ゼロ知識証明と出会う。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3 class="text-xl font-bold" style="color: var(--heading-color);">研究プロジェクト開始</h3>
+                            <p class="text-sm" style="color: var(--subtext-color);">2023年10月</p>
+                            <p class="mt-2">「ZKPによるドローン位置情報の非公開証明」をテーマに、自主研究を開始。</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Writings & Contributions Section -->
-        <section id="writings" class="py-20 md:py-32 bg-gray-900/50">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-4 neon-text">WRITINGS & CONTRIBUTIONS</h2>
-                <p class="text-center max-w-3xl mx-auto mb-16 text-gray-400">
-                    私の学習は研究室の中だけにとどまりません。GitHubでの開発活動や、Qiitaでの知識共有を通じて、技術コミュニティに積極的に貢献しています。
-                </p>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-6 text-white text-center">Latest on GitHub</h3>
-                        <div id="github-feed" class="space-y-4"><div class="text-center text-gray-400">Loading GitHub contributions...</div></div>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-6 text-white text-center">Latest on Qiita</h3>
-                        <div id="qiita-feed" class="space-y-4"><div class="text-center text-gray-400">Loading Qiita articles...</div></div>
-                    </div>
+        <section id="works" class="content-section" data-nav="Works">
+            <div class="fade-in">
+                <h2 class="text-3xl font-bold mb-6 text-center" style="color: var(--accent-color);">Works & Achievements</h2>
+                <div class="work-card">
+                    <h3 class="text-xl font-bold mb-2">ZKPによるドローン位置情報の非公開証明</h3>
+                    <p style="color: var(--subtext-color);" class="mb-4">ドローンの飛行履歴のプライバシーを保護しつつ、特定の事実を証明するシステムを開発。</p>
+                    <button class="case-study-button text-sm font-bold" style="color: var(--accent-color);" data-case="zkp">詳細を見る &rarr;</button>
                 </div>
-            </div>
-        </section>
-
-        <!-- ZKP Simulator Section -->
-        <section id="zkp-explainer" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-4 neon-text">DEEP DIVE: ZKPシミュレーター</h2>
-                <p class="text-center max-w-3xl mx-auto mb-12 text-gray-400">
-                    ゼロ知識証明を体験してみましょう。ここでは「証明者」として、ある公開された数字の2つの因数（あなたの秘密）を知っていることを、「検証者」に秘密を明かさずに証明します。
-                </p>
-                <div class="max-w-4xl mx-auto p-8 bg-gray-900 border border-gray-700 rounded-lg">
-                    <div class="grid md:grid-cols-3 gap-6 text-center">
-                        <div>
-                            <h3 class="text-xl font-bold mb-3 text-white">1. 秘密を入力 (証明者)</h3>
-                            <p class="text-sm text-gray-400 mb-4">2つの秘密の数字を入力してください。</p>
-                            <input id="secretA" type="number" placeholder="秘密 A" class="w-full bg-gray-800 p-2 rounded border border-gray-600 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="42">
-                            <input id="secretB" type="number" placeholder="秘密 B" class="w-full bg-gray-800 p-2 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" value="1337">
-                        </div>
-                        <div>
-                             <h3 class="text-xl font-bold mb-3 text-white">2. 証明を生成</h3>
-                             <p class="text-sm text-gray-400 mb-4">公開情報と、秘密を含まない「証明」を生成します。</p>
-                             <button id="generate-proof-btn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">証明を生成</button>
-                             <div class="mt-4">
-                                <p class="text-sm text-gray-400">公開情報 (積):</p>
-                                <p id="public-product" class="text-2xl font-bold text-yellow-400 h-8">-</p>
-                             </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-3 text-white">3. 検証 (検証者)</h3>
-                             <p class="text-sm text-gray-400 mb-4">検証者は公開情報と「証明」だけを使って検証します。</p>
-                             <button id="verify-proof-btn" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition" disabled>検証</button>
-                             <div id="verification-result" class="mt-4 text-2xl font-bold h-8"></div>
-                        </div>
-                    </div>
-                     <div class="mt-6 text-center text-xs text-gray-500">
-                        <p>※これはZKPの概念を理解するための単純化されたシミュレーションです。実際の暗号学的安全性は保証されません。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI Demo Section -->
-        <section id="ai-demo" class="py-20 md:py-32 bg-gray-900/50">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-4 neon-text">DEEP DIVE: AI属性推定デモ</h2>
-                <p class="text-center max-w-3xl mx-auto mb-12 text-gray-400">
-                    私の研究プロジェクトの一つに、カメラ映像から人物の属性を推定するAIモデルの開発があります。このデモでは、そのコンセプトを体験できます。画像を選択して、AIによる分析結果をご覧ください。
-                </p>
-                <div class="max-w-4xl mx-auto p-8 bg-gray-900 border border-gray-700 rounded-lg">
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <h3 class="text-xl font-bold mb-4 text-white">1. 分析する画像を選択</h3>
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <img src="https://placehold.co/200x200/161b22/c9d1d9?text=Sample+1" alt="Sample 1" class="sample-image w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-blue-500 transition" data-desc="A smiling young woman">
-                                <img src="https://placehold.co/200x200/161b22/c9d1d9?text=Sample+2" alt="Sample 2" class="sample-image w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-blue-500 transition" data-desc="An older man with glasses">
-                                <img src="https://placehold.co/200x200/161b22/c9d1d9?text=Sample+3" alt="Sample 3" class="sample-image w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-blue-500 transition" data-desc="A child looking surprised">
-                                <img src="https://placehold.co/200x200/161b22/c9d1d9?text=Sample+4" alt="Sample 4" class="sample-image w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-blue-500 transition" data-desc="A person with a neutral expression">
-                            </div>
-                            <p class="text-xs text-gray-500">※プライバシー保護のため、実際の写真ではなくプレースホルダーを使用しています。</p>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-4 text-white">2. AIによる分析結果</h3>
-                            <div id="ai-analysis-results" class="p-4 bg-gray-800 rounded-lg min-h-[180px]">
-                                <p class="text-gray-400">画像を選択して分析を開始してください。</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="work-card">
+                    <h3 class="text-xl font-bold mb-2">環境・バイタルデータによるストレス推定</h3>
+                    <p style="color: var(--subtext-color);" class="mb-4">温湿度・CO2等の環境データと心拍変動(HRV)を組み合わせ、ストレスレベルを推定する研究。</p>
+                    <button class="case-study-button text-sm font-bold" style="color: var(--accent-color);" data-case="stress">詳細を見る &rarr;</button>
                 </div>
             </div>
         </section>
         
-        <!-- ML Results Section -->
-        <section id="ml-results" class="py-20 md:py-32">
-             <div class="container mx-auto px-6">
-                 <h2 class="text-4xl font-bold text-center mb-4 neon-text">DEEP DIVE: AIモデル性能</h2>
-                 <p class="text-center max-w-3xl mx-auto mb-16 text-gray-400">
-                    卒業研究「IoTとAIによるストレス分析システム」では、複数の機械学習モデルを評価し、心拍データ（RRI, RMSSD, SDNN）を予測する最良のモデルを特定しました。以下のグラフは、テストデータに対する各モデルの決定係数（R2スコア）を示しており、予測精度の高さを表しています。
-                </p>
-                <div class="chart-container">
-                    <canvas id="mlModelChart"></canvas>
+        <section id="skill-diagram" class="content-section" data-nav="Skills">
+             <div class="text-backdrop fade-in">
+                <h2 class="text-3xl font-bold mb-6 text-center" style="color: var(--accent-color);">スキル相関図</h2>
+                <p class="text-center mb-6" style="color: var(--subtext-color);">スキルにカーソルを合わせると、関連技術がハイライトされます。</p>
+                <div class="skill-diagram-container">
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 md:py-32 bg-gray-900/50">
-           <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl font-bold mb-4 neon-text">GET IN TOUCH</h2>
-                <p class="max-w-2xl mx-auto text-gray-400 mb-10">
-                    私の研究やプロジェクトに興味を持っていただけましたか？<br>新しい技術、共同研究の可能性、その他どんなことでもお気軽にご連絡ください。
+        <section id="articles" class="content-section" data-nav="Articles">
+            <div class="fade-in">
+                <h2 class="text-3xl font-bold mb-6 text-center" style="color: var(--accent-color);">最新のQiita記事</h2>
+                <div id="qiita-feed" class="space-y-4">
+                    <p class="text-center" style="color: var(--subtext-color);">記事を読み込み中...</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section" data-nav="Contact">
+            <div class="text-center fade-in">
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--heading-color);">Let's Connect</h2>
+                <p class="mb-8 max-w-md mx-auto" style="color: var(--subtext-color);">
+                    プライバシーと透明性を両立するIoT基盤の社会実装に興味があります。新しい技術やプロジェクトについて、ぜひお話ししましょう。
                 </p>
-                <div class="flex justify-center items-center space-x-6">
-                    <a href="https://github.com/SMRI2170" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:neon-text transition-colors duration-300 text-4xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    </a>
-                    <a href="https://qiita.com/ryosuke0712" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:neon-text transition-colors duration-300 text-4xl font-bold font-rajdhani">Q</a>
-                    <a href="mailto:yoshioka.ryosuke.dev@example.com" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg shadow-blue-600/20">
-                        Email Me
-                    </a>
+                 <div class="flex justify-center items-center gap-4">
+                    <a href="https://github.com/SMRI2170" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white transition-all duration-300" style="background-color: #333; hover:bg-gray-700;">GitHub</a>
+                    <a href="https://qiita.com/ryosuke0712" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white transition-all duration-300" style="background-color: #55c500; hover:bg-green-700;">Qiita</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="border-t border-gray-800 py-6">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            &copy; 2025 Ryosuke Yoshioka. All Rights Reserved.
-        </div>
-    </footer>
-
-    <!-- AI Project Assistant Modal -->
-    <div id="ai-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-         <div class="bg-[#161b22] border border-gray-700 rounded-lg shadow-xl w-full max-w-2xl h-[80vh] flex flex-col">
-            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                <h3 id="modal-title" class="text-xl font-bold text-white">AIプロジェクトアシスタント</h3>
-                <button id="close-modal-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-            </div>
-            <div id="modal-chat-box" class="flex-grow p-4 overflow-y-auto flex flex-col space-y-2"></div>
-            <div id="modal-loading" class="p-4 text-center text-blue-400 hidden">
-                 AIが応答を考えています... <span class="blinking-cursor">|</span>
-            </div>
-            <div class="p-4 border-t border-gray-700">
-                <div class="flex items-center gap-4">
-                    <input id="modal-input" type="text" placeholder="プロジェクトについて質問を入力..." class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button id="modal-send-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg whitespace-nowrap transition-colors">送信</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- AI Code Explainer Modal -->
-    <div id="code-explainer-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-[#161b22] border border-gray-700 rounded-lg shadow-xl w-full max-w-3xl h-[85vh] flex flex-col">
-            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                <h3 id="code-explainer-title" class="text-xl font-bold text-white">AI Code Explainer</h3>
-                <button id="close-code-explainer-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-            </div>
-            <div id="code-explainer-content" class="flex-grow p-6 overflow-y-auto text-gray-300 prose prose-invert prose-sm max-w-none">
-                <!-- AI explanation will be loaded here -->
-            </div>
+    <div id="case-study-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-case-study">&times;</span>
+            <h2 id="modal-title" class="text-2xl font-bold mb-4" style="color: var(--accent-color);"></h2>
+            <div id="modal-body" class="space-y-4"></div>
         </div>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    // --- ✨ Preloader ---
-    function initPreloader() {
-        const preloader = document.getElementById('preloader');
-        const typingText = document.getElementById('typing-text');
-        const text = "Initializing Ryosuke Yoshioka's Portfolio...";
-        let i = 0;
+        gsap.registerPlugin(ScrollTrigger);
 
-        function type() {
-            if (i < text.length) {
-                if (typingText) typingText.textContent += text.charAt(i);
-                i++;
-                setTimeout(type, 50);
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+        const htmlEl = document.documentElement;
+
+        const applyTheme = (theme) => {
+            if (theme === 'light') {
+                htmlEl.classList.add('light');
+                htmlEl.classList.remove('dark');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
             } else {
-                setTimeout(() => {
-                    if(preloader) preloader.classList.add('hidden');
-                    document.body.classList.add('loaded');
-                }, 500);
+                htmlEl.classList.remove('light');
+                htmlEl.classList.add('dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
             }
-        }
-        if (typingText) {
-            type();
-        } else {
-            if(preloader) preloader.classList.add('hidden');
-            document.body.classList.add('loaded');
-        }
-    }
-    initPreloader();
+        };
 
-    // Basic Nav
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        mobileMenu.addEventListener('click', (e) => { if(e.target.tagName === 'A') mobileMenu.classList.add('hidden') });
-    }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
 
-    // --- ✨ Three.js Hero Background ---
-    function initThreeJS() {
-        try {
-            const container = document.getElementById('home');
-            const heroCanvas = document.getElementById('hero-canvas');
-            if (!container || !heroCanvas) return;
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true });
-            renderer.setSize(container.offsetWidth, container.offsetHeight);
+        themeToggle.addEventListener('click', () => {
+            const newTheme = htmlEl.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
 
-            const geometry = new THREE.IcosahedronGeometry(2.5, 1);
-            const material = new THREE.MeshStandardMaterial({ color: 0x58a6ff, wireframe: true, metalness: 0.5, roughness: 0.5 });
-            const sphere = new THREE.Mesh(geometry, material);
-            scene.add(sphere);
+        const navContainer = document.querySelector('#page-nav ul');
+        const sections = document.querySelectorAll('main section');
+        let navLinks = [];
 
-            const light = new THREE.DirectionalLight(0xffffff, 1);
-            light.position.set(5, 5, 5);
-            scene.add(light);
-            
-            const ambientLight = new THREE.AmbientLight(0x404040, 2);
-            scene.add(ambientLight);
-
-            camera.position.z = 5;
-
-            function animateThree() {
-                requestAnimationFrame(animateThree);
-                sphere.rotation.x += 0.001;
-                sphere.rotation.y += 0.0015;
-                renderer.render(scene, camera);
+        sections.forEach(section => {
+            const navName = section.getAttribute('data-nav');
+            if (navName) {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${section.id}`;
+                a.innerHTML = `<span class="tooltip">${navName}</span>`;
+                a.addEventListener('click', e => {
+                    e.preventDefault();
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+                li.appendChild(a);
+                navContainer.appendChild(li);
+                navLinks.push(a);
             }
-            animateThree();
-            
-            window.addEventListener('resize', () => {
-                if (container) {
-                    camera.aspect = container.offsetWidth / container.offsetHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const activeLink = document.querySelector(`#page-nav a[href="#${entry.target.id}"]`);
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    if (activeLink) activeLink.classList.add('active');
                 }
             });
-        } catch (e) {
-            console.error("Three.js initialization failed:", e);
-            const heroCanvas = document.getElementById('hero-canvas');
-            if (heroCanvas) heroCanvas.style.display = 'none';
-        }
-    }
-    initThreeJS();
+        }, observerOptions);
 
-    // --- ✨ Enhanced Interactive Skill Map ---
-    function initSkillMap() {
-        const canvas = document.getElementById('skill-canvas');
-        const container = document.getElementById('skill-map-container');
-        if (!canvas || !container) return;
-        const ctx = canvas.getContext('2d');
+        sections.forEach(section => sectionObserver.observe(section));
+
+
+        // --- THREE.JS PARTICLE SYSTEM ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const particleCount = 7000;
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 20;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+
+            const color = new THREE.Color();
+            color.setHSL(Math.random(), 0.7, 0.7);
+            colors[i * 3] = color.r;
+            colors[i * 3 + 1] = color.g;
+            colors[i * 3 + 2] = color.b;
+        }
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+            opacity: 0.8,
+            depthWrite: false,
+        });
+
+        const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleSystem);
+        camera.position.z = 5;
         
-        let nodes = [];
-        let animationFrameId;
-        let selectedNode = null;
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const interactiveElements = document.querySelectorAll('a, button, .skill-node, .work-card');
 
-        const skillsData = [
-            // Crypto & Privacy
-            { name: 'ZKP', category: 'crypto', size: 16, connections: ['Circom', 'Blockchain', 'Privacy'] },
-            { name: 'Circom', category: 'crypto', size: 10, connections: ['ZKP'] },
-            { name: 'zk-SNARKs', category: 'crypto', size: 8, connections: ['ZKP'] },
-            { name: 'Blockchain', category: 'crypto', size: 12, connections: ['ethers.js', 'ZKP', 'Go'] },
-            { name: 'Homomorphic Enc.', category: 'crypto', size: 8, connections: ['Privacy'] },
-            { name: 'MPC', category: 'crypto', size: 8, connections: ['Privacy'] },
-            { name: 'Privacy', category: 'crypto', size: 10, connections: ['ZKP', 'Homomorphic Enc.', 'MPC'] },
+        const mouse = { x: -100, y: -100 };
+        const delayedMouse = { x: -100, y: -100 };
 
-            // AI & ML
-            { name: 'AI/ML', category: 'ai', size: 16, connections: ['Python', 'OpenCV', 'PyTorch/TF', 'IoT'] },
-            { name: 'Python', category: 'ai', size: 12, connections: ['AI/ML', 'OpenCV', 'PyTorch/TF', 'React'] },
-            { name: 'OpenCV', category: 'ai', size: 10, connections: ['Python', 'AI/ML', 'CUDA'] },
-            { name: 'PyTorch/TF', category: 'ai', size: 10, connections: ['Python', 'AI/ML', 'CUDA'] },
-            { name: 'YOLOX', category: 'ai', size: 8, connections: ['OpenCV'] },
-            { name: 'DeepFace', category: 'ai', size: 8, connections: ['AI/ML'] },
-            { name: 'Attribute Est.', category: 'ai', size: 10, connections: ['AI/ML', 'DeepFace'] },
-
-
-            // Web & Systems
-            { name: 'JavaScript', category: 'web', size: 14, connections: ['React', 'Node.js'] },
-            { name: 'React', category: 'web', size: 12, connections: ['JavaScript', 'Node.js', 'ethers.js'] },
-            { name: 'Node.js', category: 'web', size: 10, connections: ['JavaScript', 'React', 'AWS'] },
-            { name: 'Go', category: 'web', size: 10, connections: ['Blockchain', 'AWS'] },
-            { name: 'ethers.js', category: 'web', size: 10, connections: ['Blockchain', 'React'] },
-            { name: 'Java', category: 'web', size: 8, connections: [] },
-            { name: 'AWS', category: 'web', size: 12, connections: ['Node.js', 'Go', 'IoT'] },
-
-            // Hardware & IoT
-            { name: 'IoT', category: 'hw', size: 14, connections: ['Raspberry Pi', 'NVIDIA Jetson', 'AI/ML', 'AWS'] },
-            { name: 'Raspberry Pi', category: 'hw', size: 12, connections: ['IoT', 'Python'] },
-            { name: 'NVIDIA Jetson', category: 'hw', size: 12, connections: ['IoT', 'CUDA'] },
-            { name: 'CUDA', category: 'hw', size: 10, connections: ['NVIDIA Jetson', 'AI/ML', 'PyTorch/TF'] }
-        ];
-        const colors = { crypto: '#58a6ff', ai: '#3fb950', web: '#f778ba', hw: '#a371f7' };
-
-        function resizeCanvas() { canvas.width = container.offsetWidth; canvas.height = container.offsetHeight; }
-
-        function init() {
-            resizeCanvas();
-            nodes = skillsData.map(skill => ({
-                ...skill, x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
-            }));
-            if(animationFrameId) cancelAnimationFrame(animationFrameId);
-            animate();
-        }
-
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        
+        const lerp = (a, b, n) => (1 - n) * a + n * b;
+        
+        const clock = new THREE.Clock();
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Repulsion force
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[j].x - nodes[i].x;
-                    const dy = nodes[j].y - nodes[i].y;
-                    const dist = Math.hypot(dx, dy);
-                    const minDist = nodes[i].size + nodes[j].size + 20;
-                    if (dist < minDist) {
-                        const force = (minDist - dist) / dist * 0.01;
-                        const angle = Math.atan2(dy, dx);
-                        nodes[i].vx -= Math.cos(angle) * force;
-                        nodes[i].vy -= Math.sin(angle) * force;
-                        nodes[j].vx += Math.cos(angle) * force;
-                        nodes[j].vy += Math.sin(angle) * force;
-                    }
-                }
-            }
-
-            nodes.forEach(node => {
-                node.vx *= 0.98; node.vy *= 0.98; // damping
-                node.x += node.vx; node.y += node.vy;
-                if (node.x < node.size || node.x > canvas.width - node.size) node.vx *= -1;
-                if (node.y < node.size || node.y > canvas.height - node.size) node.vy *= -1;
-            });
-            drawLines(); drawNodes();
-            animationFrameId = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
+            particleSystem.rotation.y += 0.0005;
+            delayedMouse.x = lerp(delayedMouse.x, mouse.x, 0.1);
+            delayedMouse.y = lerp(delayedMouse.y, mouse.y, 0.1);
+            cursorDot.style.left = `${mouse.x}px`;
+            cursorDot.style.top = `${mouse.y}px`;
+            cursorOutline.style.left = `${delayedMouse.x}px`;
+            cursorOutline.style.top = `${delayedMouse.y}px`;
+            renderer.render(scene, camera);
         }
+        animate();
 
-        function drawNodes() {
-            nodes.forEach(node => {
-                const isSelected = selectedNode && (selectedNode.name === node.name || selectedNode.connections.includes(node.name));
-                ctx.globalAlpha = selectedNode ? (isSelected ? 1 : 0.2) : 1;
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
-                ctx.fillStyle = colors[node.category];
-                ctx.fill();
-                if(selectedNode && selectedNode.name === node.name){
-                    ctx.strokeStyle = '#FFFFFF';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                }
-                ctx.font = 'bold 12px Rajdhani';
-                ctx.fillStyle = '#e6edf3';
-                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(node.name, node.x, node.y);
-            });
-            ctx.globalAlpha = 1;
-        }
-
-        function drawLines() {
-             nodes.forEach(source => {
-                if(source.connections) {
-                    source.connections.forEach(connName => {
-                        const target = nodes.find(n => n.name === connName);
-                        if (target) {
-                            const isSelected = selectedNode && (selectedNode.name === source.name || selectedNode.name === target.name);
-                            ctx.beginPath();
-                            ctx.moveTo(source.x, source.y);
-                            ctx.lineTo(target.x, target.y);
-                            ctx.strokeStyle = isSelected ? colors[source.category] : 'rgba(88, 166, 255, 0.1)';
-                            ctx.lineWidth = isSelected ? 1.5 : 0.5;
-                            ctx.stroke();
-                        }
-                    });
-                }
-            });
-        }
-        
-        canvas.addEventListener('click', e => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left; const mouseY = e.clientY - rect.top;
-            const clickedNode = nodes.find(node => Math.hypot(node.x - mouseX, node.y - mouseY) < node.size + 5);
-            selectedNode = (clickedNode && selectedNode?.name !== clickedNode.name) ? clickedNode : null;
+        document.body.addEventListener('mouseenter', () => {
+            cursorDot.style.opacity = 1;
+            cursorOutline.style.opacity = 1;
         });
 
-        window.addEventListener('resize', init);
-        init();
-    }
-    initSkillMap();
-
-    // --- ✨ ZKP Simulator ---
-    function initZkpSimulator() {
-        const secretA = document.getElementById('secretA');
-        const secretB = document.getElementById('secretB');
-        const publicProduct = document.getElementById('public-product');
-        const generateBtn = document.getElementById('generate-proof-btn');
-        const verifyBtn = document.getElementById('verify-proof-btn');
-        const resultDiv = document.getElementById('verification-result');
-        let proof = null; let product = null;
-
-        if (generateBtn) {
-            generateBtn.addEventListener('click', () => {
-                const a = parseInt(secretA.value); const b = parseInt(secretB.value);
-                resultDiv.textContent = ''; resultDiv.className = 'mt-4 text-2xl font-bold h-8';
-
-                if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
-                    resultDiv.textContent = '有効な数値を入力'; resultDiv.classList.add('text-red-400'); return;
-                }
-                product = a * b; publicProduct.textContent = product;
-                proof = { public: product, random: crypto.randomUUID() }; 
-                
-                if (verifyBtn) verifyBtn.disabled = false;
-                resultDiv.textContent = '証明生成完了'; resultDiv.classList.add('text-blue-400');
-            });
-        }
+        document.body.addEventListener('mouseleave', () => {
+            cursorDot.style.opacity = 0;
+            cursorOutline.style.opacity = 0;
+        });
         
-        if (verifyBtn) {
-            verifyBtn.addEventListener('click', () => {
-                if (!proof || !product) return;
-                const verifierKnows = { proof: proof, publicProduct: product };
-                const isValid = verifierKnows.proof.public === verifierKnows.publicProduct;
-
-                if (isValid) {
-                    resultDiv.textContent = '検証成功 ✅';
-                    resultDiv.className = 'mt-4 text-2xl font-bold h-8 text-green-400 zkp-sim-status';
-                } else {
-                    resultDiv.textContent = '検証失敗 ❌';
-                    resultDiv.className = 'mt-4 text-2xl font-bold h-8 text-red-400 zkp-sim-status';
-                }
-                verifyBtn.disabled = true;
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseover', () => {
+                gsap.to(cursorOutline, { duration: 0.3, scale: 1.5 });
             });
-        }
-    }
-    initZkpSimulator();
-
-    // --- ✨ AI Attribute Estimation Demo ---
-    function initAIDemo() {
-        const sampleImages = document.querySelectorAll('.sample-image');
-        const resultsDiv = document.getElementById('ai-analysis-results');
-
-        sampleImages.forEach(img => {
-            img.addEventListener('click', async () => {
-                sampleImages.forEach(i => i.classList.remove('border-blue-500'));
-                img.classList.add('border-blue-500');
-                if (resultsDiv) {
-                    resultsDiv.innerHTML = `<p class="text-blue-400">AIが分析中... <span class="blinking-cursor">|</span></p>`;
-                }
-                
-                const imageDesc = img.dataset.desc;
-                const prompt = `あなたは顔属性を推定するAIモデルのシミュレーターです。「${imageDesc}」という説明の人物画像が入力されました。推定される年齢、性別、感情をJSON形式で出力してください。例：{"age": "25-30", "gender": "Female", "emotion": "Happy"}`;
-
-                const response = await callGemini(prompt);
-                
-                try {
-                    if (!response || !response.trim().startsWith('{')) {
-                       throw new Error("Received non-JSON response from AI.");
-                    }
-                    const data = JSON.parse(response);
-                    if (resultsDiv) {
-                        resultsDiv.innerHTML = `
-                            <div class="space-y-2 text-lg">
-                                <p><strong>推定年齢:</strong> <span class="text-yellow-400">${data.age || 'N/A'}</span></p>
-                                <p><strong>推定性別:</strong> <span class="text-yellow-400">${data.gender || 'N/A'}</span></p>
-                                <p><strong>推定感情:</strong> <span class="text-yellow-400">${data.emotion || 'N/A'}</span></p>
-                            </div>`;
-                    }
-                } catch(e) {
-                    console.error("Failed to parse AI response:", e, "Raw response:", response);
-                    if (resultsDiv) {
-                        resultsDiv.innerHTML = `<p class="text-red-400">分析結果の表示に失敗しました。</p>`;
-                    }
-                }
+            el.addEventListener('mouseout', () => {
+                gsap.to(cursorOutline, { duration: 0.3, scale: 1 });
             });
         });
-    }
-    initAIDemo();
-    
-    // --- API Integrations (GitHub, Qiita, Gemini) ---
-    const apiKey = ""; // Keep empty
 
-    async function callGemini(prompt) {
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-        const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
-        try {
-            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-            if (!response.ok) {
-                 const errorBody = await response.text();
-                 console.error("Gemini API Error Response:", errorBody);
-                 throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        // --- Advanced Scroll Animations ---
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: "main",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1.5,
             }
-            const result = await response.json();
-            if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0 && result.candidates[0].content.parts[0].text) {
-                return result.candidates[0].content.parts[0].text;
-            } else {
-                console.warn("Gemini response was valid but content was missing or in an unexpected format.", result);
-                return "AIからの有効な応答がありませんでした。";
+        })
+        .to(particleSystem.rotation, {
+            x: Math.PI / 4,
+            y: Math.PI,
+            ease: "power1.inOut"
+        })
+        .to(camera.position, {
+            z: 3.5,
+            ease: "power1.inOut"
+        }, "<")
+        .to(camera.position, {
+            z: 6,
+            ease: "power1.inOut"
+        });
+        
+        gsap.to(particlesMaterial, {
+            size: 0.08,
+            ease: "power2.inOut",
+            scrollTrigger: {
+                trigger: "#works",
+                start: "top center",
+                end: "bottom center",
+                scrub: true,
+                toggleActions: "play reverse play reverse"
             }
-        } catch (error) {
-            console.error('Gemini API call failed:', error);
-            return "エラーが発生しました。詳細はコンソールを確認してください。";
-        }
-    }
-    
-    // GitHub & Qiita Feeds
-    const githubFeed = document.getElementById('github-feed');
-    const qiitaFeed = document.getElementById('qiita-feed');
-    const codeExplainerModal = document.getElementById('code-explainer-modal');
-    const closeCodeExplainerBtn = document.getElementById('close-code-explainer-btn');
+        });
 
-    async function fetchGitHubRepos() {
-        try {
-            const response = await fetch('https://api.github.com/users/SMRI2170/repos?sort=updated&direction=desc&per_page=4');
-            if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
-            const repos = await response.json();
-            
-            if (githubFeed) {
-                githubFeed.innerHTML = '';
-                repos.forEach(repo => {
-                    const card = document.createElement('div');
-                    card.className = 'writing-card p-4 rounded-lg flex flex-col';
-                    card.innerHTML = `
-                        <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="flex-grow">
-                            <h4 class="font-bold text-blue-400 truncate">${repo.name}</h4>
-                            <p class="text-sm text-gray-400 h-10 overflow-hidden">${repo.description || 'No description'}</p>
-                            <div class="text-xs text-gray-500 mt-2 flex items-center justify-between">
-                                <span>${repo.language ? `● ${repo.language}`: ''}</span>
-                                <span>⭐ ${repo.stargazers_count}</span>
-                            </div>
-                        </a>
-                        <button class="ai-code-explainer-btn mt-3 bg-indigo-600/50 text-white text-sm py-2 px-4 rounded-lg hover:bg-indigo-600/80 transition-all self-start" data-repo-owner="${repo.owner.login}" data-repo-name="${repo.name}">✨ AIがコードを解説</button>
-                    `;
-                    githubFeed.appendChild(card);
-                });
-                document.querySelectorAll('.ai-code-explainer-btn').forEach(btn => btn.addEventListener('click', handleCodeExplainClick));
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // --- MODIFIED: New text reveal animation ---
+        gsap.set('.scroll-text-reveal', { opacity: 0, y: 30 });
+        const aboutTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '#about',
+                start: 'top 70%',
+                toggleActions: 'play none none none',
             }
-        } catch (error) {
-            console.error(error);
-            if(githubFeed) githubFeed.innerHTML = '<div class="text-center text-red-400">GitHub contributionsの読み込みに失敗しました。</div>';
-        }
-    }
+        });
+        aboutTl.to('.scroll-text-reveal', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            stagger: 0.3 
+        });
 
-    async function handleCodeExplainClick(e) {
-        const { repoOwner, repoName } = e.target.dataset;
-        const modalContent = document.getElementById('code-explainer-content');
-        const modalTitle = document.getElementById('code-explainer-title');
 
-        if (modalContent && modalTitle && codeExplainerModal) {
-            modalTitle.textContent = `AI Explainer: ${repoName}`;
-            modalContent.innerHTML = `<div class="text-center p-8"><p class="text-lg text-blue-400">AIがリポジトリを分析中... <span class="blinking-cursor">|</span></p></div>`;
-            codeExplainerModal.classList.remove('hidden');
-
+        // --- Other initializations ---
+        const qiitaFeed = document.getElementById('qiita-feed');
+        async function fetchQiitaArticles() {
             try {
-                const readmeResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/readme`);
-                if (!readmeResponse.ok) throw new Error('README not found');
-                const readmeData = await readmeResponse.json();
-                const readmeContent = atob(readmeData.content);
-
-                const prompt = `あなたは優秀なテックリードです。以下のGitHubリポジトリのREADME.mdを読んで、このプロジェクトが何をするものなのか、主要な技術、そしてアーキテクチャのポイントを、技術的な知識があるマネージャーにも分かるように簡潔に解説してください。\n\nリポジトリ名: ${repoName}\n\nREADME:\n\`\`\`markdown\n${readmeContent}\n\`\`\`\n\n解説:`;
-                
-                const explanation = await callGemini(prompt);
-                modalContent.innerHTML = explanation.replace(/\n/g, '<br>');
-
-            } catch(error) {
-                console.error("Code explain error:", error);
-                modalContent.innerHTML = `<div class="p-4"><p class="text-red-400">リポジトリの解説生成中にエラーが発生しました。このリポジトリには、解説の元となるREADME.mdファイルが存在しない可能性があります。</p></div>`;
+                const response = await fetch('https://qiita.com/api/v2/users/ryosuke0712/items?per_page=3');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const articles = await response.json();
+                qiitaFeed.innerHTML = '';
+                articles.forEach(article => {
+                    const articleEl = document.createElement('a');
+                    articleEl.href = article.url;
+                    articleEl.target = '_blank';
+                    articleEl.rel = 'noopener noreferrer';
+                    articleEl.className = 'block p-4 rounded-lg transition-all duration-300 work-card';
+                    articleEl.style.backgroundColor = 'var(--card-color)';
+                    articleEl.style.borderColor = 'var(--border-color)';
+                    articleEl.innerHTML = `
+                        <h3 class="font-bold" style="color: var(--heading-color);">${article.title}</h3>
+                        <p class="text-sm" style="color: var(--subtext-color);">Likes: ${article.likes_count} | ${new Date(article.created_at).toLocaleDateString()}</p>
+                    `;
+                    qiitaFeed.appendChild(articleEl);
+                });
+            } catch (error) {
+                qiitaFeed.innerHTML = '<p style="color: var(--subtext-color);">記事の読み込みに失敗しました。</p>';
+                console.error('Failed to fetch Qiita articles:', error);
             }
         }
-    }
+        fetchQiitaArticles();
 
-    async function fetchQiitaPosts() {
-         try {
-            const response = await fetch('https://qiita.com/api/v2/users/ryosuke0712/items?per_page=4');
-            if (!response.ok) throw new Error(`Qiita API error: ${response.status}`);
-            const posts = await response.json();
+        const skills = {
+            'ZKP': { related: ['Circom', 'Solidity', 'Go', 'Math'] },
+            'IoT': { related: ['Python', 'C/C++', 'Jetson', 'ESP32', 'AWS'] },
+            'Web': { related: ['JavaScript', 'React', 'HTML/CSS', 'Go'] },
+            'Data': { related: ['Python', 'SQL', 'AWS', 'Grafana'] },
+            'CV': { related: ['Python', 'OpenCV', 'TensorFlow', 'Jetson'] },
+        };
+        const allSkills = ['ZKP', 'IoT', 'Web', 'Data', 'CV', 'Circom', 'Solidity', 'Go', 'Math', 'Python', 'C/C++', 'Jetson', 'ESP32', 'AWS', 'JavaScript', 'React', 'HTML/CSS', 'SQL', 'Grafana', 'OpenCV', 'TensorFlow'];
+        const skillContainer = document.querySelector('.skill-diagram-container');
+        
+        allSkills.forEach(skill => {
+            const node = document.createElement('div');
+            node.className = 'skill-node';
+            node.textContent = skill;
+            node.dataset.skill = skill;
+            skillContainer.appendChild(node);
+        });
 
-            if(qiitaFeed) {
-                qiitaFeed.innerHTML = '';
-                posts.forEach(post => {
-                    const card = document.createElement('a');
-                    card.href = post.url;
-                    card.target = '_blank';
-                    card.rel = "noopener noreferrer";
-                    card.className = 'writing-card block p-4 rounded-lg';
-                    const tags = post.tags.map(tag => `<span class="bg-gray-700 px-2 py-0.5 rounded">${tag.name}</span>`).join(' ');
-                    card.innerHTML = `
-                        <h4 class="font-bold text-green-400 truncate">${post.title}</h4>
-                        <p class="text-sm text-gray-400 mt-1">
-                            <time datetime="${post.created_at}">${new Date(post.created_at).toLocaleDateString()}</time>
-                        </p>
-                        <div class="text-xs text-gray-300 mt-2 flex flex-wrap gap-1">${tags}</div>
-                    `;
-                    qiitaFeed.appendChild(card);
+        const skillNodes = document.querySelectorAll('.skill-node');
+        skillContainer.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('skill-node')) {
+                const currentSkill = e.target.dataset.skill;
+                let relatedSkills = [];
+                for (const category in skills) {
+                    if (category === currentSkill || skills[category].related.includes(currentSkill)) {
+                         relatedSkills = [...new Set([...relatedSkills, category, ...skills[category].related])];
+                    }
+                }
+                skillNodes.forEach(node => {
+                    if(relatedSkills.includes(node.dataset.skill)) {
+                        node.classList.remove('dimmed');
+                        node.classList.add('highlight');
+                    } else {
+                        node.classList.add('dimmed');
+                        node.classList.remove('highlight');
+                    }
                 });
             }
-        } catch (error) {
-            console.error(error);
-            if(qiitaFeed) {
-                let errorMessage = 'Qiita記事の読み込みに失敗しました。';
-                if (error.message && (error.message.includes('401') || error.message.includes('403'))) {
-                    errorMessage += '<br><span class="text-sm text-gray-500">APIの利用制限に達した可能性があります。</span>';
-                }
-                qiitaFeed.innerHTML = `<div class="text-center text-red-400 p-4">${errorMessage}</div>`;
-            }
-        }
-    }
-    
-    fetchGitHubRepos();
-    fetchQiitaPosts();
-    if (closeCodeExplainerBtn) closeCodeExplainerBtn.addEventListener('click', () => codeExplainerModal.classList.add('hidden'));
-
-    // AI Project Assistant Modal Logic
-    const modal = document.getElementById('ai-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-    const modalTitle = document.getElementById('modal-title');
-    const chatBox = document.getElementById('modal-chat-box');
-    const modalInput = document.getElementById('modal-input');
-    const modalSendBtn = document.getElementById('modal-send-btn');
-    const modalLoading = document.getElementById('modal-loading');
-    const aiAssistantBtns = document.querySelectorAll('.ai-assistant-btn');
-    let currentProjectContext = '';
-    
-    const addMessageToChat = (text, sender) => {
-        if (!chatBox) return;
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('modal-message', sender);
-        messageDiv.textContent = text;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    };
-
-    aiAssistantBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const card = e.target.closest('.project-card');
-            if (!card) return;
-            const projectName = card.dataset.projectName;
-            const projectDesc = card.dataset.projectDesc;
-            
-            if (modalTitle) modalTitle.textContent = `${projectName} - AIアシスタント`;
-            currentProjectContext = `あなたは、このプロジェクトを担当した吉岡龍佑として、以下の情報に基づいて質問に答えてください。\n\nプロジェクト概要:\n${projectDesc}\n\n---`;
-            
-            if(chatBox) chatBox.innerHTML = '';
-            addMessageToChat(`こんにちは！「${projectName}」について、どんなことでも質問してください。例えば、「技術的な課題は何でしたか？」など。`, 'ai');
-            if(modal) modal.classList.remove('hidden');
         });
-    });
+        skillContainer.addEventListener('mouseout', () => {
+            skillNodes.forEach(node => node.classList.remove('highlight', 'dimmed'));
+        });
 
-    const handleSendQuestion = async () => {
-        if(!modalInput || !modalLoading) return;
-        const question = modalInput.value.trim();
-        if (!question) return;
-
-        addMessageToChat(question, 'user');
-        modalInput.value = '';
-        modalLoading.classList.remove('hidden');
-
-        const prompt = `${currentProjectContext}\n\n質問: ${question}\n\n回答:`;
-        const aiResponse = await callGemini(prompt);
+        const caseStudyModal = document.getElementById('case-study-modal');
+        const caseStudyButtons = document.querySelectorAll('.case-study-button');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
         
-        modalLoading.classList.add('hidden');
-        addMessageToChat(aiResponse, 'ai');
-    };
-    
-    if (modalSendBtn) modalSendBtn.addEventListener('click', handleSendQuestion);
-    if (modalInput) modalInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSendQuestion(); });
-    if (closeModalBtn) closeModalBtn.addEventListener('click', () => { if(modal) modal.classList.add('hidden') });
-
-    // ML Chart Logic
-    const mlCanvas = document.getElementById('mlModelChart');
-    if (mlCanvas) {
-        const mlCtx = mlCanvas.getContext('2d');
-        new Chart(mlCtx, {
-            type: 'bar', data: { labels: ['RRI 予測モデル', 'RMSSD 予測モデル', 'SDNN 予測モデル'], datasets: [{ label: '決定係数 (R2スコア)', data: [0.93, 0.95, 0.92], backgroundColor: ['rgba(88, 166, 255, 0.5)','rgba(63, 185, 80, 0.5)','rgba(163, 113, 247, 0.5)'], borderColor: ['#58a6ff','#3fb950','#a371f7'], borderWidth: 2 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 1.0, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#c9d1d9' } }, x: { grid: { display: false }, ticks: { color: '#c9d1d9' } } }, plugins: { legend: { display: false }, title: { display: true, text: 'AIモデルの性能評価 (R2スコア)', color: '#c9d1d9', font: { size: 18, family: "'Rajdhani', sans-serif" } } } }
+        const caseStudies = {
+            zkp: {
+                title: "ZKPによるドローン位置情報の非公開証明",
+                content: `
+                    <p><strong>課題:</strong> ドローンの飛行データをサービス事業者に提供する際、プライバシー（自宅の位置など）が漏洩するリスクがありました。</p>
+                    <p><strong>解決策:</strong> ゼロ知識証明（ZKP）の一種であるzk-SNARKsを利用し、「特定の禁止エリアを飛行していない」という事実のみを、具体的な飛行経路を一切明かすことなく証明するシステムを設計しました。</p>
+                    <p><strong>技術詳細:</strong> Merkle Treeで位置情報をハッシュ化し、証明したい部分データだけを扱えるようにしました。ZKPサーキットはCircomで記述し、証明生成・検証はSnarkJSを利用。検証ロジックはSolidityでスマートコントラクトとして実装し、ブロックチェーン上でのトラストレスな検証を可能にしました。</p>
+                    <p><strong>成果:</strong> プライバシーとデータの有用性を両立する、新しいIoT認証基盤のプロトタイプを構築できました。</p>
+                `
+            },
+            stress: {
+                title: "環境・バイタルデータによるストレス推定",
+                content: `
+                    <p><strong>背景:</strong> 現代社会におけるストレス問題に対し、客観的な指標で状態を把握する必要がありました。</p>
+                    <p><strong>アプローチ:</strong> Raspberry Piと各種センサー（温湿度、CO2、心拍）を用いて、作業環境と個人のバイタルデータを同時に収集。特に心拍データからは心拍変動（HRV）を算出し、自律神経のバランスを示す指標として利用しました。</p>
+                    <p><strong>システム構成:</strong> 収集したデータはAWS IoT Core経由でS3に保存。データ解析にはPython（Pandas, Scikit-learn）を使用し、複数のデータからストレスレベルを推定する簡易的な機械学習モデルを検討。結果はGrafanaとInfluxDBを用いてリアルタイムに可視化しました。</p>
+                    <p><strong>成果:</strong> 複合的なデータを用いることで、より精度の高いコンディション把握が可能になることを示唆しました。</p>
+                `
+            }
+        };
+        caseStudyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const caseKey = button.dataset.case;
+                modalTitle.textContent = caseStudies[caseKey].title;
+                modalBody.innerHTML = caseStudies[caseKey].content;
+                caseStudyModal.classList.add('active');
+            });
         });
-    }
-});
-</script>
+        document.getElementById('close-case-study').addEventListener('click', () => caseStudyModal.classList.remove('active'));
+        
+        const fadeInElements = document.querySelectorAll('.fade-in, .timeline-item');
+        const genericObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.2 });
+        fadeInElements.forEach(el => genericObserver.observe(el));
+    });
+    </script>
 </body>
 </html>
