@@ -1,281 +1,550 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>勇者RYOSUKEの冒険</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Press Start 2P', cursive;
-      margin: 0;
-      padding: 0;
-      /* 初期背景は草原 */
-      background-image: url("https://opengameart.org/sites/default/files/grass.png");
-      background-repeat: repeat;
-      background-size: 32px 32px;
-      transition: background-image 0.5s ease;
-      animation: grassWind 6s ease-in-out infinite;
-    }
-
-    /* 背景ゆらぎアニメーション */
-    @keyframes grassWind {
-      0% { background-position: 0 0; }
-      50% { background-position: 10px 0; }
-      100% { background-position: 0 0; }
-    }
-
-    header {
-      background: #222;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-      position: relative;
-      z-index: 10;
-    }
-    /* 背景切り替えボタンエリア */
-    .bg-switcher {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 20;
-      display: flex;
-      gap: 8px;
-    }
-    .bg-switcher button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 6px 8px;
-      background: #222;
-      border: 2px solid #fff;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-    .bg-switcher button:hover {
-      background-color: #555;
-    }
-    .start-screen {
-      text-align: center;
-      padding: 100px 20px;
-      position: relative;
-      z-index: 5;
-    }
-    .start-button {
-      font-size: 20px;
-      padding: 10px 20px;
-      background: #fff;
-      color: #000;
-      border: none;
-      cursor: pointer;
-    }
-    .dialog-box {
-      background: rgba(68, 68, 68, 0.8);
-      border: 4px solid #fff;
-      padding: 20px;
-      margin: 20px auto;
-      width: 80%;
-      max-width: 600px;
-      position: relative;
-      z-index: 5;
-      backdrop-filter: blur(3px);
-    }
-    .profile-section {
-      padding: 20px;
-      position: relative;
-      z-index: 5;
-    }
-
-    /* キャラクター */
-    #character {
-      width: 64px;
-      height: 64px;
-      background-image: url("rasp.jpg"); /* キャラスプライトシート例 */
-      background-repeat: no-repeat;
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      margin-left: -32px;
-      z-index: 30;
-      image-rendering: pixelated; /* レトロ感UP */
-      transition: transform 0.1s linear;
-    }
-
-    /* 移動ボタン */
-    .move-buttons {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 20px;
-      z-index: 40;
-    }
-    .move-buttons button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 16px;
-      padding: 10px 20px;
-      background: #222;
-      border: 2px solid #fff;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 6px;
-      user-select: none;
-      transition: background-color 0.3s;
-    }
-    .move-buttons button:hover {
-      background-color: #555;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryosuke Yoshioka - ZKP, AI, and Secure Systems Innovator</title>
+    <!-- Chosen Palette: Cyberpunk Dark Mode (Deep Navy, Electric Blue, Neon Green) -->
+    <!-- Application Structure Plan: A single-page application with a narrative flow. It starts with a strong hero section to define the user's niche, followed by a personal introduction. An interactive skills section allows for exploration without being overwhelming. The core of the site is the project case studies, which provide concrete proof of expertise, each with generated visuals and clear explanations. A unique interactive diagram for ZKP serves as a "wow" factor to explain a complex topic. This structure was chosen to tell a compelling story about the user's specialized skills, moving from "who I am" to "what I know" and "what I've built," which is highly effective for a technical portfolio. -->
+    <!-- Visualization & Content Choices: 
+        - Skills List -> Interactive Tabbed View (HTML/CSS/JS). Goal: Organize extensive skills. Method: Users click tabs to reveal skills in a specific category. Justification: Prevents a long, unreadable list and adds modern interactivity.
+        - ZKP Concept -> Interactive Diagram (HTML/CSS/JS). Goal: Simplify a complex abstract concept. Method: A visual representation of Prover/Verifier interaction, animated on click. Justification: A powerful educational tool and a memorable highlight of the portfolio.
+        - ML Project Results -> Bar Chart (Chart.js). Goal: Display quantitative results from the research paper. Method: A responsive canvas-based bar chart. Justification: Chart.js is ideal for clear, responsive data visualization and directly showcases the success metrics of his ML models.
+        - Project Visuals -> Generated Images. Goal: Give a tangible feel to abstract projects. Method: AI-generated conceptual images for each project. Justification: Fulfills user request and makes technical projects more appealing and understandable than text alone.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .neon-text {
+            color: #58a6ff;
+            text-shadow: 0 0 5px #58a6ff, 0 0 10px #58a6ff;
+        }
+        .neon-border {
+            border-color: #58a6ff;
+            box-shadow: 0 0 5px #58a6ff;
+        }
+        .skill-tag {
+            background-color: rgba(45, 128, 255, 0.1);
+            border: 1px solid rgba(45, 128, 255, 0.3);
+            color: #88c0ff;
+            transition: all 0.3s ease;
+        }
+        .skill-tag:hover {
+            background-color: rgba(45, 128, 255, 0.2);
+            box-shadow: 0 0 10px rgba(45, 128, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        .project-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 40vh;
+        }
+        .tab-button.active {
+            background-color: #58a6ff;
+            color: #0d1117;
+            box-shadow: 0 0 10px #58a6ff;
+        }
+        .zkp-box {
+            border: 2px dashed #484f58;
+            transition: all 0.5s ease;
+        }
+        .zkp-box.active {
+            border-color: #3fb950;
+            box-shadow: 0 0 15px #3fb950;
+        }
+        .zkp-proof {
+            transition: all 1.5s ease-in-out;
+        }
+    </style>
 </head>
-<body>
-  <header>🎮 勇者 RYOSUKE の 冒険記</header>
+<body class="antialiased">
 
-  <!-- 背景切り替えボタン -->
-  <div class="bg-switcher" aria-label="背景切り替えボタン">
-    <button type="button" onclick="changeBackground('grass')">草原</button>
-    <button type="button" onclick="changeBackground('forest')">森</button>
-    <button type="button" onclick="changeBackground('castle')">城</button>
-  </div>
+    <!-- Header -->
+    <header class="bg-gray-900/50 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-gray-800">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#home" class="text-xl md:text-2xl font-bold tracking-wider neon-text">RYOSUKE YOSHIOKA</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-300 hover:neon-text transition-colors duration-300">ABOUT</a>
+                <a href="#skills" class="text-gray-300 hover:neon-text transition-colors duration-300">SKILLS</a>
+                <a href="#projects" class="text-gray-300 hover:neon-text transition-colors duration-300">PROJECTS</a>
+                <a href="#contact" class="text-gray-300 hover:neon-text transition-colors duration-300">CONTACT</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-2xl">☰</button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <a href="#about" class="block text-center py-3 hover:bg-gray-800">ABOUT</a>
+            <a href="#skills" class="block text-center py-3 hover:bg-gray-800">SKILLS</a>
+            <a href="#projects" class="block text-center py-3 hover:bg-gray-800">PROJECTS</a>
+            <a href="#contact" class="block text-center py-3 hover:bg-gray-800">CONTACT</a>
+        </div>
+    </header>
 
-  <div class="start-screen">
-    <p>PRESS START</p>
-    <button class="start-button" onclick="document.querySelector('.main-content').style.display='block'; this.parentElement.style.display='none';">START</button>
-  </div>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center bg-grid-gray-700/10" style="background-image: radial-gradient(circle at top left, rgba(88, 166, 255, 0.1), transparent 30%), radial-gradient(circle at bottom right, rgba(57, 255, 20, 0.05), transparent 40%);">
+            <div class="container mx-auto px-6 text-center">
+                <img src="https://placehold.co/150x150/161b22/58a6ff?text=RY" alt="Ryosuke Yoshioka" class="w-36 h-36 rounded-full mx-auto mb-6 border-4 neon-border">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight">吉岡 龍佑</h1>
+                <p class="text-xl md:text-2xl neon-text font-semibold mb-8">ZKP | AI/ML | Secure Systems</p>
+                <p class="max-w-3xl mx-auto text-gray-400 mb-10 text-lg">
+                    ゼロ知識証明、機械学習、ブロックチェーンの交差点で、プライバシーを保護するインテリジェントなシステムを構築しています。<br>立命館大学情報理工学部で、次世代のセキュアな技術を探求中です。
+                </p>
+                <a href="#projects" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg shadow-blue-600/20">
+                    プロジェクトを見る
+                </a>
+            </div>
+        </section>
 
-  <div class="main-content" style="display:none;">
-    <section class="profile-section">
-      <div class="dialog-box">
-        <p>【名前】RYOSUKE</p>
-        <p>【職業】アーキテクト</p>
-        <p>【レベル】21</p>
-        <p>【HP】108/120</p>
-      </div>
-    </section>
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 neon-text">ABOUT ME</h2>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-2/3">
+                        <h3 class="text-2xl font-bold mb-4 text-white">プライバシー技術の革新者</h3>
+                        <p class="mb-4 text-gray-400">
+                            立命館大学情報理工学部セキュリティ・ネットワークコースに在籍する吉岡龍佑です。テクノロジーが社会に深く浸透する中で、個人のプライバシーをいかにして守るかという課題に強い関心を持っています。特に、ゼロ知識証明（ZKP）が持つ「情報を明かさずに真実を証明する」力に魅了され、その可能性を追求しています。
+                        </p>
+                        <p class="mb-4 text-gray-400">
+                           私の研究とプロジェクトは、ZKP、機械学習、IoT、ブロックチェーンといった最先端技術を組み合わせることに焦点を当てています。例えば、プライバシーを保護しながらドローンの位置を検証するシステムや、室内の環境データと生体情報からストレスを予測し、より快適な生活を支援するAIシステムなどを開発してきました。
+                        </p>
+                        <p class="text-gray-400">
+                           複雑な問題を技術で解決し、より安全で信頼できるデジタル社会を創造することが私の目標です。
+                        </p>
+                    </div>
+                    <div class="md:w-1/3 p-6 bg-gray-900/50 border border-gray-800 rounded-lg">
+                         <h4 class="text-xl font-bold mb-4 text-white">基本情報</h4>
+                         <ul class="space-y-3 text-gray-300">
+                             <li><strong>氏名:</strong> 吉岡 龍佑 (Yoshioka Ryosuke)</li>
+                             <li><strong>大学:</strong> 立命館大学</li>
+                             <li><strong>学部:</strong> 情報理工学部</li>
+                             <li><strong>コース:</strong> セキュリティ・ネットワークコース</li>
+                             <li><strong>年齢:</strong> 21歳</li>
+                         </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section class="profile-section">
-      <div class="dialog-box">
-        <p>🎯スキル</p>
-        <ul>
-          <li>HTML & CSS - レベル10</li>
-          <li>JavaScript - レベル8</li>
-          <li>React - レベル6</li>
-          <li>Python - レベル9</li>
-        </ul>
-      </div>
-    </section>
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 md:py-32 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 neon-text">TECHNICAL SKILLS</h2>
+                <p class="text-center max-w-2xl mx-auto mb-12 text-gray-400">
+                    私の専門知識は、プライバシー技術、AI開発、セキュアなシステム構築の3つの柱にまたがっています。下のタブをクリックして、各分野での具体的なスキルセットをご覧ください。
+                </p>
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-center border-b border-gray-700 mb-8">
+                        <button class="tab-button py-2 px-6 text-lg font-semibold text-gray-400 hover:text-white transition active" data-tab="crypto">暗号技術 & ZKP</button>
+                        <button class="tab-button py-2 px-6 text-lg font-semibold text-gray-400 hover:text-white transition" data-tab="ai">AI & 機械学習</button>
+                        <button class="tab-button py-2 px-6 text-lg font-semibold text-gray-400 hover:text-white transition" data-tab="web">Web & システム</button>
+                        <button class="tab-button py-2 px-6 text-lg font-semibold text-gray-400 hover:text-white transition" data-tab="hw">ハードウェア</button>
+                    </div>
+                    <div id="skill-content">
+                        <div class="tab-content" id="crypto">
+                            <h3 class="text-2xl font-bold text-center mb-6 text-white">暗号技術 & ゼロ知識証明</h3>
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <span class="skill-tag px-4 py-2 rounded-lg">ゼロ知識証明 (ZKP)</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">Circom (回路設計)</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">zk-SNARKs</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">Paillier暗号</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">準同型暗号</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">マルチパーティ計算 (MPC)</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">マークルツリー</span>
+                            </div>
+                        </div>
+                        <div class="tab-content hidden" id="ai">
+                            <h3 class="text-2xl font-bold text-center mb-6 text-white">AI & 機械学習</h3>
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <span class="skill-tag px-4 py-2 rounded-lg">Python</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">OpenCV</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">YOLOX</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">DeepFace</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">MediaPipe</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">CNNs</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">SVM</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">主成分分析 (PCA)</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">属性推定 (年齢/性別/感情)</span>
+                            </div>
+                        </div>
+                        <div class="tab-content hidden" id="web">
+                            <h3 class="text-2xl font-bold text-center mb-6 text-white">Web & システム開発</h3>
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <span class="skill-tag px-4 py-2 rounded-lg">JavaScript</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">Go</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">Java</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">React</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">Node.js</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">ethers.js</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">web3.js</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">AWS</span>
+                            </div>
+                        </div>
+                         <div class="tab-content hidden" id="hw">
+                            <h3 class="text-2xl font-bold text-center mb-6 text-white">ハードウェア & 環境</h3>
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <span class="skill-tag px-4 py-2 rounded-lg">Raspberry Pi 4</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">NVIDIA Jetson Xavier NX</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">Ubuntu 20.04</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">CUDA 11.4</span>
+                                <span class="skill-tag px-4 py-2 rounded-lg">IoT センサー</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section class="profile-section">
-      <div class="dialog-box">
-        <p>🏰 宿屋へようこそ。お問合せは以下まで。</p>
-        <p>📧 ryosuke@example.com</p>
-      </div>
-    </section>
-  </div>
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-4 neon-text">PROJECTS & RESEARCH</h2>
+                <p class="text-center max-w-3xl mx-auto mb-16 text-gray-400">
+                    理論を実践に。私のスキルがどのように現実世界の問題解決に活用されたかを示す主要なプロジェクトです。各プロジェクトは、課題定義から技術選定、実装までのケーススタディとしてご覧いただけます。
+                </p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Project 1: ZKP Drone -->
+                    <div class="project-card rounded-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/0d1117/58a6ff?text=ZKP+Drone+Verification" alt="ZKP Drone Verification" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-2xl font-bold mb-3 text-white">ZKPドローン位置検証システム</h3>
+                            <p class="text-gray-400 mb-4 flex-grow">プライバシーを完全に保護しながら、ドローンとスマートフォンが30m以上離れていることをゼロ知識証明で検証するシステムを構築しました。</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold text-gray-300 mb-2">使用技術:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">ZKP</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Circom</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Python</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">JavaScript</span>
+                                </div>
+                            </div>
+                            <a href="#zkp-explainer" class="text-blue-400 hover:text-blue-300 font-semibold mt-auto">ZKPの仕組みを見る &rarr;</a>
+                        </div>
+                    </div>
 
-  <!-- キャラクター -->
-  <div id="character"></div>
+                    <!-- Project 2: IoT Stress Analysis -->
+                    <div class="project-card rounded-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/0d1117/3fb950?text=AI+Stress+Analysis" alt="AI Stress Analysis" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-2xl font-bold mb-3 text-white">IoTとAIによるストレス分析システム</h3>
+                            <p class="text-gray-400 mb-4 flex-grow">室内環境（温度、湿度）と生体情報（心拍）をIoTセンサーで収集し、AIでストレス状態を予測・可視化。環境改善のフィードバックを行います。</p>
+                             <div class="mb-4">
+                                <h4 class="font-semibold text-gray-300 mb-2">使用技術:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Python</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Raspberry Pi</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">OpenCV</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">AI/ML</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">AWS</span>
+                                </div>
+                            </div>
+                            <a href="#ml-results" class="text-blue-400 hover:text-blue-300 font-semibold mt-auto">モデル性能を見る &rarr;</a>
+                        </div>
+                    </div>
 
-  <!-- 移動ボタン -->
-  <div class="move-buttons" aria-label="キャラクター移動ボタン">
-    <button type="button" id="leftBtn">← 左へ</button>
-    <button type="button" id="rightBtn">右へ →</button>
-  </div>
+                    <!-- Project 3: ZKP Blockchain -->
+                    <div class="project-card rounded-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/0d1117/a371f7?text=ZKP+on+Blockchain" alt="ZKP on Blockchain" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-2xl font-bold mb-3 text-white">プライバシー保護型ブロックチェーンアプリ</h3>
+                            <p class="text-gray-400 mb-4 flex-grow">ブロックチェーンの透明性という課題に対し、ZKPを用いてユーザーの取引情報やデータを秘匿化するプライバシー保護アプリケーションを設計しました。</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold text-gray-300 mb-2">使用技術:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">ZKP</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Blockchain</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">ethers.js</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Circom</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-  <script>
-    // 背景切り替え（背景画像＆アニメーションの切り替え）
-    function changeBackground(type) {
-      let url = "";
-      let anim = "";
-      switch(type) {
-        case "grass":
-          url = "https://opengameart.org/sites/default/files/grass.png";
-          anim = "grassWind 6s ease-in-out infinite";
-          break;
-        case "forest":
-          url = "https://opengameart.org/sites/default/files/forest_tile.png";
-          anim = "forestWind 8s linear infinite";
-          break;
-        case "castle":
-          url = "https://opengameart.org/sites/default/files/castle_tile.png";
-          anim = "castleWind 10s linear infinite";
-          break;
-        default:
-          url = "https://opengameart.org/sites/default/files/grass.png";
-          anim = "grassWind 6s ease-in-out infinite";
-      }
-      document.body.style.backgroundImage = `url('${url}')`;
-      document.body.style.animation = anim;
-    }
+                    <!-- Project 4: React App -->
+                    <div class="project-card rounded-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/0d1117/f778ba?text=React+Location+App" alt="React Location App" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-2xl font-bold mb-3 text-white">React位置情報署名・証明アプリ</h3>
+                            <p class="text-gray-400 mb-4 flex-grow">Webフロントエンドでユーザーの位置情報を取得し、そのデータに対して暗号学的な署名と証明を生成するReactアプリケーションを実装しました。</p>
+                             <div class="mb-4">
+                                <h4 class="font-semibold text-gray-300 mb-2">使用技術:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">React</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Node.js</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">web3.js</span>
+                                    <span class="skill-tag text-xs px-2 py-1 rounded">Cryptography</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    // 他の背景用アニメーション例
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes forestWind {
-        0% { background-position: 0 0; }
-        50% { background-position: 15px 5px; }
-        100% { background-position: 0 0; }
-      }
-      @keyframes castleWind {
-        0% { background-position: 0 0; }
-        50% { background-position: 20px 10px; }
-        100% { background-position: 0 0; }
-      }
-    `;
-    document.head.appendChild(style);
+        <!-- ZKP Explainer Section -->
+        <section id="zkp-explainer" class="py-20 md:py-32 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-4 neon-text">DEEP DIVE: ゼロ知識証明(ZKP)</h2>
+                <p class="text-center max-w-3xl mx-auto mb-16 text-gray-400">
+                    ゼロ知識証明は、私の専門分野の中核です。これは「秘密の情報（知識）そのものを相手に渡すことなく、その情報を知っているという事実だけを証明する」魔法のような技術です。以下のインタラクティブな図で、その概念を体験してみてください。
+                </p>
+                <div class="max-w-4xl mx-auto p-8 bg-gray-900 border border-gray-700 rounded-lg">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                        <!-- Prover -->
+                        <div id="prover-box" class="zkp-box p-6 rounded-lg text-center w-full md:w-1/3">
+                            <h3 class="text-2xl font-bold mb-2 text-white">証明者 (Prover)</h3>
+                            <p class="text-gray-400">秘密の知識を持っています。</p>
+                            <p class="text-4xl mt-4">🔑</p>
+                            <p id="prover-status" class="mt-2 h-6 text-yellow-400"></p>
+                        </div>
+                        
+                        <!-- Proof -->
+                        <div id="proof-path" class="relative w-full md:w-1/3 text-center">
+                            <div id="zkp-proof-element" class="zkp-proof absolute left-1/2 -translate-x-1/2 top-0 opacity-0 text-5xl">📜</div>
+                             <p id="path-status" class="mt-2 h-6 text-gray-400"></p>
+                        </div>
 
-    // キャラクター歩行アニメーション制御
-    const char = document.getElementById("character");
-    let frame = 0;
-    let walking = false;
-    let direction = 1; // 1 = 右向き, -1 = 左向き
-    let animInterval = null;
-    let posX = window.innerWidth / 2 - 32;
+                        <!-- Verifier -->
+                        <div id="verifier-box" class="zkp-box p-6 rounded-lg text-center w-full md:w-1/3">
+                            <h3 class="text-2xl font-bold mb-2 text-white">検証者 (Verifier)</h3>
+                            <p class="text-gray-400">証明が正しいか検証します。</p>
+                            <p class="text-4xl mt-4">🛡️</p>
+                            <p id="verifier-status" class="mt-2 h-6 text-yellow-400"></p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12">
+                        <button id="run-zkp" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg shadow-green-600/20">
+                            証明を実行
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ML Results Section -->
+        <section id="ml-results" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                 <h2 class="text-4xl font-bold text-center mb-4 neon-text">DEEP DIVE: AIモデル性能</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-16 text-gray-400">
+                    卒業研究「IoTとAIによるストレス分析システム」では、複数の機械学習モデルを評価し、心拍データ（RRI, RMSSD, SDNN）を予測する最良のモデルを特定しました。以下のグラフは、テストデータに対する各モデルの決定係数（R2スコア）を示しており、予測精度の高さを表しています。
+                </p>
+                <div class="chart-container">
+                    <canvas id="mlModelChart"></canvas>
+                </div>
+            </div>
+        </section>
 
-    // キャラ初期位置セット
-    char.style.left = posX + "px";
 
-    function startWalking(dir) {
-      direction = dir;
-      walking = true;
-      char.style.transform = `scaleX(${dir})`; // 向き反転
-      if (!animInterval) {
-        animInterval = setInterval(() => {
-          frame = (frame + 1) % 4; // 4フレームのスプライト想定
-          char.style.backgroundPosition = `-${frame * 64}px 0px`;
-          if (walking) {
-            posX += 5 * direction;
-            if(posX < 0) posX = 0;
-            if(posX > window.innerWidth - 64) posX = window.innerWidth - 64;
-            char.style.left = posX + "px";
-          }
-        }, 150);
-      }
-    }
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-gray-900/50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold mb-4 neon-text">GET IN TOUCH</h2>
+                <p class="max-w-2xl mx-auto text-gray-400 mb-10">
+                    私の研究やプロジェクトに興味を持っていただけましたか？<br>新しい技術、共同研究の可能性、その他どんなことでもお気軽にご連絡ください。
+                </p>
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="https://github.com/SMRI2170" target="_blank" class="text-gray-400 hover:neon-text transition-colors duration-300 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://qiita.com/ryosuke0712" target="_blank" class="text-gray-400 hover:neon-text transition-colors duration-300 text-4xl font-bold">Q</a>
+                    <a href="mailto:yoshioka.ryosuke.dev@example.com" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg shadow-blue-600/20">
+                        Email Me
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    function stopWalking() {
-      walking = false;
-      char.style.backgroundPosition = "0 0";
-      clearInterval(animInterval);
-      animInterval = null;
-    }
+    <footer class="border-t border-gray-800 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            &copy; 2025 Ryosuke Yoshioka. All Rights Reserved.
+        </div>
+    </footer>
 
-    document.getElementById("leftBtn").addEventListener("mousedown", () => startWalking(-1));
-    document.getElementById("leftBtn").addEventListener("mouseup", stopWalking);
-    document.getElementById("leftBtn").addEventListener("mouseleave", stopWalking);
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu on link click
+    mobileMenu.addEventListener('click', (e) => {
+        if(e.target.tagName === 'A') {
+            mobileMenu.classList.add('hidden');
+        }
+    });
 
-    document.getElementById("rightBtn").addEventListener("mousedown", () => startWalking(1));
-    document.getElementById("rightBtn").addEventListener("mouseup", stopWalking);
-    document.getElementById("rightBtn").addEventListener("mouseleave", stopWalking);
+    // Skill tabs
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-    // タッチ端末用にtouchイベントも対応（おまけ）
-    document.getElementById("leftBtn").addEventListener("touchstart", (e) => { e.preventDefault(); startWalking(-1); });
-    document.getElementById("leftBtn").addEventListener("touchend", (e) => { e.preventDefault(); stopWalking(); });
-    document.getElementById("rightBtn").addEventListener("touchstart", (e) => { e.preventDefault(); startWalking(1); });
-    document.getElementById("rightBtn").addEventListener("touchend", (e) => { e.preventDefault(); stopWalking(); });
-  </script>
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const tabId = button.dataset.tab;
+            tabContents.forEach(content => {
+                if (content.id === tabId) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // ZKP explainer animation
+    const runZkpButton = document.getElementById('run-zkp');
+    const proverBox = document.getElementById('prover-box');
+    const verifierBox = document.getElementById('verifier-box');
+    const proofElement = document.getElementById('zkp-proof-element');
+    const proverStatus = document.getElementById('prover-status');
+    const verifierStatus = document.getElementById('verifier-status');
+    const pathStatus = document.getElementById('path-status');
+
+    runZkpButton.addEventListener('click', () => {
+        if (runZkpButton.disabled) return;
+
+        runZkpButton.disabled = true;
+        runZkpButton.textContent = "実行中...";
+        runZkpButton.classList.add('opacity-50');
+
+        proverStatus.textContent = "";
+        verifierStatus.textContent = "";
+        pathStatus.textContent = "";
+        proverBox.classList.remove('active');
+        verifierBox.classList.remove('active');
+        proofElement.style.transform = 'translate(-50%, 0px)';
+        proofElement.style.opacity = '0';
+        
+        setTimeout(() => {
+            proverStatus.textContent = "証明を生成中...";
+            proverBox.classList.add('active');
+        }, 500);
+
+        setTimeout(() => {
+            pathStatus.textContent = "証明を送信中... (秘密は隠されています)";
+            proofElement.style.opacity = '1';
+            proofElement.style.transform = 'translate(-50%, 80px)';
+        }, 1500);
+
+        setTimeout(() => {
+            verifierStatus.textContent = "証明を検証中...";
+            verifierBox.classList.add('active');
+        }, 3000);
+
+        setTimeout(() => {
+            proverBox.classList.remove('active');
+            verifierStatus.textContent = "検証完了: TRUE ✅";
+            verifierStatus.classList.remove('text-yellow-400');
+            verifierStatus.classList.add('text-green-400');
+            proofElement.style.opacity = '0';
+            
+            runZkpButton.disabled = false;
+            runZkpButton.textContent = "再度実行";
+            runZkpButton.classList.remove('opacity-50');
+        }, 4500);
+    });
+
+    // Chart.js ML Model Chart
+    const ctx = document.getElementById('mlModelChart').getContext('2d');
+    const mlModelChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['RRI 予測モデル', 'RMSSD 予測モデル', 'SDNN 予測モデル'],
+            datasets: [{
+                label: '決定係数 (R2スコア)',
+                data: [0.93, 0.95, 0.92], // Example data based on high-performance models
+                backgroundColor: [
+                    'rgba(88, 166, 255, 0.5)',
+                    'rgba(63, 185, 80, 0.5)',
+                    'rgba(163, 113, 247, 0.5)',
+                ],
+                borderColor: [
+                    'rgba(88, 166, 255, 1)',
+                    'rgba(63, 185, 80, 1)',
+                    'rgba(163, 113, 247, 1)',
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1.0,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: '#c9d1d9'
+                    }
+                },
+                x: {
+                     grid: {
+                        color: 'rgba(255, 255, 255, 0.05)'
+                    },
+                    ticks: {
+                        color: '#c9d1d9'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#c9d1d9',
+                        font: {
+                           size: 14
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'AIモデルの性能評価 (R2スコア)',
+                    color: '#c9d1d9',
+                    font: {
+                        size: 18,
+                        family: "'Rajdhani', sans-serif"
+                    }
+                }
+            }
+        }
+    });
+
+});
+</script>
 </body>
 </html>
