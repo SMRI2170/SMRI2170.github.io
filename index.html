@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function type() {
             if (i < text.length) {
-                typingText.textContent += text.charAt(i);
+                if (typingText) typingText.textContent += text.charAt(i);
                 i++;
                 setTimeout(type, 50);
             } else {
@@ -356,7 +356,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 500);
             }
         }
-        type();
+        if (typingText) {
+            type();
+        } else {
+            if(preloader) preloader.classList.add('hidden');
+            document.body.classList.add('loaded');
+        }
     }
     initPreloader();
 
@@ -568,34 +573,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const resultDiv = document.getElementById('verification-result');
         let proof = null; let product = null;
 
-        generateBtn.addEventListener('click', () => {
-            const a = parseInt(secretA.value); const b = parseInt(secretB.value);
-            resultDiv.textContent = ''; resultDiv.className = 'mt-4 text-2xl font-bold h-8';
+        if (generateBtn) {
+            generateBtn.addEventListener('click', () => {
+                const a = parseInt(secretA.value); const b = parseInt(secretB.value);
+                resultDiv.textContent = ''; resultDiv.className = 'mt-4 text-2xl font-bold h-8';
 
-            if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
-                resultDiv.textContent = '有効な数値を入力'; resultDiv.classList.add('text-red-400'); return;
-            }
-            product = a * b; publicProduct.textContent = product;
-            proof = { public: product, random: crypto.randomUUID() }; 
-            
-            verifyBtn.disabled = false;
-            resultDiv.textContent = '証明生成完了'; resultDiv.classList.add('text-blue-400');
-        });
+                if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
+                    resultDiv.textContent = '有効な数値を入力'; resultDiv.classList.add('text-red-400'); return;
+                }
+                product = a * b; publicProduct.textContent = product;
+                proof = { public: product, random: crypto.randomUUID() }; 
+                
+                if (verifyBtn) verifyBtn.disabled = false;
+                resultDiv.textContent = '証明生成完了'; resultDiv.classList.add('text-blue-400');
+            });
+        }
         
-        verifyBtn.addEventListener('click', () => {
-            if (!proof || !product) return;
-            const verifierKnows = { proof: proof, publicProduct: product };
-            const isValid = verifierKnows.proof.public === verifierKnows.publicProduct;
+        if (verifyBtn) {
+            verifyBtn.addEventListener('click', () => {
+                if (!proof || !product) return;
+                const verifierKnows = { proof: proof, publicProduct: product };
+                const isValid = verifierKnows.proof.public === verifierKnows.publicProduct;
 
-            if (isValid) {
-                resultDiv.textContent = '検証成功 ✅';
-                resultDiv.className = 'mt-4 text-2xl font-bold h-8 text-green-400 zkp-sim-status';
-            } else {
-                resultDiv.textContent = '検証失敗 ❌';
-                resultDiv.className = 'mt-4 text-2xl font-bold h-8 text-red-400 zkp-sim-status';
-            }
-            verifyBtn.disabled = true;
-        });
+                if (isValid) {
+                    resultDiv.textContent = '検証成功 ✅';
+                    resultDiv.className = 'mt-4 text-2xl font-bold h-8 text-green-400 zkp-sim-status';
+                } else {
+                    resultDiv.textContent = '検証失敗 ❌';
+                    resultDiv.className = 'mt-4 text-2xl font-bold h-8 text-red-400 zkp-sim-status';
+                }
+                verifyBtn.disabled = true;
+            });
+        }
     }
     initZkpSimulator();
 
@@ -608,7 +617,9 @@ document.addEventListener('DOMContentLoaded', () => {
             img.addEventListener('click', async () => {
                 sampleImages.forEach(i => i.classList.remove('border-blue-500'));
                 img.classList.add('border-blue-500');
-                resultsDiv.innerHTML = `<p class="text-blue-400">AIが分析中... <span class="blinking-cursor">|</span></p>`;
+                if (resultsDiv) {
+                    resultsDiv.innerHTML = `<p class="text-blue-400">AIが分析中... <span class="blinking-cursor">|</span></p>`;
+                }
                 
                 const imageDesc = img.dataset.desc;
                 const prompt = `あなたは顔属性を推定するAIモデルのシミュレーターです。「${imageDesc}」という説明の人物画像が入力されました。推定される年齢、性別、感情をJSON形式で出力してください。例：{"age": "25-30", "gender": "Female", "emotion": "Happy"}`;
@@ -620,15 +631,19 @@ document.addEventListener('DOMContentLoaded', () => {
                        throw new Error("Received non-JSON response from AI.");
                     }
                     const data = JSON.parse(response);
-                    resultsDiv.innerHTML = `
-                        <div class="space-y-2 text-lg">
-                            <p><strong>推定年齢:</strong> <span class="text-yellow-400">${data.age || 'N/A'}</span></p>
-                            <p><strong>推定性別:</strong> <span class="text-yellow-400">${data.gender || 'N/A'}</span></p>
-                            <p><strong>推定感情:</strong> <span class="text-yellow-400">${data.emotion || 'N/A'}</span></p>
-                        </div>`;
+                    if (resultsDiv) {
+                        resultsDiv.innerHTML = `
+                            <div class="space-y-2 text-lg">
+                                <p><strong>推定年齢:</strong> <span class="text-yellow-400">${data.age || 'N/A'}</span></p>
+                                <p><strong>推定性別:</strong> <span class="text-yellow-400">${data.gender || 'N/A'}</span></p>
+                                <p><strong>推定感情:</strong> <span class="text-yellow-400">${data.emotion || 'N/A'}</span></p>
+                            </div>`;
+                    }
                 } catch(e) {
                     console.error("Failed to parse AI response:", e, "Raw response:", response);
-                    resultsDiv.innerHTML = `<p class="text-red-400">分析結果の表示に失敗しました。</p>`;
+                    if (resultsDiv) {
+                        resultsDiv.innerHTML = `<p class="text-red-400">分析結果の表示に失敗しました。</p>`;
+                    }
                 }
             });
         });
@@ -649,11 +664,12 @@ document.addEventListener('DOMContentLoaded', () => {
                  throw new Error(`API Error: ${response.status} ${response.statusText}`);
             }
             const result = await response.json();
-            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0 && result.candidates[0].content.parts[0].text) {
+            if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0 && result.candidates[0].content.parts[0].text) {
                 return result.candidates[0].content.parts[0].text;
+            } else {
+                console.warn("Gemini response was valid but content was missing or in an unexpected format.", result);
+                return "AIからの有効な応答がありませんでした。";
             }
-            console.warn("Gemini response was valid but content was missing or in an unexpected format.", result);
-            return "AIからの有効な応答がありませんでした。";
         } catch (error) {
             console.error('Gemini API call failed:', error);
             return "エラーが発生しました。詳細はコンソールを確認してください。";
@@ -728,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchQiitaPosts() {
          try {
-            const response = await fetch('https://api.qiita.com/api/v2/users/ryosuke0712/items?per_page=4');
+            const response = await fetch('https://qiita.com/api/v2/users/ryosuke0712/items?per_page=4');
             if (!response.ok) throw new Error(`Qiita API error: ${response.status}`);
             const posts = await response.json();
 
@@ -753,7 +769,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error(error);
-            if(qiitaFeed) qiitaFeed.innerHTML = '<div class="text-center text-red-400">Qiita記事の読み込みに失敗しました。</div>';
+            if(qiitaFeed) {
+                let errorMessage = 'Qiita記事の読み込みに失敗しました。';
+                if (error.message && (error.message.includes('401') || error.message.includes('403'))) {
+                    errorMessage += '<br><span class="text-sm text-gray-500">APIの利用制限に達した可能性があります。</span>';
+                }
+                qiitaFeed.innerHTML = `<div class="text-center text-red-400 p-4">${errorMessage}</div>`;
+            }
         }
     }
     
@@ -771,6 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalLoading = document.getElementById('modal-loading');
     const aiAssistantBtns = document.querySelectorAll('.ai-assistant-btn');
     let currentProjectContext = '';
+    
     const addMessageToChat = (text, sender) => {
         if (!chatBox) return;
         const messageDiv = document.createElement('div');
@@ -779,9 +802,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     };
+
     aiAssistantBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const card = e.target.closest('.project-card');
+            if (!card) return;
             const projectName = card.dataset.projectName;
             const projectDesc = card.dataset.projectDesc;
             
@@ -793,6 +818,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(modal) modal.classList.remove('hidden');
         });
     });
+
     const handleSendQuestion = async () => {
         if(!modalInput || !modalLoading) return;
         const question = modalInput.value.trim();
@@ -811,7 +837,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (modalSendBtn) modalSendBtn.addEventListener('click', handleSendQuestion);
     if (modalInput) modalInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSendQuestion(); });
-    if (closeModalBtn) closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    if (closeModalBtn) closeModalBtn.addEventListener('click', () => { if(modal) modal.classList.add('hidden') });
 
     // ML Chart Logic
     const mlCanvas = document.getElementById('mlModelChart');
